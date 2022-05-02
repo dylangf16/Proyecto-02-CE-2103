@@ -4,6 +4,7 @@
 #include "QPixmap"
 #include "QPainter"
 
+bool lapicero = false;
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -21,6 +22,11 @@ MainWindow::~MainWindow()
     delete ui;
 }
 //---------------------------------------------------------------------------------
+//Lapicero
+void MainWindow::on_Lapicero_clicked()
+{
+    lapicero = true;
+}
 void MainWindow::mousePressEvent(QMouseEvent *event)
 {
     if (event->buttons() & Qt::LeftButton)
@@ -61,10 +67,13 @@ void MainWindow::drawLines(QPainter *p)
 
 void MainWindow::paintEvent(QPaintEvent *event)
 {
-    QPainter p(this);
-    QPen pen;
-    pen.setColor(Qt::red);
-    pen.setWidth(4);
-    p.setPen(pen);
-    drawLines(&p);
+    if (lapicero == true){
+        QPainter p(this);
+        QPen pen;
+        pen.setColor(Qt::red);
+        pen.setWidth(4);
+        p.setPen(pen);
+        drawLines(&p);
+    }
+
 }

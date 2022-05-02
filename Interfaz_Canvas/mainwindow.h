@@ -19,15 +19,16 @@ protected:
     void paintEvent(QPaintEvent *event) override;
     void mouseMoveEvent(QMouseEvent *event) override;
 
+private slots:
+    void on_Lapicero_clicked();
+
 private:
     Ui::MainWindow *ui;
     void drawLines(QPainter *p);
-
     QPoint startPos;
     QPoint endPos;
     bool inDrawing;
     QVector<QLine> lines;
 };
-
 
 #endif // MAINWINDOW_H
