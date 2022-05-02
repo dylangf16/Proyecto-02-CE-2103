@@ -24,6 +24,7 @@ public:
     Color GetColor(int x, int y) const;
     void setColor(const Color& color, int x, int y);
 
+    void Read(const char* path);
     void Export(const char *path) const;
 
 private:

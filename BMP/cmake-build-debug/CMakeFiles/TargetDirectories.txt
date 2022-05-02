@@ -1,3 +1,0 @@
-/home/dylan16/Documents/Datos2/Proyecto02/Proyecto-02-CE-2103/BMP/cmake-build-debug/CMakeFiles/BMP.dir
-/home/dylan16/Documents/Datos2/Proyecto02/Proyecto-02-CE-2103/BMP/cmake-build-debug/CMakeFiles/edit_cache.dir
-/home/dylan16/Documents/Datos2/Proyecto02/Proyecto-02-CE-2103/BMP/cmake-build-debug/CMakeFiles/rebuild_cache.dir
