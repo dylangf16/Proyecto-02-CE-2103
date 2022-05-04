@@ -9,13 +9,12 @@ Color::Color()
 }
 
 Color::Color(float r, float g, float b)
+    : r(r), g(g), b(b)
 {
-
 }
 
 Color::~Color()
 {
-
 }
 
 Image::Image(int width, int height)
@@ -207,7 +206,7 @@ void Image::createWhiteCanvas(){
     for(int y = 0; y < height; y++){
         for (int x = 0; x < width; x++)
         {
-            this->setColor(Color(255, 255, 255),x,y);
+            this->setColor(Color(258, 258, 258),x,y);
         }
     }
     this->Export("canvas.bmp");
