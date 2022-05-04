@@ -77,8 +77,8 @@ void Image::Read(const char* path) {
             unsigned char color[3];
             f.read(reinterpret_cast<char*>(color),3);
             m_colors[y * m_width + x].r = static_cast<float>(color[2]) / 255.0f;
-            m_colors[y * m_width + x].g = static_cast<float>(color[2]) / 255.0f;
-            m_colors[y * m_width + x].b = static_cast<float>(color[2]) / 255.0f;
+            m_colors[y * m_width + x].g = static_cast<float>(color[1]) / 255.0f;
+            m_colors[y * m_width + x].b = static_cast<float>(color[0]) / 255.0f;
         }
         f.ignore(paddingAmount);
     }
@@ -198,5 +198,18 @@ void Image::Export(const char *path) const {
     f.close();
 
     std::cout << "File created";
+}
+
+void Image::createWhiteCanvas(){
+    const int width = m_width;
+    const int height = m_height;
+
+    for(int y = 0; y < height; y++){
+        for (int x = 0; x < width; x++)
+        {
+            this->setColor(Color(255, 255, 255),x,y);
+        }
+    }
+    this->Export("canvas.bmp");
 }
 

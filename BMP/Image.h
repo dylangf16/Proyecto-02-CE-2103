@@ -25,6 +25,7 @@ public:
     void setColor(const Color& color, int x, int y);
 
     void Read(const char* path);
+    void createWhiteCanvas();
     void Export(const char *path) const;
 
 private:
