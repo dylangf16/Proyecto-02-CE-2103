@@ -13,9 +13,9 @@
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
-#include <QtWidgets/QPushButton>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QWidget>
+#include "openglwidget.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -23,7 +23,7 @@ class Ui_MainWindow
 {
 public:
     QWidget *centralwidget;
-    QPushButton *Lapicero;
+    OpenGLWidget *widget;
     QMenuBar *menubar;
     QStatusBar *statusbar;
 
@@ -31,16 +31,16 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
-        MainWindow->resize(1146, 794);
+        MainWindow->resize(1155, 800);
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
-        Lapicero = new QPushButton(centralwidget);
-        Lapicero->setObjectName(QString::fromUtf8("Lapicero"));
-        Lapicero->setGeometry(QRect(10, 30, 89, 25));
+        widget = new OpenGLWidget(centralwidget);
+        widget->setObjectName(QString::fromUtf8("widget"));
+        widget->setGeometry(QRect(400, 10, 741, 741));
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName(QString::fromUtf8("menubar"));
-        menubar->setGeometry(QRect(0, 0, 1146, 22));
+        menubar->setGeometry(QRect(0, 0, 1155, 22));
         MainWindow->setMenuBar(menubar);
         statusbar = new QStatusBar(MainWindow);
         statusbar->setObjectName(QString::fromUtf8("statusbar"));
@@ -54,7 +54,6 @@ public:
     void retranslateUi(QMainWindow *MainWindow)
     {
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", nullptr));
-        Lapicero->setText(QApplication::translate("MainWindow", "Lapicero", nullptr));
     } // retranslateUi
 
 };
