@@ -7,113 +7,123 @@
     <x>0</x>
     <y>0</y>
     <width>1124</width>
-    <height>762</height>
+    <height>725</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QPushButton" name="Lapiz">
+   <widget class="QWidget" name="widget" native="true">
     <property name="geometry">
      <rect>
       <x>10</x>
       <y>0</y>
-      <width>89</width>
-      <height>25</height>
+      <width>1111</width>
+      <height>80</height>
      </rect>
     </property>
-    <property name="text">
-     <string>Lapiz</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="Lapicero">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>30</y>
-      <width>89</width>
-      <height>25</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Lapicero</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="Borrador">
-    <property name="geometry">
-     <rect>
-      <x>110</x>
-      <y>0</y>
-      <width>89</width>
-      <height>25</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Borrador</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="ColorPicker">
-    <property name="geometry">
-     <rect>
-      <x>110</x>
-      <y>30</y>
-      <width>89</width>
-      <height>25</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Color-Picker</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="PaintFill">
-    <property name="geometry">
-     <rect>
-      <x>210</x>
-      <y>0</y>
-      <width>89</width>
-      <height>25</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>PaintFill</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="PaintFill_2">
-    <property name="geometry">
-     <rect>
-      <x>210</x>
-      <y>30</y>
-      <width>89</width>
-      <height>25</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Seleccionar</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="PaintFill_3">
-    <property name="geometry">
-     <rect>
-      <x>310</x>
-      <y>30</y>
-      <width>101</width>
-      <height>25</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Rotar</string>
-    </property>
-   </widget>
-   <widget class="QTextEdit" name="textEdit">
-    <property name="geometry">
-     <rect>
-      <x>310</x>
-      <y>0</y>
-      <width>101</width>
-      <height>21</height>
-     </rect>
-    </property>
+    <widget class="QPushButton" name="ColorPicker">
+     <property name="geometry">
+      <rect>
+       <x>110</x>
+       <y>40</y>
+       <width>89</width>
+       <height>25</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Color-Picker</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="Borrador">
+     <property name="geometry">
+      <rect>
+       <x>110</x>
+       <y>10</y>
+       <width>89</width>
+       <height>25</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Borrador</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="PaintFill_3">
+     <property name="geometry">
+      <rect>
+       <x>310</x>
+       <y>40</y>
+       <width>101</width>
+       <height>25</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Rotar</string>
+     </property>
+    </widget>
+    <widget class="QTextEdit" name="textEdit">
+     <property name="geometry">
+      <rect>
+       <x>310</x>
+       <y>10</y>
+       <width>101</width>
+       <height>21</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="PaintFill">
+     <property name="geometry">
+      <rect>
+       <x>210</x>
+       <y>10</y>
+       <width>89</width>
+       <height>25</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>PaintFill</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="Lapicero">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>40</y>
+       <width>89</width>
+       <height>25</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Lapicero</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="Lapiz">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>89</width>
+       <height>25</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Lapiz</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="PaintFill_2">
+     <property name="geometry">
+      <rect>
+       <x>210</x>
+       <y>40</y>
+       <width>89</width>
+       <height>25</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Seleccionar</string>
+     </property>
+    </widget>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">

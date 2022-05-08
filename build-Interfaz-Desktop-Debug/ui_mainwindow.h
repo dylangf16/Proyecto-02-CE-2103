@@ -24,14 +24,15 @@ class Ui_MainWindow
 {
 public:
     QWidget *centralwidget;
-    QPushButton *Lapiz;
-    QPushButton *Lapicero;
-    QPushButton *Borrador;
+    QWidget *widget;
     QPushButton *ColorPicker;
-    QPushButton *PaintFill;
-    QPushButton *PaintFill_2;
+    QPushButton *Borrador;
     QPushButton *PaintFill_3;
     QTextEdit *textEdit;
+    QPushButton *PaintFill;
+    QPushButton *Lapicero;
+    QPushButton *Lapiz;
+    QPushButton *PaintFill_2;
     QMenuBar *menubar;
     QStatusBar *statusbar;
 
@@ -39,33 +40,36 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
-        MainWindow->resize(1124, 762);
+        MainWindow->resize(1124, 725);
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
-        Lapiz = new QPushButton(centralwidget);
-        Lapiz->setObjectName(QString::fromUtf8("Lapiz"));
-        Lapiz->setGeometry(QRect(10, 0, 89, 25));
-        Lapicero = new QPushButton(centralwidget);
-        Lapicero->setObjectName(QString::fromUtf8("Lapicero"));
-        Lapicero->setGeometry(QRect(10, 30, 89, 25));
-        Borrador = new QPushButton(centralwidget);
-        Borrador->setObjectName(QString::fromUtf8("Borrador"));
-        Borrador->setGeometry(QRect(110, 0, 89, 25));
-        ColorPicker = new QPushButton(centralwidget);
+        widget = new QWidget(centralwidget);
+        widget->setObjectName(QString::fromUtf8("widget"));
+        widget->setGeometry(QRect(10, 0, 1111, 80));
+        ColorPicker = new QPushButton(widget);
         ColorPicker->setObjectName(QString::fromUtf8("ColorPicker"));
-        ColorPicker->setGeometry(QRect(110, 30, 89, 25));
-        PaintFill = new QPushButton(centralwidget);
-        PaintFill->setObjectName(QString::fromUtf8("PaintFill"));
-        PaintFill->setGeometry(QRect(210, 0, 89, 25));
-        PaintFill_2 = new QPushButton(centralwidget);
-        PaintFill_2->setObjectName(QString::fromUtf8("PaintFill_2"));
-        PaintFill_2->setGeometry(QRect(210, 30, 89, 25));
-        PaintFill_3 = new QPushButton(centralwidget);
+        ColorPicker->setGeometry(QRect(110, 40, 89, 25));
+        Borrador = new QPushButton(widget);
+        Borrador->setObjectName(QString::fromUtf8("Borrador"));
+        Borrador->setGeometry(QRect(110, 10, 89, 25));
+        PaintFill_3 = new QPushButton(widget);
         PaintFill_3->setObjectName(QString::fromUtf8("PaintFill_3"));
-        PaintFill_3->setGeometry(QRect(310, 30, 101, 25));
-        textEdit = new QTextEdit(centralwidget);
+        PaintFill_3->setGeometry(QRect(310, 40, 101, 25));
+        textEdit = new QTextEdit(widget);
         textEdit->setObjectName(QString::fromUtf8("textEdit"));
-        textEdit->setGeometry(QRect(310, 0, 101, 21));
+        textEdit->setGeometry(QRect(310, 10, 101, 21));
+        PaintFill = new QPushButton(widget);
+        PaintFill->setObjectName(QString::fromUtf8("PaintFill"));
+        PaintFill->setGeometry(QRect(210, 10, 89, 25));
+        Lapicero = new QPushButton(widget);
+        Lapicero->setObjectName(QString::fromUtf8("Lapicero"));
+        Lapicero->setGeometry(QRect(10, 40, 89, 25));
+        Lapiz = new QPushButton(widget);
+        Lapiz->setObjectName(QString::fromUtf8("Lapiz"));
+        Lapiz->setGeometry(QRect(10, 10, 89, 25));
+        PaintFill_2 = new QPushButton(widget);
+        PaintFill_2->setObjectName(QString::fromUtf8("PaintFill_2"));
+        PaintFill_2->setGeometry(QRect(210, 40, 89, 25));
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName(QString::fromUtf8("menubar"));
@@ -83,13 +87,13 @@ public:
     void retranslateUi(QMainWindow *MainWindow)
     {
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", nullptr));
-        Lapiz->setText(QApplication::translate("MainWindow", "Lapiz", nullptr));
-        Lapicero->setText(QApplication::translate("MainWindow", "Lapicero", nullptr));
-        Borrador->setText(QApplication::translate("MainWindow", "Borrador", nullptr));
         ColorPicker->setText(QApplication::translate("MainWindow", "Color-Picker", nullptr));
-        PaintFill->setText(QApplication::translate("MainWindow", "PaintFill", nullptr));
-        PaintFill_2->setText(QApplication::translate("MainWindow", "Seleccionar", nullptr));
+        Borrador->setText(QApplication::translate("MainWindow", "Borrador", nullptr));
         PaintFill_3->setText(QApplication::translate("MainWindow", "Rotar", nullptr));
+        PaintFill->setText(QApplication::translate("MainWindow", "PaintFill", nullptr));
+        Lapicero->setText(QApplication::translate("MainWindow", "Lapicero", nullptr));
+        Lapiz->setText(QApplication::translate("MainWindow", "Lapiz", nullptr));
+        PaintFill_2->setText(QApplication::translate("MainWindow", "Seleccionar", nullptr));
     } // retranslateUi
 
 };

@@ -34,10 +34,10 @@ private:
     QColor color;
     QPixmap *pixmap;
     bool pressed, lapiz, lapicero, figura, borrador;
-    std::vector<QPoint> puntos_lapiz;
-    std::vector<QPoint> puntos_borrador;
-    std::vector<QPoint> puntos_lapicero;
     int PosX,PosY;
+    std::vector<QPoint> puntos;
+
+
 
 };
 #endif // MAINWINDOW_H
