@@ -53,11 +53,9 @@ OBJECTS_DIR   = ./
 ####### Files
 
 SOURCES       = ../Interfaz/main.cpp \
-		../Interfaz/mainwindow.cpp \
-		../Interfaz/openglwidget.cpp moc_mainwindow.cpp
+		../Interfaz/mainwindow.cpp moc_mainwindow.cpp
 OBJECTS       = main.o \
 		mainwindow.o \
-		openglwidget.o \
 		moc_mainwindow.o
 DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/unix.conf \
@@ -134,10 +132,8 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/exceptions.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/yacc.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/lex.prf \
-		../Interfaz/Interfaz.pro ../Interfaz/mainwindow.h \
-		../Interfaz/openglwidget.h ../Interfaz/main.cpp \
-		../Interfaz/mainwindow.cpp \
-		../Interfaz/openglwidget.cpp
+		../Interfaz/Interfaz.pro ../Interfaz/mainwindow.h ../Interfaz/main.cpp \
+		../Interfaz/mainwindow.cpp
 QMAKE_TARGET  = Interfaz
 DESTDIR       = 
 TARGET        = Interfaz
@@ -317,10 +313,9 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../Interfaz/mainwindow.h ../Interfaz/openglwidget.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../Interfaz/main.cpp ../Interfaz/mainwindow.cpp ../Interfaz/openglwidget.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../Interfaz/mainwindow.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../Interfaz/main.cpp ../Interfaz/mainwindow.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../Interfaz/mainwindow.ui $(DISTDIR)/
-	$(COPY_FILE) --parents Interfaz_es_CR.ts $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -368,8 +363,7 @@ compiler_uic_make_all: ui_mainwindow.h
 compiler_uic_clean:
 	-$(DEL_FILE) ui_mainwindow.h
 ui_mainwindow.h: ../Interfaz/mainwindow.ui \
-		/usr/lib/qt5/bin/uic \
-		../Interfaz/openglwidget.h
+		/usr/lib/qt5/bin/uic
 	/usr/lib/qt5/bin/uic ../Interfaz/mainwindow.ui -o ui_mainwindow.h
 
 compiler_yacc_decl_make_all:
@@ -388,9 +382,6 @@ main.o: ../Interfaz/main.cpp ../Interfaz/mainwindow.h
 mainwindow.o: ../Interfaz/mainwindow.cpp ../Interfaz/mainwindow.h \
 		ui_mainwindow.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o ../Interfaz/mainwindow.cpp
-
-openglwidget.o: ../Interfaz/openglwidget.cpp ../Interfaz/openglwidget.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o openglwidget.o ../Interfaz/openglwidget.cpp
 
 moc_mainwindow.o: moc_mainwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mainwindow.o moc_mainwindow.cpp

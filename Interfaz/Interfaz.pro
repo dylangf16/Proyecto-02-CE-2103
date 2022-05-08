@@ -17,18 +17,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     main.cpp \
-    mainwindow.cpp \
-    openglwidget.cpp
+    mainwindow.cpp
 
 HEADERS += \
-    mainwindow.h \
-    openglwidget.h
+    mainwindow.h
 
 FORMS += \
     mainwindow.ui
-
-TRANSLATIONS += \
-    Interfaz_es_CR.ts
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
