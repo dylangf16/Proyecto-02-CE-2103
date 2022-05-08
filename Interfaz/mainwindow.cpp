@@ -23,7 +23,10 @@ MainWindow::~MainWindow()
 void MainWindow::paintEvent(QPaintEvent *event)
 {
     QPainter painter(this);
-    painter.setPen(color);
+    QPen Pen1(Qt::black);
+    Pen1.setWidth(10);
+    painter.setPen(Pen1);
+    painter.setRenderHint(QPainter::Antialiasing,true);
     //painter.set
     painter.drawPoint(PosX, PosY);
     cout << PosX << " " << PosY << endl;
