@@ -3,6 +3,8 @@
 #include "qpainter.h"
 #include <QMouseEvent>
 #include <QPainter>
+#include <iostream>
+using namespace std;
 
 int PosX,PosY;
 MainWindow::MainWindow(QWidget *parent)
@@ -21,16 +23,21 @@ MainWindow::~MainWindow()
 void MainWindow::paintEvent(QPaintEvent *event)
 {
     QPainter painter(this);
-    painter.drawPoint(PosX,PosY);
+    painter.setPen(color);
+    //painter.set
+    painter.drawPoint(PosX, PosY);
+    cout << PosX << " " << PosY << endl;
 }
 
 void MainWindow::mousePressEvent(QMouseEvent *event)
 {
     if (event->button() == Qt::RightButton)
-        color = color == Qt::black ? Qt::black : Qt::black;
+        color = color == Qt::black ? Qt::white : Qt::black;
     else{
         pressed = 1;
-        draw(event);
+        PosX = event->pos().x();
+        PosY = event->pos().y();
+        update();
     }
 }
 
@@ -41,19 +48,7 @@ void MainWindow::mouseReleaseEvent(QMouseEvent *event)
 
 void MainWindow::mouseMoveEvent(QMouseEvent *event)
 {
-    draw(event);
-}
-
-void MainWindow::draw(QMouseEvent *event)
-{
-    if(pressed){
-        QPainter painter(this);
-        painter.setPen(color);
-        PosX = event->pos().x() / 12;
-        PosY = event->pos().y() / 12;
-        painter.drawPoint(PosX,PosY);
-        update();
-    }
+    update();
 }
 
 

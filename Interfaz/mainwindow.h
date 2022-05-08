@@ -24,7 +24,6 @@ protected:
 
 private:
     Ui::MainWindow *ui;
-    void draw(QMouseEvent *event);
     QColor color;
     QPixmap *pixmap;
     bool pressed;
