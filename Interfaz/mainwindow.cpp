@@ -8,6 +8,7 @@ using namespace std;
 
 int nFilas = 500;
 int nColumnas = 600;
+std::string HEXColor;
 std::string HEXarray[500][600];
 MainWindow::MainWindow(QWidget *parent)
         : QMainWindow(parent)
@@ -99,8 +100,11 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event)
         if(pressed){
             PosX = event->pos().x();
             PosY = event->pos().y();
-            QPoint point(PosX, PosY);
-            this->puntos.push_back(point);
+
+            HEXColor = "#f05711";
+            HEXarray[PosX][PosY] = HEXColor;
+            //QPoint point(PosX, PosY);
+            //this->puntos.push_back(point);
             update();
         }
     }
@@ -108,8 +112,11 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event)
         if(pressed){
             PosX = event->pos().x();
             PosY = event->pos().y();
-            QPoint point(PosX, PosY);
-            this->puntos.push_back(point);
+            HEXColor = "#ffffff";
+            HEXarray[PosX][PosY] = HEXColor;
+
+            //QPoint point(PosX, PosY);
+            //this->puntos.push_back(point);
             update();
         }
     }
