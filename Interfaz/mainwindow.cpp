@@ -8,8 +8,8 @@ using namespace std;
 
 int PosX,PosY;
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
-    , ui(new Ui::MainWindow)
+        : QMainWindow(parent)
+        , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
     color = Qt::black;
@@ -28,7 +28,9 @@ void MainWindow::paintEvent(QPaintEvent *event)
     painter.setPen(Pen1);
     painter.setRenderHint(QPainter::Antialiasing,true);
     //painter.set
-    painter.drawPoint(PosX, PosY);
+    for(int x=0; x<this->puntos.size(); x++) {
+        painter.drawPoint(puntos[x]);
+    }
     cout << PosX << " " << PosY << endl;
 }
 
@@ -40,6 +42,8 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
         pressed = 1;
         PosX = event->pos().x();
         PosY = event->pos().y();
+        QPoint point(PosX, PosY);
+        this->puntos.push_back(point);
         update();
     }
 }

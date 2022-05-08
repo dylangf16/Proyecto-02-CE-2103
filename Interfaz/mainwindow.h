@@ -27,5 +27,6 @@ private:
     QColor color;
     QPixmap *pixmap;
     bool pressed;
+    std::vector<QPoint> puntos;
 };
 #endif // MAINWINDOW_H
