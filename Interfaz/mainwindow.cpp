@@ -20,6 +20,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+//Paint Event para colocar puntos de pixeles -------------------------------------------------
 void MainWindow::paintEvent(QPaintEvent *event)
 {
     QPainter painter(this);
@@ -34,6 +35,7 @@ void MainWindow::paintEvent(QPaintEvent *event)
     cout << PosX << " " << PosY << endl;
 }
 
+//Obtiene la posición del mouse cuando se presiona y acciona el Paint Event---------------------
 void MainWindow::mousePressEvent(QMouseEvent *event)
 {
     if (event->button() == Qt::RightButton)
@@ -48,14 +50,43 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
     }
 }
 
+//Detecta cuando se deja de presionar el botón del mouse ---------------------------------------
 void MainWindow::mouseReleaseEvent(QMouseEvent *event)
 {
     pressed = 0;
 }
 
+//Detecta el movimiento del mouse --------------------------------------------------------------
 void MainWindow::mouseMoveEvent(QMouseEvent *event)
 {
-    update();
+    if(pressed){
+        PosX = event->pos().x();
+        PosY = event->pos().y();
+        QPoint point(PosX, PosY);
+        this->puntos.push_back(point);
+        update();
+    }
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
