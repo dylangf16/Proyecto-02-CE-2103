@@ -22,11 +22,22 @@ protected:
     void mouseMoveEvent(QMouseEvent *event) override;
     void paintEvent(QPaintEvent *event) override;
 
+private slots:
+    void on_Lapiz_clicked();
+
+    void on_Borrador_clicked();
+
+    void on_Lapicero_clicked();
+
 private:
     Ui::MainWindow *ui;
     QColor color;
     QPixmap *pixmap;
-    bool pressed;
-    std::vector<QPoint> puntos;
+    bool pressed, lapiz, lapicero, figura, borrador;
+    std::vector<QPoint> puntos_lapiz;
+    std::vector<QPoint> puntos_borrador;
+    std::vector<QPoint> puntos_lapicero;
+    int PosX,PosY;
+
 };
 #endif // MAINWINDOW_H
