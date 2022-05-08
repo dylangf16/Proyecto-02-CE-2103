@@ -17,16 +17,16 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 protected:
-    void paintEvent( QPaintEvent *) override;
-    void mousePressEvent( QMouseEvent *) override;
-    void mouseReleaseEvent( QMouseEvent *) override;
-    void mouseMoveEvent( QMouseEvent *) override;
+    void mousePressEvent(QMouseEvent *event) override;
+    void mouseReleaseEvent(QMouseEvent *event) override;
+    void mouseMoveEvent(QMouseEvent *event) override;
+    void paintEvent(QPaintEvent *event) override;
 
 private:
     Ui::MainWindow *ui;
-    QPoint *points; // point array
-    QColor *colors; // color array
-    int count; // count = number of points
-    bool down; // TRUE if mouse down
+    void draw(QMouseEvent *event);
+    QColor color;
+    QPixmap *pixmap;
+    bool pressed;
 };
 #endif // MAINWINDOW_H

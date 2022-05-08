@@ -3,62 +3,57 @@
 #include "qpainter.h"
 #include <QMouseEvent>
 #include <QPainter>
-#include <stdlib.h>
 
-const int MAXPOINTS = 2000;                     // maximum number of points
-const int MAXCOLORS = 40;
-
+int PosX,PosY;
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    count = 0;
-    down = false;
-    points = new QPoint[MAXPOINTS];
-    colors = new QColor[MAXCOLORS];
-    for ( int i=0; i<MAXCOLORS; i++ ) // init color array
-        colors[i] = QColor( rand()&255, rand()&255, rand()&255 );
+    color = Qt::black;
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
-    delete[] points; // cleanup
-    delete[] colors;
 }
 
-void MainWindow::paintEvent(QPaintEvent *)
+void MainWindow::paintEvent(QPaintEvent *event)
 {
-    QPainter paint( this );
-        for ( int i=0; i<count-1; i++ ) {   // connect all points
-            for ( int j=i+1; j<count; j++ ) {
-                paint.setPen(Qt::black); // set random pen color
-                paint.drawLine( points[i], points[j] ); // draw line
-            }
-        }
+    QPainter painter(this);
+    painter.drawPoint(PosX,PosY);
 }
 
-void MainWindow::mousePressEvent(QMouseEvent *)
+void MainWindow::mousePressEvent(QMouseEvent *event)
 {
-    down = true;
-    count = 0;  // start recording points
-    //erase();    // erase widget contents
+    if (event->button() == Qt::RightButton)
+        color = color == Qt::black ? Qt::black : Qt::black;
+    else{
+        pressed = 1;
+        draw(event);
+    }
 }
 
-void MainWindow::mouseReleaseEvent(QMouseEvent *)
+void MainWindow::mouseReleaseEvent(QMouseEvent *event)
 {
-    down = false; // done recording points
-    update();    // draw the lines
+    pressed = 0;
 }
 
-void MainWindow::mouseMoveEvent(QMouseEvent *e)
+void MainWindow::mouseMoveEvent(QMouseEvent *event)
 {
-    if ( down && count < MAXPOINTS ) {
-            QPainter paint( this );
-            points[count++] = e->pos(); // add point
-            paint.drawPoint( e->pos() ); // plot point
-        }
+    draw(event);
+}
+
+void MainWindow::draw(QMouseEvent *event)
+{
+    if(pressed){
+        QPainter painter(this);
+        painter.setPen(color);
+        PosX = event->pos().x() / 12;
+        PosY = event->pos().y() / 12;
+        painter.drawPoint(PosX,PosY);
+        update();
+    }
 }
 
 
