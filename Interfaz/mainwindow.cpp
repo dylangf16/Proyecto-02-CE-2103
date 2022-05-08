@@ -4,6 +4,7 @@
 #include <QMouseEvent>
 #include <QPainter>
 #include <iostream>
+#include <math.h>
 using namespace std;
 
 int nFilas = 500;
@@ -85,6 +86,16 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
     else{
         pressed = 1;
     }
+    if(lapicero){
+        if(LapiceroX0 == 0 && LapiceroY0 == 0){
+            LapiceroX0 = event->pos().x();
+            LapiceroY0 = event->pos().y();
+        }
+        else if(LapiceroX1 == 0 && LapiceroY1 == 0){
+            LapiceroX1 = event->pos().x();
+            LapiceroY1 = event->pos().y();
+        }
+    }
 }
 
 //Detecta cuando se deja de presionar el botón del mouse ---------------------------------------
@@ -119,6 +130,24 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event)
             //this->puntos.push_back(point);
             update();
         }
+    }
+    if(lapicero){
+        int vx = LapiceroX1 - LapiceroX0;
+        int vy = LapiceroY1 - LapiceroY0;
+        int step = abs(vx);
+
+        if(step < abs(vy)) step = abs(vy);
+        double xinc = (double)vx/step,
+               yinc = (double)vy/step;
+
+        while(step >= 0){
+            HEXColor = "##58e014";
+            HEXarray[LapiceroX0][LapiceroY0] = HEXColor;
+            LapiceroX0 += xinc;
+            LapiceroY0 += yinc;
+            step--;
+        }
+        update();
     }
 
 }

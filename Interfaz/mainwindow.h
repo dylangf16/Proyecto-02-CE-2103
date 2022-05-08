@@ -34,7 +34,7 @@ private:
     QColor color;
     QPixmap *pixmap;
     bool pressed, lapiz, lapicero, figura, borrador;
-    int PosX,PosY;
+    int PosX,PosY, LapiceroX0 = 0, LapiceroY0 = 0, LapiceroX1 = 0, LapiceroY1 = 0;
     std::vector<QPoint> puntos;
 
 
