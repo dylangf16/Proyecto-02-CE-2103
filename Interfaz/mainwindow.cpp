@@ -12,6 +12,7 @@ std::string HEXColor;
 int rConversion, gConversion, bConversion;
 vector<vector<std::string>> HEXvec;
 
+//#-------------------- Ventana Inicio -------------------------
 MainWindow::MainWindow(QWidget *parent)
         : QMainWindow(parent)
         , ui(new Ui::MainWindow)
@@ -27,6 +28,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+//#---------------------------- Conversiones de filtros ----------------------------
 void conversionHEXtoRGB(std::string HEXvalue){
     char const *hexColor = HEXvalue.c_str();
     std::sscanf(hexColor, "#%02x%02x%02x", &rConversion, &gConversion, &bConversion);
@@ -40,7 +42,7 @@ std::string conversionRGBtoHEX(int r, int g, int b){
     return HEXvalue;
 }
 
-//Paint Event para colocar puntos de pixeles -------------------------------------------------
+//#-------------------------- Apartado de Events --------------------------------------------------------
 void MainWindow::paintEvent(QPaintEvent *event)
 {
     if(this->iniciarPaint){
@@ -59,8 +61,6 @@ void MainWindow::paintEvent(QPaintEvent *event)
     }
 }
 
-
-//Obtiene la posición del mouse cuando se presiona y acciona el Paint Event---------------------
 void MainWindow::mousePressEvent(QMouseEvent *event)
 {
     if (event->button() == Qt::RightButton)
@@ -99,9 +99,14 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
             LapiceroY1 = 0;
         }
     }
+    if(ColorPicker){
+        PosX = event->pos().x();
+        PosY = event->pos().y();
+        HEXColor = HEXvec[PosX][PosY];
+        ColorPicker = false;
+    }
 }
 
-//Detecta cuando se deja de presionar el botón del mouse ---------------------------------------
 void MainWindow::mouseReleaseEvent(QMouseEvent *event)
 {
     if(this->iniciarPaint){
@@ -109,7 +114,6 @@ void MainWindow::mouseReleaseEvent(QMouseEvent *event)
     }
 }
 
-//Detecta el movimiento del mouse --------------------------------------------------------------
 void MainWindow::mouseMoveEvent(QMouseEvent *event)
 {
     if(lapiz){
@@ -117,7 +121,7 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event)
             PosX = event->pos().x();
             PosY = event->pos().y();
 
-            HEXColor = "#f05711";
+            //HEXColor = "#f05711";
             HEXvec[PosX][PosY] = HEXColor;
             //QPoint point(PosX, PosY);
             //this->puntos.push_back(point);
@@ -142,7 +146,7 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event)
     }
 }
 
-//Lapiz
+//# ----------------------------------------- Apartado de Botones ---------------------------
 void MainWindow::on_Lapiz_clicked()
 {
     lapiz = true;
@@ -165,13 +169,22 @@ void MainWindow::on_Lapicero_clicked()
     lapicero = true;
     figura = false;
     borrador = false;
-
-
-    /*
-    QColor rgb = q.pixelColor(PosX/12, PosY/12);
-    cout << "Color RGB: " << rgb.name().toStdString() << endl;
-    */
+    LapiceroX0 = 0;
+    LapiceroX1 = 0;
+    LapiceroY0 = 0;
+    LapiceroY1 = 0;
 }
+
+void MainWindow::on_ColorPicker_clicked()
+{
+    lapiz = false;
+    lapicero = false;
+    figura = false;
+    borrador = false;
+    ColorPicker = true;
+}
+
+//#---------------------- Apartado de filtros -----------------------------------------------
 
 //Aplicar filtro negativo al canvas
 void MainWindow::on_Negativo_clicked()
@@ -214,6 +227,7 @@ void MainWindow::on_Grises_clicked()
     update();
 }
 
+//#--------------------- Cambio de frames -----------------------------------------------
 void MainWindow::on_btnStart_clicked()
 {
     QString size;
@@ -233,6 +247,8 @@ void MainWindow::on_btnStart_clicked()
     ui->frameInicio->hide();
     ui->framePrincipal->show();
 }
+
+
 
 
 
