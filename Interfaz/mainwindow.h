@@ -22,6 +22,7 @@ protected:
     void mouseMoveEvent(QMouseEvent *event) override;
     void paintEvent(QPaintEvent *event) override;
 
+
 private slots:
     void on_Lapiz_clicked();
 
@@ -31,10 +32,14 @@ private slots:
 
     void on_btnStart_clicked();
 
+    void on_Negativo_clicked();
+
+    void on_Grises_clicked();
+
 private:
     Ui::MainWindow *ui;
     QColor color;
-    bool pressed, lapiz, lapicero, figura, borrador;
+    bool pressed = false, lapiz = false, lapicero = false, figura = false, borrador = false;
     int PosX,PosY, LapiceroX0 = 0, LapiceroY0 = 0, LapiceroX1 = 0, LapiceroY1 = 0;
     int canvasHeight, canvasWidth;
     bool iniciarPaint;

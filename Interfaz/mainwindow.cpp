@@ -9,6 +9,7 @@
 using namespace std;
 
 std::string HEXColor;
+int rConversion, gConversion, bConversion;
 vector<vector<std::string>> HEXvec;
 
 MainWindow::MainWindow(QWidget *parent)
@@ -26,6 +27,19 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void conversionHEXtoRGB(std::string HEXvalue){
+    char const *hexColor = HEXvalue.c_str();
+    std::sscanf(hexColor, "#%02x%02x%02x", &rConversion, &gConversion, &bConversion);
+}
+
+std::string conversionRGBtoHEX(int r, int g, int b){
+    char hexColor[8];
+    std::snprintf(hexColor, sizeof hexColor, "#%02x%02x%02x", r, g, b);
+    std::string HEXvalue;
+    HEXvalue += hexColor;
+    return HEXvalue;
+}
+
 //Paint Event para colocar puntos de pixeles -------------------------------------------------
 void MainWindow::paintEvent(QPaintEvent *event)
 {
@@ -39,10 +53,10 @@ void MainWindow::paintEvent(QPaintEvent *event)
             QPen PenMatrix(qcolor);
             PainterMatrix.setPen(PenMatrix);
             PainterMatrix.drawPoint(i,j);
+            //Arreglar reseteo de puntos
         }
     }
-    }
-
+}
     /*
     //Para lapiz
     if(lapiz){
@@ -142,13 +156,14 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event)
                yinc = (double)vy/step;
 
         while(step >= 0){
-            HEXColor = "##58e014";
-            HEXvec[LapiceroX0][LapiceroY0] = HEXColor;
+            HEXColor = "#ff0000";
+            HEXvec[round(LapiceroX0)][round(LapiceroY0)] = HEXColor;
             LapiceroX0 += xinc;
             LapiceroY0 += yinc;
             step--;
         }
         update();
+        LapiceroX0 = 0, LapiceroY0 = 0, LapiceroX1 = 0, LapiceroY1 = 0;
     }
 }
 
@@ -202,6 +217,55 @@ void MainWindow::on_btnStart_clicked()
     ui->frameInicio->hide();
     ui->framePrincipal->show();
 }
+
+//Aplicar filtro negativo al canvas
+void MainWindow::on_Negativo_clicked()
+{
+    for (int i = 0; i < HEXvec.size(); ++i) {
+        for (int j = 0; j < HEXvec[0].size(); ++j) {
+            std::string HexVALUE = HEXvec[i][j];
+            conversionHEXtoRGB(HexVALUE);
+            int r2 = 255 - rConversion;
+            int g2 = 255 - gConversion;
+            int b2 = 255 - bConversion;
+            char hexNEGATIVO[8];
+            std::snprintf(hexNEGATIVO, sizeof hexNEGATIVO, "#%02x%02x%02x", r2,g2,b2);
+            std::string conversion;
+            conversion += hexNEGATIVO;
+            HEXvec[i][j] = conversion;
+        }
+    }
+    update();
+}
+
+//Aplicar filtro de escala de grises al canvas
+void MainWindow::on_Grises_clicked()
+{
+    for (int i = 0; i < HEXvec.size(); ++i) {
+        for (int j = 0; j < HEXvec[0].size(); ++j) {
+            std::string HexVALUE = HEXvec[i][j];
+            conversionHEXtoRGB(HexVALUE);
+            int greyscale = 0.299*rConversion + 0.587*gConversion + 0.114*bConversion;
+            int r1=greyscale;
+            int g1=greyscale;
+            int b1=greyscale;
+            char hexGRIS[8];
+            std::snprintf(hexGRIS, sizeof hexGRIS, "#%02x%02x%02x", r1,g1,b1);
+            std::string conversion;
+            conversion += hexGRIS;
+            HEXvec[i][j] = conversion;
+        }
+    }
+    update();
+}
+
+
+
+
+
+
+
+
 
 
 
