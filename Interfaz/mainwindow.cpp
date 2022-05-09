@@ -54,39 +54,9 @@ void MainWindow::paintEvent(QPaintEvent *event)
             PainterMatrix.setPen(PenMatrix);
             PainterMatrix.drawPoint(i,j);
             //Arreglar reseteo de puntos
+            }
         }
     }
-}
-    /*
-    //Para lapiz
-    if(lapiz){
-        QPainter painter(this);
-        QPen Pen1(Qt::black);
-        Pen1.setWidth(5);
-        painter.setPen(Pen1);
-        painter.setRenderHint(QPainter::Antialiasing,true);
-        //painter.set
-        for(int x=0; x<this->puntos.size(); x++) {
-            painter.drawPoint(puntos[x]);
-        }
-    }
-    //Para lapicero (líneas rectas)
-    if(lapicero){
-        cout << "Lapicero activado" << endl;
-    }
-
-    if(borrador){
-        QPainter painter(this);
-        QPen Pen1(Qt::white);
-        Pen1.setWidth(5);
-        painter.setPen(Pen1);
-        painter.setRenderHint(QPainter::Antialiasing,true);
-        //painter.set
-        for(int x=0; x<this->puntos.size(); x++) {
-            painter.drawPoint(puntos[x]);
-        }
-    }
-    */
 }
 
 
@@ -106,9 +76,29 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
         else if(LapiceroX1 == 0 && LapiceroY1 == 0){
             LapiceroX1 = event->pos().x();
             LapiceroY1 = event->pos().y();
+            int vx = LapiceroX1 - LapiceroX0;
+            int vy = LapiceroY1 - LapiceroY0;
+            int step = abs(vx);
+
+            if(step < abs(vy)) step = abs(vy);
+            double xinc = (double)vx/step,
+                   yinc = (double)vy/step;
+
+            while(step >= 0){
+                HEXColor = "#ff0000";
+                HEXvec[round(LapiceroX0)][round(LapiceroY0)] = HEXColor;
+                LapiceroX0 += xinc;
+                LapiceroY0 += yinc;
+                step--;
+
+            update();
+            }
+            LapiceroX0 = 0;
+            LapiceroX1 = 0;
+            LapiceroY0 = 0;
+            LapiceroY1 = 0;
         }
     }
-
 }
 
 //Detecta cuando se deja de presionar el botón del mouse ---------------------------------------
@@ -147,23 +137,8 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event)
         }
     }
     if(lapicero){
-        int vx = LapiceroX1 - LapiceroX0;
-        int vy = LapiceroY1 - LapiceroY0;
-        int step = abs(vx);
 
-        if(step < abs(vy)) step = abs(vy);
-        double xinc = (double)vx/step,
-               yinc = (double)vy/step;
 
-        while(step >= 0){
-            HEXColor = "#ff0000";
-            HEXvec[round(LapiceroX0)][round(LapiceroY0)] = HEXColor;
-            LapiceroX0 += xinc;
-            LapiceroY0 += yinc;
-            step--;
-        }
-        update();
-        LapiceroX0 = 0, LapiceroY0 = 0, LapiceroX1 = 0, LapiceroY1 = 0;
     }
 }
 
@@ -198,26 +173,6 @@ void MainWindow::on_Lapicero_clicked()
     */
 }
 
-void MainWindow::on_btnStart_clicked()
-{
-    QString size;
-    size = ui->plainTextHeight->toPlainText();
-    this->canvasHeight = size.toInt();
-    size = ui->plainTextEditWidth->toPlainText();
-    this->canvasWidth = size.toInt();
-    HEXvec.resize(this->canvasHeight);
-    for (int i = 0; i < this->canvasHeight; ++i) {
-          HEXvec[i].resize(this->canvasWidth);
-        for (int j = 0; j < this->canvasWidth; ++j) {
-            HEXvec[i][j] = "#1188f0";
-        }
-    }
-    this->iniciarPaint = true;
-    update();
-    ui->frameInicio->hide();
-    ui->framePrincipal->show();
-}
-
 //Aplicar filtro negativo al canvas
 void MainWindow::on_Negativo_clicked()
 {
@@ -246,9 +201,9 @@ void MainWindow::on_Grises_clicked()
             std::string HexVALUE = HEXvec[i][j];
             conversionHEXtoRGB(HexVALUE);
             int greyscale = 0.299*rConversion + 0.587*gConversion + 0.114*bConversion;
-            int r1=greyscale;
-            int g1=greyscale;
-            int b1=greyscale;
+            int r1 =greyscale;
+            int g1 =greyscale;
+            int b1 =greyscale;
             char hexGRIS[8];
             std::snprintf(hexGRIS, sizeof hexGRIS, "#%02x%02x%02x", r1,g1,b1);
             std::string conversion;
@@ -259,6 +214,25 @@ void MainWindow::on_Grises_clicked()
     update();
 }
 
+void MainWindow::on_btnStart_clicked()
+{
+    QString size;
+    size = ui->plainTextHeight->toPlainText();
+    this->canvasHeight = size.toInt();
+    size = ui->plainTextEditWidth->toPlainText();
+    this->canvasWidth = size.toInt();
+    HEXvec.resize(this->canvasHeight);
+    for (int i = 0; i < this->canvasHeight; ++i) {
+          HEXvec[i].resize(this->canvasWidth);
+        for (int j = 0; j < this->canvasWidth; ++j) {
+            HEXvec[i][j] = "#1188f0";
+        }
+    }
+    this->iniciarPaint = true;
+    update();
+    ui->frameInicio->hide();
+    ui->framePrincipal->show();
+}
 
 
 
