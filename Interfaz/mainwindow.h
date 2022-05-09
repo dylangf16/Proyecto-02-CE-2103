@@ -1,9 +1,9 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
-
 #include <QMainWindow>
 #include <QMouseEvent>
 #include <QWidget>
+#include <vector>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -29,12 +29,16 @@ private slots:
 
     void on_Lapicero_clicked();
 
+    void on_btnStart_clicked();
+
 private:
     Ui::MainWindow *ui;
     QColor color;
-    QPixmap *pixmap;
     bool pressed, lapiz, lapicero, figura, borrador;
     int PosX,PosY, LapiceroX0 = 0, LapiceroY0 = 0, LapiceroX1 = 0, LapiceroY1 = 0;
+    int canvasHeight, canvasWidth;
+    bool iniciarPaint;
+    //std::vector<std::vector<std::string>> HEXvec;
     std::vector<QPoint> puntos;
 
 

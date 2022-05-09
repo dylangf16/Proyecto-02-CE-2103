@@ -5,23 +5,20 @@
 #include <QPainter>
 #include <iostream>
 #include <math.h>
+#include <vector>
 using namespace std;
 
-int nFilas = 500;
-int nColumnas = 600;
 std::string HEXColor;
-std::string HEXarray[500][600];
+vector<vector<std::string>> HEXvec;
+
 MainWindow::MainWindow(QWidget *parent)
         : QMainWindow(parent)
         , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    this->iniciarPaint = false;
+    ui->framePrincipal->hide();
     color = Qt::black;
-    for (int i = 0; i < 500; ++i) {
-        for (int j = 0; j < 600; ++j) {
-            HEXarray[i][j] = "#1188f0";
-        }
-    }
 }
 
 MainWindow::~MainWindow()
@@ -32,17 +29,18 @@ MainWindow::~MainWindow()
 //Paint Event para colocar puntos de pixeles -------------------------------------------------
 void MainWindow::paintEvent(QPaintEvent *event)
 {
-
+    if(this->iniciarPaint){
     QPainter PainterMatrix(this);
-    for (int i = 0; i < 500; ++i) {
-        for (int j = 0; j < 600; ++j) {
-            QString color = QString::fromStdString(HEXarray[i][j]);
+    for (int i = 0; i < HEXvec.size(); ++i) {
+        for (int j = 0; j < HEXvec[0].size(); ++j) {
+            QString color = QString::fromStdString(HEXvec[i][j]);
             QColor qcolor;
             qcolor.setNamedColor(color);
             QPen PenMatrix(qcolor);
             PainterMatrix.setPen(PenMatrix);
             PainterMatrix.drawPoint(i,j);
         }
+    }
     }
 
     /*
@@ -96,12 +94,15 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
             LapiceroY1 = event->pos().y();
         }
     }
+
 }
 
 //Detecta cuando se deja de presionar el botón del mouse ---------------------------------------
 void MainWindow::mouseReleaseEvent(QMouseEvent *event)
 {
+    if(this->iniciarPaint){
     pressed = 0;
+    }
 }
 
 //Detecta el movimiento del mouse --------------------------------------------------------------
@@ -113,7 +114,7 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event)
             PosY = event->pos().y();
 
             HEXColor = "#f05711";
-            HEXarray[PosX][PosY] = HEXColor;
+            HEXvec[PosX][PosY] = HEXColor;
             //QPoint point(PosX, PosY);
             //this->puntos.push_back(point);
             update();
@@ -124,7 +125,7 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event)
             PosX = event->pos().x();
             PosY = event->pos().y();
             HEXColor = "#ffffff";
-            HEXarray[PosX][PosY] = HEXColor;
+            HEXvec[PosX][PosY] = HEXColor;
 
             //QPoint point(PosX, PosY);
             //this->puntos.push_back(point);
@@ -142,14 +143,13 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event)
 
         while(step >= 0){
             HEXColor = "##58e014";
-            HEXarray[LapiceroX0][LapiceroY0] = HEXColor;
+            HEXvec[LapiceroX0][LapiceroY0] = HEXColor;
             LapiceroX0 += xinc;
             LapiceroY0 += yinc;
             step--;
         }
         update();
     }
-
 }
 
 //Lapiz
@@ -181,6 +181,26 @@ void MainWindow::on_Lapicero_clicked()
     QColor rgb = q.pixelColor(PosX/12, PosY/12);
     cout << "Color RGB: " << rgb.name().toStdString() << endl;
     */
+}
+
+void MainWindow::on_btnStart_clicked()
+{
+    QString size;
+    size = ui->plainTextHeight->toPlainText();
+    this->canvasHeight = size.toInt();
+    size = ui->plainTextEditWidth->toPlainText();
+    this->canvasWidth = size.toInt();
+    HEXvec.resize(this->canvasHeight);
+    for (int i = 0; i < this->canvasHeight; ++i) {
+          HEXvec[i].resize(this->canvasWidth);
+        for (int j = 0; j < this->canvasWidth; ++j) {
+            HEXvec[i][j] = "#1188f0";
+        }
+    }
+    this->iniciarPaint = true;
+    update();
+    ui->frameInicio->hide();
+    ui->framePrincipal->show();
 }
 
 
