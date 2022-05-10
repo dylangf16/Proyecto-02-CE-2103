@@ -376,3 +376,15 @@ void MainWindow::on_btnStart_clicked()
     ui->frameInicio->hide();
     ui->framePrincipal->show();
 }
+
+void MainWindow::on_Save_clicked()
+{
+    QString givenImageName;
+    givenImageName = ui->plainTextGetName->toPlainText();
+    QByteArray bb = givenImageName.toLocal8Bit();
+    const char *ImageName = bb.data();
+    Image image(0,0);
+    image.matrixToBMP(HEXvec);
+    image.Export(ImageName);
+}
+

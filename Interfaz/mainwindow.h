@@ -44,6 +44,8 @@ private slots:
 
     void on_Circulo_clicked();
 
+    void on_Save_clicked();
+
 private:
     Ui::MainWindow *ui;
     QColor color;

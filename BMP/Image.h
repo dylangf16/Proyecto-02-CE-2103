@@ -28,6 +28,7 @@ public:
     std::vector<Color> GetAllColors();
     void setColor(const Color& color, int x, int y);
     std::vector<std::vector<string>> BMPtoMatrix();
+    void matrixToBMP(std::vector<std::vector<std::string>> HEXvector);
 
     void Read(const char* path);
     void createWhiteCanvas();
