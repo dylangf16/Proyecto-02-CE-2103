@@ -339,6 +339,67 @@ void MainWindow::on_Grises_clicked()
     }
     update();
 }
+//#--------------------- Metodos --------------------------------------------------------
+void rotateToTheRight(){
+    int newWidth =HEXvec.size();
+    int newHeight = HEXvec[0].size();
+    vector<vector<std::string>> output;
+    output.resize(newHeight);
+    for(int i=0; i<newHeight; i++) {
+        output[i].resize(newWidth);
+    }
+    for (int i=0; i<newWidth; i++) {
+        for (int j = 0; j < newHeight; j++) {
+            output[j][newWidth - 1 - i] = HEXvec[i][j];
+        }
+    }
+    HEXvec = output;
+}
+
+void rotateToTheLeft(){
+    int newWidth =HEXvec.size();
+    int newHeight = HEXvec[0].size();
+    vector<vector<std::string>> output;
+    output.resize(newHeight);
+    for(int i=0; i<newHeight; i++) {
+        output[i].resize(newWidth);
+    }
+    for (int i=0; i<newWidth; i++) {
+        int k = newHeight-1;
+        for (int j = 0; j < newHeight; j++) {
+            output[k][i] = HEXvec[i][j];
+            k--;
+        }
+    }
+    HEXvec = output;
+}
+
+void MainWindow::createCanvas(){
+    QString size;
+    size = ui->plainTextGetHeight->toPlainText();
+    this->canvasHeight = size.toInt();
+    size = ui->plainTextEditGetWidth->toPlainText();
+    this->canvasWidth = size.toInt();
+    HEXvec.resize(this->canvasHeight);
+    for (int i = 0; i < this->canvasHeight; ++i) {
+        HEXvec[i].resize(this->canvasWidth);
+        for (int j = 0; j < this->canvasWidth; ++j) {
+            HEXvec[i][j] = "#1188f0";
+        }
+    }
+}
+
+void MainWindow::loadImage(){
+    QString ImageDir;
+    ImageDir = ui->plainTextGetDir->toPlainText();
+    QByteArray ba = ImageDir.toLocal8Bit();
+    const char *ImageDirectory = ba.data();
+    Image image(0,0);
+    image.Read(ImageDirectory);
+    HEXvec = image.BMPtoMatrix();
+    rotateToTheRight();
+}
+
 
 //#--------------------- Cambio de frames -----------------------------------------------
 
@@ -350,26 +411,9 @@ bool IsTextEditEmpty(const QTextEdit * myTextEdit)
 void MainWindow::on_btnStart_clicked()
 {
     if(!IsTextEditEmpty(reinterpret_cast<const QTextEdit *>(ui->plainTextGetHeight)) and !IsTextEditEmpty(reinterpret_cast<const QTextEdit *>(ui->plainTextEditGetWidth))) {
-        QString size;
-        size = ui->plainTextGetHeight->toPlainText();
-        this->canvasHeight = size.toInt();
-        size = ui->plainTextEditGetWidth->toPlainText();
-        this->canvasWidth = size.toInt();
-        HEXvec.resize(this->canvasHeight);
-        for (int i = 0; i < this->canvasHeight; ++i) {
-            HEXvec[i].resize(this->canvasWidth);
-            for (int j = 0; j < this->canvasWidth; ++j) {
-                HEXvec[i][j] = "#1188f0";
-            }
-        }
+        createCanvas();
     } else if(!IsTextEditEmpty(reinterpret_cast<const QTextEdit *>(ui->plainTextGetDir))){
-        QString ImageDir;
-        ImageDir = ui->plainTextGetDir->toPlainText();
-        QByteArray ba = ImageDir.toLocal8Bit();
-        const char *ImageDirectory = ba.data();
-        Image image(0,0);
-        image.Read(ImageDirectory);
-        HEXvec = image.BMPtoMatrix();
+        loadImage();
     }
     this->iniciarPaint = true;
     update();
@@ -384,6 +428,7 @@ void MainWindow::on_Save_clicked()
     QByteArray bb = givenImageName.toLocal8Bit();
     const char *ImageName = bb.data();
     Image image(0,0);
+    rotateToTheLeft();
     image.matrixToBMP(HEXvec);
     image.Export(ImageName);
 }

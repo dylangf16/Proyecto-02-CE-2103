@@ -21,6 +21,8 @@ protected:
     void mouseReleaseEvent(QMouseEvent *event) override;
     void mouseMoveEvent(QMouseEvent *event) override;
     void paintEvent(QPaintEvent *event) override;
+    void createCanvas();
+    void loadImage();
 
 
 private slots:
