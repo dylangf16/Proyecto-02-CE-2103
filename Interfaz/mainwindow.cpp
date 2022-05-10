@@ -105,6 +105,27 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
         HEXColor = HEXvec[PosX][PosY];
         ColorPicker = false;
     }
+    if(cuadrado){
+        PosX = event->pos().x();
+        PosY = event->pos().y();
+        //Linea hacia abajo
+        for(int j = 0; j < 50; j++){
+           HEXvec[PosX][PosY+j] = "#fcba03"; //Amarillo
+        }
+        //Hacia la derecha desde abajo
+        for(int j = 0; j < 50; j++){
+           HEXvec[PosX+j][PosY+50] = "#fcba03"; //Rojo
+        }
+        //Hacia arriba desde abajo derecha
+        for(int j = 0; j < 50; j++){
+           HEXvec[PosX+50][PosY+j] = "#fcba03"; //Azul
+        }
+        for(int j = 0; j < 50; j++){
+           HEXvec[PosX+j][PosY] = "#fcba03"; //Verde
+        }
+        update();
+        cuadrado = false;
+    }
 }
 
 void MainWindow::mouseReleaseEvent(QMouseEvent *event)
@@ -139,10 +160,6 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event)
             //this->puntos.push_back(point);
             update();
         }
-    }
-    if(lapicero){
-
-
     }
 }
 
@@ -184,9 +201,26 @@ void MainWindow::on_ColorPicker_clicked()
     ColorPicker = true;
 }
 
+
+void MainWindow::on_PaintFill_2_clicked()
+{
+    lapiz = false;
+    lapicero = false;
+    figura = false;
+    borrador = false;
+    ColorPicker = false;
+}
+
+
+void MainWindow::on_PaintFill_4_clicked()
+{
+    cuadrado = true;
+}
+
 //#---------------------- Apartado de filtros -----------------------------------------------
 
 //Aplicar filtro negativo al canvas
+//Si se presiona otra vez el botón, se devuelve a la normalidad
 void MainWindow::on_Negativo_clicked()
 {
     for (int i = 0; i < HEXvec.size(); ++i) {
@@ -207,6 +241,7 @@ void MainWindow::on_Negativo_clicked()
 }
 
 //Aplicar filtro de escala de grises al canvas
+//No se devuelve a la normalidad si se presiona otra vez
 void MainWindow::on_Grises_clicked()
 {
     for (int i = 0; i < HEXvec.size(); ++i) {
@@ -247,6 +282,7 @@ void MainWindow::on_btnStart_clicked()
     ui->frameInicio->hide();
     ui->framePrincipal->show();
 }
+
 
 
 

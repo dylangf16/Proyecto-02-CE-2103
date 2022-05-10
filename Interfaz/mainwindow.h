@@ -38,10 +38,14 @@ private slots:
 
     void on_ColorPicker_clicked();
 
+    void on_PaintFill_2_clicked();
+
+    void on_PaintFill_4_clicked();
+
 private:
     Ui::MainWindow *ui;
     QColor color;
-    bool pressed = false, lapiz = false, lapicero = false, figura = false, borrador = false, ColorPicker = false;
+    bool pressed = false, lapiz = false, lapicero = false, figura = false, borrador = false, ColorPicker = false, cuadrado = false;
     int PosX,PosY, LapiceroX0 = 0, LapiceroY0 = 0, LapiceroX1 = 0, LapiceroY1 = 0;
     int canvasHeight, canvasWidth;
     bool iniciarPaint;
