@@ -374,6 +374,33 @@ void rotateToTheLeft(){
     HEXvec = output;
 }
 
+void verticalRotation(){
+    vector<vector<std::string>> output;
+    output = HEXvec;
+    for (int i=0; i<HEXvec.size(); i++) {
+        int k = HEXvec[0].size() - 1;
+        for (int j = 0; j < HEXvec[0].size(); j++) {
+            output[i][j] = HEXvec[i][k];
+            k--;
+        }
+    }
+    HEXvec = output;
+}
+
+void horizontalRotation(){
+    vector<vector<std::string>> output;
+    output = HEXvec;
+    int k = HEXvec.size();
+    for (int i=0; i<HEXvec.size(); i++) {
+        k--;
+        for (int j = 0; j < HEXvec[0].size(); j++) {
+            output[i][j] = HEXvec[k][j];
+        }
+    }
+    HEXvec = output;
+}
+
+
 void MainWindow::createCanvas(){
     QString size;
     size = ui->plainTextGetHeight->toPlainText();
@@ -431,5 +458,32 @@ void MainWindow::on_Save_clicked()
     rotateToTheLeft();
     image.matrixToBMP(HEXvec);
     image.Export(ImageName);
+}
+
+void MainWindow::on_RotarDer_clicked()
+{
+    rotateToTheRight();
+    update();
+}
+
+
+void MainWindow::on_RotarIzq_clicked()
+{
+    rotateToTheLeft();
+    update();
+}
+
+
+void MainWindow::on_RotarVer_clicked()
+{
+    verticalRotation();
+    update();
+}
+
+
+void MainWindow::on_RotarHor_clicked()
+{
+    horizontalRotation();
+    update();
 }
 

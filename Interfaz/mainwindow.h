@@ -48,6 +48,14 @@ private slots:
 
     void on_Save_clicked();
 
+    void on_RotarDer_clicked();
+
+    void on_RotarIzq_clicked();
+
+    void on_RotarVer_clicked();
+
+    void on_RotarHor_clicked();
+
 private:
     Ui::MainWindow *ui;
     QColor color;
