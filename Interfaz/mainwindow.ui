@@ -155,7 +155,7 @@
        <string>Borrador</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="PaintFill_3">
+     <widget class="QPushButton" name="Rotar">
       <property name="geometry">
        <rect>
         <x>310</x>
@@ -217,7 +217,7 @@
        <string>Lapiz</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="PaintFill_2">
+     <widget class="QPushButton" name="Seleccionar">
       <property name="geometry">
        <rect>
         <x>210</x>
@@ -256,7 +256,7 @@
        <string>Grises</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="PaintFill_4">
+     <widget class="QPushButton" name="Cuadrado">
       <property name="geometry">
        <rect>
         <x>210</x>
@@ -269,7 +269,7 @@
        <string>Cuadrado</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="PaintFill_5">
+     <widget class="QPushButton" name="Triangulo">
       <property name="geometry">
        <rect>
         <x>310</x>
@@ -282,7 +282,7 @@
        <string>Triangulo</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="PaintFill_6">
+     <widget class="QPushButton" name="Circulo">
       <property name="geometry">
        <rect>
         <x>420</x>

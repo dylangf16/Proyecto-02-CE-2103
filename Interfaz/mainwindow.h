@@ -42,10 +42,16 @@ private slots:
 
     void on_PaintFill_4_clicked();
 
+    void on_Triangulo_clicked();
+
+    void on_Seleccionar_clicked();
+
+    void on_Cuadrado_clicked();
+
 private:
     Ui::MainWindow *ui;
     QColor color;
-    bool pressed = false, lapiz = false, lapicero = false, figura = false, borrador = false, ColorPicker = false, cuadrado = false;
+    bool pressed = false, lapiz = false, lapicero = false, figura = false, borrador = false, ColorPicker = false, cuadrado = false, triangulo = false;
     int PosX,PosY, LapiceroX0 = 0, LapiceroY0 = 0, LapiceroX1 = 0, LapiceroY1 = 0;
     int canvasHeight, canvasWidth;
     bool iniciarPaint;

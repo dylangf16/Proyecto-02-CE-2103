@@ -108,23 +108,39 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
     if(cuadrado){
         PosX = event->pos().x();
         PosY = event->pos().y();
-        //Linea hacia abajo
+
         for(int j = 0; j < 50; j++){
-           HEXvec[PosX][PosY+j] = "#fcba03"; //Amarillo
+           HEXvec[PosX][PosY+j] = "#fcba03";
         }
-        //Hacia la derecha desde abajo
+
         for(int j = 0; j < 50; j++){
-           HEXvec[PosX+j][PosY+50] = "#fcba03"; //Rojo
+           HEXvec[PosX+j][PosY+50] = "#fcba03";
         }
-        //Hacia arriba desde abajo derecha
+
         for(int j = 0; j < 50; j++){
-           HEXvec[PosX+50][PosY+j] = "#fcba03"; //Azul
+           HEXvec[PosX+50][PosY+j] = "#fcba03";
         }
         for(int j = 0; j < 50; j++){
-           HEXvec[PosX+j][PosY] = "#fcba03"; //Verde
+           HEXvec[PosX+j][PosY] = "#fcba03";
         }
         update();
         cuadrado = false;
+    }
+
+    if(triangulo){
+        PosX = event->pos().x();
+        PosY = event->pos().y();
+        for(int j = 0; j < 50; j++){
+            HEXvec[PosX-j][PosY+j] = "#0c32c9";
+            HEXvec[PosX+j][PosY+j] = "#0c32c9";
+        }
+        for(int j=0;j<50;j++){
+            HEXvec[PosX+j][PosY+50] = "#0c32c9";
+        }
+        for(int j=0;j<50;j++){
+            HEXvec[PosX-j][PosY+50] = "#0c32c9";
+        }
+        update();
     }
 }
 
@@ -202,7 +218,7 @@ void MainWindow::on_ColorPicker_clicked()
 }
 
 
-void MainWindow::on_PaintFill_2_clicked()
+void MainWindow::on_Seleccionar_clicked()
 {
     lapiz = false;
     lapicero = false;
@@ -211,10 +227,14 @@ void MainWindow::on_PaintFill_2_clicked()
     ColorPicker = false;
 }
 
-
-void MainWindow::on_PaintFill_4_clicked()
+void MainWindow::on_Cuadrado_clicked()
 {
     cuadrado = true;
+}
+
+void MainWindow::on_Triangulo_clicked()
+{
+    triangulo = true;
 }
 
 //#---------------------- Apartado de filtros -----------------------------------------------
@@ -282,6 +302,8 @@ void MainWindow::on_btnStart_clicked()
     ui->frameInicio->hide();
     ui->framePrincipal->show();
 }
+
+
 
 
 
