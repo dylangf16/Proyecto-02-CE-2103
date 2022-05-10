@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "qpainter.h"
+#include "Image.h"
 #include <QMouseEvent>
 #include <QPainter>
 #include <iostream>
@@ -340,19 +341,35 @@ void MainWindow::on_Grises_clicked()
 }
 
 //#--------------------- Cambio de frames -----------------------------------------------
+
+bool IsTextEditEmpty(const QTextEdit * myTextEdit)
+{
+    return myTextEdit->document()->isEmpty();
+}
+
 void MainWindow::on_btnStart_clicked()
 {
-    QString size;
-    size = ui->plainTextHeight->toPlainText();
-    this->canvasHeight = size.toInt();
-    size = ui->plainTextEditWidth->toPlainText();
-    this->canvasWidth = size.toInt();
-    HEXvec.resize(this->canvasHeight);
-    for (int i = 0; i < this->canvasHeight; ++i) {
-          HEXvec[i].resize(this->canvasWidth);
-        for (int j = 0; j < this->canvasWidth; ++j) {
-            HEXvec[i][j] = "#1188f0";
+    if(!IsTextEditEmpty(reinterpret_cast<const QTextEdit *>(ui->plainTextGetHeight)) and !IsTextEditEmpty(reinterpret_cast<const QTextEdit *>(ui->plainTextEditGetWidth))) {
+        QString size;
+        size = ui->plainTextGetHeight->toPlainText();
+        this->canvasHeight = size.toInt();
+        size = ui->plainTextEditGetWidth->toPlainText();
+        this->canvasWidth = size.toInt();
+        HEXvec.resize(this->canvasHeight);
+        for (int i = 0; i < this->canvasHeight; ++i) {
+            HEXvec[i].resize(this->canvasWidth);
+            for (int j = 0; j < this->canvasWidth; ++j) {
+                HEXvec[i][j] = "#1188f0";
+            }
         }
+    } else if(!IsTextEditEmpty(reinterpret_cast<const QTextEdit *>(ui->plainTextGetDir))){
+        QString ImageDir;
+        ImageDir = ui->plainTextGetDir->toPlainText();
+        QByteArray ba = ImageDir.toLocal8Bit();
+        const char *ImageDirectory = ba.data();
+        Image image(0,0);
+        image.Read(ImageDirectory);
+        HEXvec = image.BMPtoMatrix();
     }
     this->iniciarPaint = true;
     update();

@@ -6,6 +6,9 @@
 #define BMP_IMAGE_H
 
 #include <vector>
+#include <iostream>
+using namespace std;
+
 struct Color
 {
     float r, g, b;
@@ -22,7 +25,9 @@ public:
     ~Image();
 
     Color GetColor(int x, int y) const;
+    std::vector<Color> GetAllColors();
     void setColor(const Color& color, int x, int y);
+    std::vector<std::vector<string>> BMPtoMatrix();
 
     void Read(const char* path);
     void createWhiteCanvas();

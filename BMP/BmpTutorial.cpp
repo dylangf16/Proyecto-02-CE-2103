@@ -1,9 +1,10 @@
 #include "Image.h"
+#include <iostream>
 
+/*
 int main(){
-
-    const int width = 640;
-    const int height = 480;
+    const int width = 400;
+    const int height = 400;
 
     Image image(width,height);
 
@@ -15,3 +16,4 @@ int main(){
     image.Export("image.bmp");
     image.createWhiteCanvas();
 }
+*/

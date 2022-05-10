@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include "Interfaz/mainwindow.h"
 #include "Image.h"
 
 Color::Color()
@@ -9,7 +10,7 @@ Color::Color()
 }
 
 Color::Color(float r, float g, float b)
-    : r(r), g(g), b(b)
+        : r(r), g(g), b(b)
 {
 }
 
@@ -39,6 +40,30 @@ void Image::setColor(const Color &color, int x, int y) {
     m_colors[y * m_width + x].b = color.b;
 }
 
+std::string conversionRGBtoHEX_2(int r, int g, int b){
+    char hexColor[8];
+    std::snprintf(hexColor, sizeof hexColor, "#%02x%02x%02x", r, g, b);
+    std::string HEXvalue;
+    HEXvalue += hexColor;
+    return HEXvalue;
+}
+
+std::vector<std::vector<std::string>> Image::BMPtoMatrix() {
+    const int width = m_width;
+    const int height = m_height;
+    std::vector<std::vector<std::string>> HEXvector;
+    HEXvector.resize(height);
+    for (int y = 0; y < height; y++) {
+        HEXvector[y].resize(width);
+        for (int x = 0; x < width; x++){
+            HEXvector[y][x] = conversionRGBtoHEX_2(static_cast<unsigned char>(GetColor(x,y).r * 255.0f), static_cast<unsigned char>(GetColor(x,y).g * 255.0f),
+                                                   static_cast<unsigned char>(GetColor(x,y).b * 255.0f));
+        }
+    }
+    return HEXvector;
+}
+
+
 void Image::Read(const char* path) {
     std::ifstream f;
     f.open(path, std::ios::in | std::ios::binary);
@@ -54,7 +79,7 @@ void Image::Read(const char* path) {
     unsigned char fileHeader[fileHeaderSize];
     f.read(reinterpret_cast<char *>(fileHeader), fileHeaderSize);
 
-    if(fileHeader[0] != '0' || fileHeader[1] != 'M'){
+    if(fileHeader[0] != 'B' || fileHeader[1] != 'M'){
         std::cout << "The specified path is no a bitmap image" << std::endl;
         f.close();
         return;

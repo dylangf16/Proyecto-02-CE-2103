@@ -2,7 +2,7 @@
 # You may attempt to use it for building too, by modifying this file here.
 
 cmake_minimum_required(VERSION 3.5)
-project(Proyecto02)
+project(copiaUI)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOUIC ON)
@@ -19,31 +19,19 @@ include_directories(
 )
 
 set (SRCS
-    BMP/cmake-build-debug/CMakeFiles/clion-environment.txt
-    BMP/cmake-build-debug/CMakeFiles/clion-log.txt
-    BMP/cmake-build-debug/CMakeFiles/cmake.check_cache
-    BMP/cmake-build-debug/Testing/Temporary/LastTest.log
-    BMP/cmake-build-debug/BMP
-    BMP/cmake-build-debug/build.ninja
-    BMP/cmake-build-debug/cmake_install.cmake
-    BMP/cmake-build-debug/CMakeCache.txt
-    BMP/cmake-build-debug/image.bmp
+    BMP/cmake-build-debug/CMakeFiles/3.22.3/CompilerIdC/CMakeCCompilerId.c
+    BMP/cmake-build-debug/CMakeFiles/3.22.3/CompilerIdCXX/CMakeCXXCompilerId.cpp
     BMP/BmpTutorial.cpp
-    BMP/CMakeLists.txt
     BMP/Image.cpp
     BMP/Image.h
-    build-Interfaz-Desktop-Debug/Interfaz
     build-Interfaz-Desktop-Debug/moc_mainwindow.cpp
     build-Interfaz-Desktop-Debug/moc_predefs.h
     build-Interfaz-Desktop-Debug/ui_mainwindow.h
-    Interfaz/Interfaz.pro
-    Interfaz/Interfaz_es_CR.ts
+    cmake-build-debug/CMakeFiles/3.22.3/CompilerIdC/CMakeCCompilerId.c
+    cmake-build-debug/CMakeFiles/3.22.3/CompilerIdCXX/CMakeCXXCompilerId.cpp
     Interfaz/main.cpp
     Interfaz/mainwindow.cpp
     Interfaz/mainwindow.h
-    Interfaz/mainwindow.ui
-    Interfaz/openglwidget.cpp
-    Interfaz/openglwidget.h
 )
 
 
