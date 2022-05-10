@@ -1,0 +1,4 @@
+/home/alejandra/Documents/CLion-2021.3.4/clion-2021.3.4/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_MAKE_PROGRAM=/home/alejandra/Documents/CLion-2021.3.4/clion-2021.3.4/bin/ninja/linux/ninja -G Ninja -S /home/alejandra/CLionProjects/Proyecto02_Paint -B /home/alejandra/CLionProjects/Proyecto02_Paint/cmake-build-debug
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/alejandra/CLionProjects/Proyecto02_Paint/cmake-build-debug

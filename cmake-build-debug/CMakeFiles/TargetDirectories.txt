@@ -1,0 +1,4 @@
+/home/alejandra/CLionProjects/Proyecto02_Paint/cmake-build-debug/CMakeFiles/Proyecto02_Paint.dir
+/home/alejandra/CLionProjects/Proyecto02_Paint/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/alejandra/CLionProjects/Proyecto02_Paint/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/alejandra/CLionProjects/Proyecto02_Paint/cmake-build-debug/CMakeFiles/Proyecto02_Paint_autogen.dir
