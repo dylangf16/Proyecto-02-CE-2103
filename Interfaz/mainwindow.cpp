@@ -105,43 +105,69 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
         HEXColor = HEXvec[PosX][PosY];
         ColorPicker = false;
     }
+
     if(cuadrado){
-        PosX = event->pos().x();
-        PosY = event->pos().y();
+            PosX = event->pos().x();
+            PosY = event->pos().y();
 
-        for(int j = 0; j < 50; j++){
-           HEXvec[PosX][PosY+j] = "#fcba03";
+            for(int j = 0; j < 50; j++){
+               HEXvec[PosX][PosY+j] = "#fcba03";
+            }
+
+            for(int j = 0; j < 50; j++){
+               HEXvec[PosX+j][PosY+50] = "#fcba03";
+            }
+
+            for(int j = 0; j < 50; j++){
+               HEXvec[PosX+50][PosY+j] = "#fcba03";
+            }
+            for(int j = 0; j < 50; j++){
+               HEXvec[PosX+j][PosY] = "#fcba03";
+            }
+            update();
         }
 
-        for(int j = 0; j < 50; j++){
-           HEXvec[PosX+j][PosY+50] = "#fcba03";
+        if(triangulo){
+            PosX = event->pos().x();
+            PosY = event->pos().y();
+            for(int j = 0; j < 50; j++){
+                HEXvec[PosX-j][PosY+j] = "#0c32c9";
+                HEXvec[PosX+j][PosY+j] = "#0c32c9";
+            }
+            for(int j=0;j<50;j++){
+                HEXvec[PosX+j][PosY+50] = "#0c32c9";
+            }
+            for(int j=0;j<50;j++){
+                HEXvec[PosX-j][PosY+50] = "#0c32c9";
+            }
+            update();
         }
+        if(circulo){
+            PosX = event->pos().x();
+            PosY = event->pos().y();
+            for(int j = 0; j < 10; j++){
+                HEXvec[PosX+j][PosY] = "#c90c0c";//Izquierda Arriba // Naranja
+                HEXvec[PosX-j][PosY] = "#fc7905";//Derecha Arriba // Rojo
+            }
+            for(int j = 0; j < 7; j++){ //Lados diagonales
+                HEXvec[PosX+10+j][PosY+j] = "#0c32c9";
+                HEXvec[PosX-10-j][PosY+j] = "#0c32c9";
+            }
+            for(int j = 0; j < 15; j++){ //Lados rectos
+                HEXvec[PosX+17][PosY+7+j] = "#0c32c9";
+                HEXvec[PosX-17][PosY+7+j] = "#0c32c9";
+            }
+            for(int j = 0; j < 7; j++){ //Lados
+                HEXvec[PosX+17-j][PosY+22+j] = "#0c32c9";
+                HEXvec[PosX-17+j][PosY+22+j] = "#0c32c9";
+            }
+            for(int j = 0; j < 10; j++){
+                HEXvec[PosX-10+j][PosY+29] = "#c90c0c";//Izquierda Arriba // Naranja
+                HEXvec[PosX+10-j][PosY+29] = "#fc7905";//Derecha Arriba // Rojo
+            }
 
-        for(int j = 0; j < 50; j++){
-           HEXvec[PosX+50][PosY+j] = "#fcba03";
+            update();
         }
-        for(int j = 0; j < 50; j++){
-           HEXvec[PosX+j][PosY] = "#fcba03";
-        }
-        update();
-        cuadrado = false;
-    }
-
-    if(triangulo){
-        PosX = event->pos().x();
-        PosY = event->pos().y();
-        for(int j = 0; j < 50; j++){
-            HEXvec[PosX-j][PosY+j] = "#0c32c9";
-            HEXvec[PosX+j][PosY+j] = "#0c32c9";
-        }
-        for(int j=0;j<50;j++){
-            HEXvec[PosX+j][PosY+50] = "#0c32c9";
-        }
-        for(int j=0;j<50;j++){
-            HEXvec[PosX-j][PosY+50] = "#0c32c9";
-        }
-        update();
-    }
 }
 
 void MainWindow::mouseReleaseEvent(QMouseEvent *event)
@@ -184,63 +210,95 @@ void MainWindow::on_Lapiz_clicked()
 {
     lapiz = true;
     lapicero = false;
-    figura = false;
     borrador = false;
+    ColorPicker = false;
+
+    cuadrado = false;
+    triangulo = false;
+    circulo = false;
 }
 
 void MainWindow::on_Borrador_clicked()
 {
     lapiz = false;
     lapicero = false;
-    figura = false;
     borrador = true;
+    ColorPicker = false;
+
+    cuadrado = false;
+    triangulo = false;
+    circulo = false;
 }
 
 void MainWindow::on_Lapicero_clicked()
 {
     lapiz = false;
     lapicero = true;
-    figura = false;
     borrador = false;
+    ColorPicker = false;
     LapiceroX0 = 0;
     LapiceroX1 = 0;
     LapiceroY0 = 0;
     LapiceroY1 = 0;
+
+    cuadrado = false;
+    triangulo = false;
+    circulo = false;
 }
 
 void MainWindow::on_ColorPicker_clicked()
 {
     lapiz = false;
     lapicero = false;
-    figura = false;
     borrador = false;
     ColorPicker = true;
-}
 
-
-void MainWindow::on_Seleccionar_clicked()
-{
-    lapiz = false;
-    lapicero = false;
-    figura = false;
-    borrador = false;
-    ColorPicker = false;
+    cuadrado = false;
+    triangulo = false;
+    circulo = false;
 }
 
 void MainWindow::on_Cuadrado_clicked()
 {
+    lapiz = false;
+    lapicero = false;
+    borrador = false;
+    ColorPicker = false;
+
     cuadrado = true;
+    triangulo = false;
+    circulo = false;
 }
 
 void MainWindow::on_Triangulo_clicked()
 {
+    lapiz = false;
+    lapicero = false;
+    borrador = false;
+    ColorPicker = false;
+
+    cuadrado = false;
     triangulo = true;
+    circulo = false;
 }
+
+void MainWindow::on_Circulo_clicked()
+{
+    lapiz = false;
+    lapicero = false;
+    borrador = false;
+    ColorPicker = false;
+
+    cuadrado = false;
+    triangulo = false;
+    circulo = true;
+
+}
+
 
 //#---------------------- Apartado de filtros -----------------------------------------------
 
 //Aplicar filtro negativo al canvas
-//Si se presiona otra vez el botón, se devuelve a la normalidad
 void MainWindow::on_Negativo_clicked()
 {
     for (int i = 0; i < HEXvec.size(); ++i) {
@@ -261,7 +319,6 @@ void MainWindow::on_Negativo_clicked()
 }
 
 //Aplicar filtro de escala de grises al canvas
-//No se devuelve a la normalidad si se presiona otra vez
 void MainWindow::on_Grises_clicked()
 {
     for (int i = 0; i < HEXvec.size(); ++i) {
@@ -302,17 +359,6 @@ void MainWindow::on_btnStart_clicked()
     ui->frameInicio->hide();
     ui->framePrincipal->show();
 }
-
-
-
-
-
-
-
-
-
-
-
 
 
 
