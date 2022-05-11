@@ -9,7 +9,7 @@
 #include <vector>
 using namespace std;
 
-std::string HEXColor;
+std::string HEXColor = "#000000";
 int rConversion, gConversion, bConversion;
 vector<vector<std::string>> HEXvec;
 
@@ -69,6 +69,26 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
     else{
         pressed = 1;
     }
+    if(borrador){
+        PosX = event->pos().x();
+        PosY = event->pos().y();
+        for (int i = 0; i < grosor; i++) {
+            for (int j = 0; j < grosor; j++) {
+                HEXvec[PosX + j][PosY + i] = "#ffffff";
+            }
+        }
+        update();
+    }
+    if (lapiz){
+        PosX = event->pos().x();
+        PosY = event->pos().y();
+        for (int i = 0; i < grosor; i++) {
+            for (int j = 0; j < grosor; j++) {
+                HEXvec[PosX + j][PosY + i] = HEXColor;
+            }
+        }
+
+    }
     if(lapicero){
         if(LapiceroX0 == 0 && LapiceroY0 == 0){
             LapiceroX0 = event->pos().x();
@@ -107,23 +127,23 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
         ColorPicker = false;
     }
 
-    if(cuadrado){
+    if(cuadrado) {
         PosX = event->pos().x();
         PosY = event->pos().y();
 
-        for(int j = 0; j < 50; j++){
-            HEXvec[PosX][PosY+j] = "#fcba03";
+        for (int j = 0; j < 50; j++) {
+            HEXvec[PosX][PosY + j] = HEXColor;
         }
 
         for(int j = 0; j < 50; j++){
-            HEXvec[PosX+j][PosY+50] = "#fcba03";
+            HEXvec[PosX+j][PosY+50] = HEXColor;
         }
 
         for(int j = 0; j < 50; j++){
-            HEXvec[PosX+50][PosY+j] = "#fcba03";
+            HEXvec[PosX+50][PosY+j] = HEXColor;
         }
         for(int j = 0; j < 50; j++){
-            HEXvec[PosX+j][PosY] = "#fcba03";
+            HEXvec[PosX+j][PosY] = HEXColor;
         }
         update();
     }
@@ -132,14 +152,14 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
         PosX = event->pos().x();
         PosY = event->pos().y();
         for(int j = 0; j < 50; j++){
-            HEXvec[PosX-j][PosY+j] = "#0c32c9";
-            HEXvec[PosX+j][PosY+j] = "#0c32c9";
+            HEXvec[PosX-j][PosY+j] = HEXColor;
+            HEXvec[PosX+j][PosY+j] = HEXColor;
         }
         for(int j=0;j<50;j++){
-            HEXvec[PosX+j][PosY+50] = "#0c32c9";
+            HEXvec[PosX+j][PosY+50] = HEXColor;
         }
         for(int j=0;j<50;j++){
-            HEXvec[PosX-j][PosY+50] = "#0c32c9";
+            HEXvec[PosX-j][PosY+50] = HEXColor;
         }
         update();
     }
@@ -147,24 +167,24 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
         PosX = event->pos().x();
         PosY = event->pos().y();
         for(int j = 0; j < 10; j++){
-            HEXvec[PosX+j][PosY] = "#c90c0c";//Izquierda Arriba // Naranja
-            HEXvec[PosX-j][PosY] = "#fc7905";//Derecha Arriba // Rojo
+            HEXvec[PosX+j][PosY] = HEXColor;//Izquierda Arriba // Naranja
+            HEXvec[PosX-j][PosY] = HEXColor;//Derecha Arriba // Rojo
         }
         for(int j = 0; j < 7; j++){ //Lados diagonales
-            HEXvec[PosX+10+j][PosY+j] = "#0c32c9";
-            HEXvec[PosX-10-j][PosY+j] = "#0c32c9";
+            HEXvec[PosX+10+j][PosY+j] = HEXColor;
+            HEXvec[PosX-10-j][PosY+j] = HEXColor;
         }
         for(int j = 0; j < 15; j++){ //Lados rectos
-            HEXvec[PosX+17][PosY+7+j] = "#0c32c9";
-            HEXvec[PosX-17][PosY+7+j] = "#0c32c9";
+            HEXvec[PosX+17][PosY+7+j] = HEXColor;
+            HEXvec[PosX-17][PosY+7+j] = HEXColor;
         }
         for(int j = 0; j < 7; j++){ //Lados
-            HEXvec[PosX+17-j][PosY+22+j] = "#0c32c9";
-            HEXvec[PosX-17+j][PosY+22+j] = "#0c32c9";
+            HEXvec[PosX+17-j][PosY+22+j] = HEXColor;
+            HEXvec[PosX-17+j][PosY+22+j] = HEXColor;
         }
         for(int j = 0; j < 10; j++){
-            HEXvec[PosX-10+j][PosY+29] = "#c90c0c";//Izquierda Arriba // Naranja
-            HEXvec[PosX+10-j][PosY+29] = "#fc7905";//Derecha Arriba // Rojo
+            HEXvec[PosX-10+j][PosY+29] = HEXColor;//Izquierda Arriba // Naranja
+            HEXvec[PosX+10-j][PosY+29] = HEXColor;//Derecha Arriba // Rojo
         }
 
         update();
@@ -184,27 +204,27 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event)
         if(pressed){
             PosX = event->pos().x();
             PosY = event->pos().y();
-
-            //HEXColor = "#f05711";
-            HEXvec[PosX][PosY] = HEXColor;
-            //QPoint point(PosX, PosY);
-            //this->puntos.push_back(point);
-            //update();
+            PosY += 1;
+            for (int i = 0; i < grosor; i++) {
+                for (int j = 0; j < grosor; j++) {
+                    HEXvec[PosX + j][PosY + i] = HEXColor;
+                }
+            }
+            update();
         }
     }
     if(borrador){
-        if(pressed){
+        if(pressed) {
             PosX = event->pos().x();
             PosY = event->pos().y();
-            HEXColor = "#ffffff";
-            HEXvec[PosX][PosY] = HEXColor;
-
-            //QPoint point(PosX, PosY);
-            //this->puntos.push_back(point);
-            //update();
+            for (int i = 0; i < grosor; i++) {
+                for (int j = 0; j < grosor; j++) {
+                    HEXvec[PosX + j][PosY + i] = "#ffffff";
+                }
+            }
+            update();
         }
     }
-    update();
 }
 
 //# ----------------------------------------- Apartado de Botones ---------------------------
@@ -298,6 +318,40 @@ void MainWindow::on_Circulo_clicked()
 }
 
 
+void MainWindow::on_RotarDer_clicked()
+{
+    rotateToTheRight();
+    update();
+}
+
+
+void MainWindow::on_RotarIzq_clicked()
+{
+    rotateToTheLeft();
+    update();
+}
+
+
+void MainWindow::on_RotarVer_clicked()
+{
+    verticalRotation();
+    update();
+}
+
+
+void MainWindow::on_RotarHor_clicked()
+{
+    horizontalRotation();
+    update();
+}
+
+void MainWindow::on_SeleccionarGrosor_clicked()
+{
+    QString grosorDado = ui->Grosor->toPlainText();
+    grosor = grosorDado.toInt();
+}
+
+
 //#---------------------- Apartado de filtros -----------------------------------------------
 
 //Aplicar filtro negativo al canvas
@@ -341,7 +395,7 @@ void MainWindow::on_Grises_clicked()
     update();
 }
 //#--------------------- Metodos --------------------------------------------------------
-void rotateToTheRight(){
+void MainWindow::rotateToTheRight(){
     int newWidth =HEXvec.size();
     int newHeight = HEXvec[0].size();
     vector<vector<std::string>> output;
@@ -357,7 +411,7 @@ void rotateToTheRight(){
     HEXvec = output;
 }
 
-void rotateToTheLeft(){
+void MainWindow::rotateToTheLeft(){
     int newWidth =HEXvec.size();
     int newHeight = HEXvec[0].size();
     vector<vector<std::string>> output;
@@ -375,7 +429,7 @@ void rotateToTheLeft(){
     HEXvec = output;
 }
 
-void verticalRotation(){
+void MainWindow::verticalRotation(){
     vector<vector<std::string>> output;
     output = HEXvec;
     for (int i=0; i<HEXvec.size(); i++) {
@@ -388,7 +442,7 @@ void verticalRotation(){
     HEXvec = output;
 }
 
-void horizontalRotation(){
+void MainWindow::horizontalRotation(){
     vector<vector<std::string>> output;
     output = HEXvec;
     int k = HEXvec.size();
@@ -461,30 +515,6 @@ void MainWindow::on_Save_clicked()
     image.Export(ImageName);
 }
 
-void MainWindow::on_RotarDer_clicked()
-{
-    rotateToTheRight();
-    update();
-}
 
 
-void MainWindow::on_RotarIzq_clicked()
-{
-    rotateToTheLeft();
-    update();
-}
-
-
-void MainWindow::on_RotarVer_clicked()
-{
-    verticalRotation();
-    update();
-}
-
-
-void MainWindow::on_RotarHor_clicked()
-{
-    horizontalRotation();
-    update();
-}
 

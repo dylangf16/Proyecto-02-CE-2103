@@ -23,6 +23,10 @@ protected:
     void paintEvent(QPaintEvent *event) override;
     void createCanvas();
     void loadImage();
+    void rotateToTheRight();
+    void rotateToTheLeft();
+    void verticalRotation();
+    void horizontalRotation();
 
 
 private slots:
@@ -56,15 +60,16 @@ private slots:
 
     void on_RotarHor_clicked();
 
+    void on_SeleccionarGrosor_clicked();
+
 private:
     Ui::MainWindow *ui;
     QColor color;
     bool pressed = false, lapiz = false, lapicero = false, borrador = false, ColorPicker = false;
     bool cuadrado = false, triangulo = false, circulo = false;
-    int PosX,PosY, LapiceroX0 = 0, LapiceroY0 = 0, LapiceroX1 = 0, LapiceroY1 = 0;
+    int PosX,PosY, LapiceroX0 = 0, LapiceroY0 = 0, LapiceroX1 = 0, LapiceroY1 = 0, grosor = 5;
     int canvasHeight, canvasWidth;
     bool iniciarPaint;
-    //std::vector<std::vector<std::string>> HEXvec;
     std::vector<QPoint> puntos;
 
 
