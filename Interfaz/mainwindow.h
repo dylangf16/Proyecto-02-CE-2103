@@ -11,7 +11,7 @@ QT_END_NAMESPACE
 
 class MainWindow : public QMainWindow
 {
-    Q_OBJECT
+Q_OBJECT
 
 public:
     MainWindow(QWidget *parent = nullptr);
@@ -21,6 +21,8 @@ protected:
     void mouseReleaseEvent(QMouseEvent *event) override;
     void mouseMoveEvent(QMouseEvent *event) override;
     void paintEvent(QPaintEvent *event) override;
+    void createCanvas();
+    void loadImage();
 
 
 private slots:
@@ -43,6 +45,16 @@ private slots:
     void on_Triangulo_clicked();
 
     void on_Circulo_clicked();
+
+    void on_Save_clicked();
+
+    void on_RotarDer_clicked();
+
+    void on_RotarIzq_clicked();
+
+    void on_RotarVer_clicked();
+
+    void on_RotarHor_clicked();
 
 private:
     Ui::MainWindow *ui;

@@ -6,20 +6,137 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1153</width>
-    <height>791</height>
+    <width>800</width>
+    <height>600</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
+   <widget class="QFrame" name="frameInicio">
+    <property name="geometry">
+     <rect>
+      <x>140</x>
+      <y>10</y>
+      <width>491</width>
+      <height>301</height>
+     </rect>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
+    </property>
+    <widget class="QPlainTextEdit" name="plainTextGetHeight">
+     <property name="geometry">
+      <rect>
+       <x>50</x>
+       <y>100</y>
+       <width>101</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="overwriteMode">
+      <bool>false</bool>
+     </property>
+    </widget>
+    <widget class="QPlainTextEdit" name="plainTextEditGetWidth">
+     <property name="geometry">
+      <rect>
+       <x>320</x>
+       <y>100</y>
+       <width>111</width>
+       <height>31</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label">
+     <property name="geometry">
+      <rect>
+       <x>130</x>
+       <y>30</y>
+       <width>201</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Inserte el tamano del canvas</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_2">
+     <property name="geometry">
+      <rect>
+       <x>50</x>
+       <y>80</y>
+       <width>67</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Height:</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_3">
+     <property name="geometry">
+      <rect>
+       <x>320</x>
+       <y>80</y>
+       <width>67</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Width</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="btnStart">
+     <property name="geometry">
+      <rect>
+       <x>190</x>
+       <y>230</y>
+       <width>89</width>
+       <height>25</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Empezar</string>
+     </property>
+    </widget>
+    <widget class="QPlainTextEdit" name="plainTextGetDir">
+     <property name="geometry">
+      <rect>
+       <x>140</x>
+       <y>170</y>
+       <width>181</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="overwriteMode">
+      <bool>false</bool>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_4">
+     <property name="geometry">
+      <rect>
+       <x>120</x>
+       <y>140</y>
+       <width>241</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>o escriba la direccion de la imagen</string>
+     </property>
+    </widget>
+   </widget>
    <widget class="QFrame" name="framePrincipal">
     <property name="geometry">
      <rect>
-      <x>0</x>
-      <y>620</y>
-      <width>611</width>
+      <x>-20</x>
+      <y>420</y>
+      <width>811</width>
       <height>121</height>
      </rect>
     </property>
@@ -34,7 +151,7 @@
       <rect>
        <x>10</x>
        <y>10</y>
-       <width>591</width>
+       <width>791</width>
        <height>101</height>
       </rect>
      </property>
@@ -64,17 +181,17 @@
        <string>Borrador</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="Rotar">
+     <widget class="QPushButton" name="RotarDer">
       <property name="geometry">
        <rect>
-        <x>310</x>
-        <y>40</y>
+        <x>420</x>
+        <y>20</y>
         <width>91</width>
         <height>25</height>
        </rect>
       </property>
       <property name="text">
-       <string>Rotar</string>
+       <string>RotarDer</string>
       </property>
      </widget>
      <widget class="QTextEdit" name="textEdit">
@@ -194,8 +311,8 @@
      <widget class="QPushButton" name="Circulo">
       <property name="geometry">
        <rect>
-        <x>410</x>
-        <y>70</y>
+        <x>310</x>
+        <y>40</y>
         <width>89</width>
         <height>25</height>
        </rect>
@@ -204,123 +321,71 @@
        <string>&quot;Circulo&quot;</string>
       </property>
      </widget>
-    </widget>
-   </widget>
-   <widget class="QFrame" name="frameInicio">
-    <property name="geometry">
-     <rect>
-      <x>210</x>
-      <y>10</y>
-      <width>491</width>
-      <height>301</height>
-     </rect>
-    </property>
-    <property name="frameShape">
-     <enum>QFrame::StyledPanel</enum>
-    </property>
-    <property name="frameShadow">
-     <enum>QFrame::Raised</enum>
-    </property>
-    <widget class="QPlainTextEdit" name="plainTextGetHeight">
-     <property name="geometry">
-      <rect>
-       <x>50</x>
-       <y>100</y>
-       <width>101</width>
-       <height>31</height>
-      </rect>
-     </property>
-     <property name="overwriteMode">
-      <bool>false</bool>
-     </property>
-    </widget>
-    <widget class="QPlainTextEdit" name="plainTextEditGetWidth">
-     <property name="geometry">
-      <rect>
-       <x>320</x>
-       <y>100</y>
-       <width>111</width>
-       <height>31</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label">
-     <property name="geometry">
-      <rect>
-       <x>130</x>
-       <y>30</y>
-       <width>201</width>
-       <height>17</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Inserte el tamano del canvas</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_2">
-     <property name="geometry">
-      <rect>
-       <x>50</x>
-       <y>80</y>
-       <width>67</width>
-       <height>17</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Height:</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_3">
-     <property name="geometry">
-      <rect>
-       <x>320</x>
-       <y>80</y>
-       <width>67</width>
-       <height>17</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Width</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="btnStart">
-     <property name="geometry">
-      <rect>
-       <x>190</x>
-       <y>230</y>
-       <width>89</width>
-       <height>25</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Empezar</string>
-     </property>
-    </widget>
-    <widget class="QPlainTextEdit" name="plainTextGetDir">
-     <property name="geometry">
-      <rect>
-       <x>140</x>
-       <y>170</y>
-       <width>181</width>
-       <height>31</height>
-      </rect>
-     </property>
-     <property name="overwriteMode">
-      <bool>false</bool>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_4">
-     <property name="geometry">
-      <rect>
-       <x>120</x>
-       <y>140</y>
-       <width>241</width>
-       <height>17</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>o escriba la direccion de la imagen</string>
-     </property>
+     <widget class="QPlainTextEdit" name="plainTextGetName">
+      <property name="geometry">
+       <rect>
+        <x>630</x>
+        <y>20</y>
+        <width>151</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="overwriteMode">
+       <bool>false</bool>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="Save">
+      <property name="geometry">
+       <rect>
+        <x>660</x>
+        <y>60</y>
+        <width>89</width>
+        <height>25</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Guardar</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="RotarIzq">
+      <property name="geometry">
+       <rect>
+        <x>530</x>
+        <y>20</y>
+        <width>91</width>
+        <height>25</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>RotarIzq</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="RotarVer">
+      <property name="geometry">
+       <rect>
+        <x>420</x>
+        <y>60</y>
+        <width>91</width>
+        <height>25</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>RotarVer</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="RotarHor">
+      <property name="geometry">
+       <rect>
+        <x>530</x>
+        <y>60</y>
+        <width>91</width>
+        <height>25</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>RotarHor</string>
+      </property>
+     </widget>
     </widget>
    </widget>
   </widget>
@@ -329,7 +394,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1153</width>
+     <width>800</width>
      <height>22</height>
     </rect>
    </property>

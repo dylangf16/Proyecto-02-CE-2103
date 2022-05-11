@@ -1,0 +1,19 @@
+# ninja log v5
+5	4606	1652217004976600591	CMakeFiles/Proyecto02_Paint.dir/Interfaz/mainwindow.cpp.o	915c8e3cb05cc1fb
+4606	5377	1652217005744619022	Proyecto02_Paint	f6e015967dc6d7d9
+23	654	1652304040556161657	build.ninja	527af7af6a54b2d3
+1	143	0	CMakeFiles/Proyecto02_Paint_autogen	93850bef829c8ed5
+1	143	0	Proyecto02_Paint_autogen/mocs_compilation.cpp	93850bef829c8ed5
+135	2684	1652213976083570375	CMakeFiles/Proyecto02_Paint.dir/main.cpp.o	9b8f14c87c4bb403
+136	2878	1652213976279560376	CMakeFiles/Proyecto02_Paint.dir/Proyecto02_Paint_autogen/mocs_compilation.cpp.o	a7209fac8aada9e5
+1	143	0	Proyecto02_Paint_autogen/include/Interfaz/ui_mainwindow.h	93850bef829c8ed5
+1	160	0	CMakeFiles/Proyecto02_Paint_autogen	14ef0433f5cd8b3c
+1	160	0	Proyecto02_Paint_autogen/mocs_compilation.cpp	14ef0433f5cd8b3c
+1	160	0	Proyecto02_Paint_autogen/include/Interfaz/ui_mainwindow.h	14ef0433f5cd8b3c
+1	160	0	/home/dylan16/Documents/Datos2/Proyecto02/Proyecto-02-CE-2103/cmake-build-debug/CMakeFiles/Proyecto02_Paint_autogen	14ef0433f5cd8b3c
+1	160	0	/home/dylan16/Documents/Datos2/Proyecto02/Proyecto-02-CE-2103/cmake-build-debug/Proyecto02_Paint_autogen/mocs_compilation.cpp	14ef0433f5cd8b3c
+1	160	0	/home/dylan16/Documents/Datos2/Proyecto02/Proyecto-02-CE-2103/cmake-build-debug/Proyecto02_Paint_autogen/include/Interfaz/ui_mainwindow.h	14ef0433f5cd8b3c
+160	1715	1652304051524356544	CMakeFiles/Proyecto02_Paint.dir/Proyecto02_Paint_autogen/mocs_compilation.cpp.o	d939bf7b44f14fd7
+160	1743	1652304051552357044	CMakeFiles/Proyecto02_Paint.dir/main.cpp.o	c667649611e64194
+160	2405	1652304052212368839	CMakeFiles/Proyecto02_Paint.dir/Interfaz/mainwindow.cpp.o	3731bd03cfb056bb
+2405	2800	1652304052608375921	Proyecto02_Paint	f6e015967dc6d7d9

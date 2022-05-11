@@ -48,6 +48,25 @@ std::string conversionRGBtoHEX_2(int r, int g, int b){
     return HEXvalue;
 }
 
+int conversionHEXtoRGB_2(std::string HEXvalue, char value){
+    char const *hexColor = HEXvalue.c_str();
+    int rConversion, gConversion, bConversion, response;
+    std::sscanf(hexColor, "#%02x%02x%02x", &rConversion, &gConversion, &bConversion);
+    if(value == 'r'){
+        response = rConversion;
+        //cout << "r: " << response << endl;
+    }
+    else if(value == 'g'){
+        response = gConversion;
+        //cout << "g: " << response << endl;
+    }
+    else if(value == 'b'){
+        response = bConversion;
+        //cout << "b: " << response << endl;
+    }
+    return response;
+}
+
 std::vector<std::vector<std::string>> Image::BMPtoMatrix() {
     const int width = m_width;
     const int height = m_height;
@@ -63,6 +82,20 @@ std::vector<std::vector<std::string>> Image::BMPtoMatrix() {
     return HEXvector;
 }
 
+void Image::matrixToBMP(std::vector<std::vector<std::string>> HEXvector) {
+    m_height = HEXvector.size();
+    m_width = HEXvector[0].size();
+
+    m_colors.resize(m_width * m_height);
+
+    for (int y = 0; y < m_height; y++) {
+        for (int x = 0; x < m_width; x++) {
+            m_colors[y * m_width + x].r = static_cast<float>(conversionHEXtoRGB_2(HEXvector[y][x], 'r')) / 255.0f;
+            m_colors[y * m_width + x].g = static_cast<float>(conversionHEXtoRGB_2(HEXvector[y][x], 'g')) / 255.0f;
+            m_colors[y * m_width + x].b = static_cast<float>(conversionHEXtoRGB_2(HEXvector[y][x], 'b')) / 255.0f;
+        }
+    }
+}
 
 void Image::Read(const char* path) {
     std::ifstream f;
@@ -221,7 +254,7 @@ void Image::Export(const char *path) const {
     }
     f.close();
 
-    std::cout << "File created";
+    std::cout << "File created" << endl;
 }
 
 void Image::createWhiteCanvas(){
@@ -236,4 +269,3 @@ void Image::createWhiteCanvas(){
     }
     this->Export("canvas.bmp");
 }
-

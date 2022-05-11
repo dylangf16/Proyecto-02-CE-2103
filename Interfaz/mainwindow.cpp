@@ -1,9 +1,9 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "qpainter.h"
-#include "Image.h"
+#include "BMP/Image.h"
+#include "BMP/Image.cpp"
 #include <QMouseEvent>
-#include <QPainter>
 #include <iostream>
 #include <math.h>
 #include <vector>
@@ -47,16 +47,16 @@ std::string conversionRGBtoHEX(int r, int g, int b){
 void MainWindow::paintEvent(QPaintEvent *event)
 {
     if(this->iniciarPaint){
-    QPainter PainterMatrix(this);
-    for (int i = 0; i < HEXvec.size(); ++i) {
-        for (int j = 0; j < HEXvec[0].size(); ++j) {
-            QString color = QString::fromStdString(HEXvec[i][j]);
-            QColor qcolor;
-            qcolor.setNamedColor(color);
-            QPen PenMatrix(qcolor);
-            PainterMatrix.setPen(PenMatrix);
-            PainterMatrix.drawPoint(i,j);
-            //Arreglar reseteo de puntos
+        QPainter PainterMatrix(this);
+        for (int i = 0; i < HEXvec.size(); ++i) {
+            for (int j = 0; j < HEXvec[0].size(); ++j) {
+                QString color = QString::fromStdString(HEXvec[i][j]);
+                QColor qcolor;
+                qcolor.setNamedColor(color);
+                QPen PenMatrix(qcolor);
+                PainterMatrix.setPen(PenMatrix);
+                PainterMatrix.drawPoint(i,j);
+                //Arreglar reseteo de puntos
             }
         }
     }
@@ -83,7 +83,7 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
 
             if(step < abs(vy)) step = abs(vy);
             double xinc = (double)vx/step,
-                   yinc = (double)vy/step;
+                    yinc = (double)vy/step;
 
             while(step >= 0){
                 HEXColor = "#ff0000";
@@ -92,7 +92,7 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
                 LapiceroY0 += yinc;
                 step--;
 
-            update();
+                update();
             }
             LapiceroX0 = 0;
             LapiceroX1 = 0;
@@ -108,73 +108,73 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
     }
 
     if(cuadrado){
-            PosX = event->pos().x();
-            PosY = event->pos().y();
+        PosX = event->pos().x();
+        PosY = event->pos().y();
 
-            for(int j = 0; j < 50; j++){
-               HEXvec[PosX][PosY+j] = "#fcba03";
-            }
-
-            for(int j = 0; j < 50; j++){
-               HEXvec[PosX+j][PosY+50] = "#fcba03";
-            }
-
-            for(int j = 0; j < 50; j++){
-               HEXvec[PosX+50][PosY+j] = "#fcba03";
-            }
-            for(int j = 0; j < 50; j++){
-               HEXvec[PosX+j][PosY] = "#fcba03";
-            }
-            update();
+        for(int j = 0; j < 50; j++){
+            HEXvec[PosX][PosY+j] = "#fcba03";
         }
 
-        if(triangulo){
-            PosX = event->pos().x();
-            PosY = event->pos().y();
-            for(int j = 0; j < 50; j++){
-                HEXvec[PosX-j][PosY+j] = "#0c32c9";
-                HEXvec[PosX+j][PosY+j] = "#0c32c9";
-            }
-            for(int j=0;j<50;j++){
-                HEXvec[PosX+j][PosY+50] = "#0c32c9";
-            }
-            for(int j=0;j<50;j++){
-                HEXvec[PosX-j][PosY+50] = "#0c32c9";
-            }
-            update();
+        for(int j = 0; j < 50; j++){
+            HEXvec[PosX+j][PosY+50] = "#fcba03";
         }
-        if(circulo){
-            PosX = event->pos().x();
-            PosY = event->pos().y();
-            for(int j = 0; j < 10; j++){
-                HEXvec[PosX+j][PosY] = "#c90c0c";//Izquierda Arriba // Naranja
-                HEXvec[PosX-j][PosY] = "#fc7905";//Derecha Arriba // Rojo
-            }
-            for(int j = 0; j < 7; j++){ //Lados diagonales
-                HEXvec[PosX+10+j][PosY+j] = "#0c32c9";
-                HEXvec[PosX-10-j][PosY+j] = "#0c32c9";
-            }
-            for(int j = 0; j < 15; j++){ //Lados rectos
-                HEXvec[PosX+17][PosY+7+j] = "#0c32c9";
-                HEXvec[PosX-17][PosY+7+j] = "#0c32c9";
-            }
-            for(int j = 0; j < 7; j++){ //Lados
-                HEXvec[PosX+17-j][PosY+22+j] = "#0c32c9";
-                HEXvec[PosX-17+j][PosY+22+j] = "#0c32c9";
-            }
-            for(int j = 0; j < 10; j++){
-                HEXvec[PosX-10+j][PosY+29] = "#c90c0c";//Izquierda Arriba // Naranja
-                HEXvec[PosX+10-j][PosY+29] = "#fc7905";//Derecha Arriba // Rojo
-            }
 
-            update();
+        for(int j = 0; j < 50; j++){
+            HEXvec[PosX+50][PosY+j] = "#fcba03";
         }
+        for(int j = 0; j < 50; j++){
+            HEXvec[PosX+j][PosY] = "#fcba03";
+        }
+        update();
+    }
+
+    if(triangulo){
+        PosX = event->pos().x();
+        PosY = event->pos().y();
+        for(int j = 0; j < 50; j++){
+            HEXvec[PosX-j][PosY+j] = "#0c32c9";
+            HEXvec[PosX+j][PosY+j] = "#0c32c9";
+        }
+        for(int j=0;j<50;j++){
+            HEXvec[PosX+j][PosY+50] = "#0c32c9";
+        }
+        for(int j=0;j<50;j++){
+            HEXvec[PosX-j][PosY+50] = "#0c32c9";
+        }
+        update();
+    }
+    if(circulo){
+        PosX = event->pos().x();
+        PosY = event->pos().y();
+        for(int j = 0; j < 10; j++){
+            HEXvec[PosX+j][PosY] = "#c90c0c";//Izquierda Arriba // Naranja
+            HEXvec[PosX-j][PosY] = "#fc7905";//Derecha Arriba // Rojo
+        }
+        for(int j = 0; j < 7; j++){ //Lados diagonales
+            HEXvec[PosX+10+j][PosY+j] = "#0c32c9";
+            HEXvec[PosX-10-j][PosY+j] = "#0c32c9";
+        }
+        for(int j = 0; j < 15; j++){ //Lados rectos
+            HEXvec[PosX+17][PosY+7+j] = "#0c32c9";
+            HEXvec[PosX-17][PosY+7+j] = "#0c32c9";
+        }
+        for(int j = 0; j < 7; j++){ //Lados
+            HEXvec[PosX+17-j][PosY+22+j] = "#0c32c9";
+            HEXvec[PosX-17+j][PosY+22+j] = "#0c32c9";
+        }
+        for(int j = 0; j < 10; j++){
+            HEXvec[PosX-10+j][PosY+29] = "#c90c0c";//Izquierda Arriba // Naranja
+            HEXvec[PosX+10-j][PosY+29] = "#fc7905";//Derecha Arriba // Rojo
+        }
+
+        update();
+    }
 }
 
 void MainWindow::mouseReleaseEvent(QMouseEvent *event)
 {
     if(this->iniciarPaint){
-    pressed = 0;
+        pressed = 0;
     }
 }
 
@@ -189,7 +189,7 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event)
             HEXvec[PosX][PosY] = HEXColor;
             //QPoint point(PosX, PosY);
             //this->puntos.push_back(point);
-            update();
+            //update();
         }
     }
     if(borrador){
@@ -201,9 +201,10 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event)
 
             //QPoint point(PosX, PosY);
             //this->puntos.push_back(point);
-            update();
+            //update();
         }
     }
+    update();
 }
 
 //# ----------------------------------------- Apartado de Botones ---------------------------
@@ -339,6 +340,94 @@ void MainWindow::on_Grises_clicked()
     }
     update();
 }
+//#--------------------- Metodos --------------------------------------------------------
+void rotateToTheRight(){
+    int newWidth =HEXvec.size();
+    int newHeight = HEXvec[0].size();
+    vector<vector<std::string>> output;
+    output.resize(newHeight);
+    for(int i=0; i<newHeight; i++) {
+        output[i].resize(newWidth);
+    }
+    for (int i=0; i<newWidth; i++) {
+        for (int j = 0; j < newHeight; j++) {
+            output[j][newWidth - 1 - i] = HEXvec[i][j];
+        }
+    }
+    HEXvec = output;
+}
+
+void rotateToTheLeft(){
+    int newWidth =HEXvec.size();
+    int newHeight = HEXvec[0].size();
+    vector<vector<std::string>> output;
+    output.resize(newHeight);
+    for(int i=0; i<newHeight; i++) {
+        output[i].resize(newWidth);
+    }
+    for (int i=0; i<newWidth; i++) {
+        int k = newHeight-1;
+        for (int j = 0; j < newHeight; j++) {
+            output[k][i] = HEXvec[i][j];
+            k--;
+        }
+    }
+    HEXvec = output;
+}
+
+void verticalRotation(){
+    vector<vector<std::string>> output;
+    output = HEXvec;
+    for (int i=0; i<HEXvec.size(); i++) {
+        int k = HEXvec[0].size() - 1;
+        for (int j = 0; j < HEXvec[0].size(); j++) {
+            output[i][j] = HEXvec[i][k];
+            k--;
+        }
+    }
+    HEXvec = output;
+}
+
+void horizontalRotation(){
+    vector<vector<std::string>> output;
+    output = HEXvec;
+    int k = HEXvec.size();
+    for (int i=0; i<HEXvec.size(); i++) {
+        k--;
+        for (int j = 0; j < HEXvec[0].size(); j++) {
+            output[i][j] = HEXvec[k][j];
+        }
+    }
+    HEXvec = output;
+}
+
+
+void MainWindow::createCanvas(){
+    QString size;
+    size = ui->plainTextGetHeight->toPlainText();
+    this->canvasHeight = size.toInt();
+    size = ui->plainTextEditGetWidth->toPlainText();
+    this->canvasWidth = size.toInt();
+    HEXvec.resize(this->canvasHeight);
+    for (int i = 0; i < this->canvasHeight; ++i) {
+        HEXvec[i].resize(this->canvasWidth);
+        for (int j = 0; j < this->canvasWidth; ++j) {
+            HEXvec[i][j] = "#1188f0";
+        }
+    }
+}
+
+void MainWindow::loadImage(){
+    QString ImageDir;
+    ImageDir = ui->plainTextGetDir->toPlainText();
+    QByteArray ba = ImageDir.toLocal8Bit();
+    const char *ImageDirectory = ba.data();
+    Image image(0,0);
+    image.Read(ImageDirectory);
+    HEXvec = image.BMPtoMatrix();
+    rotateToTheRight();
+}
+
 
 //#--------------------- Cambio de frames -----------------------------------------------
 
@@ -350,26 +439,9 @@ bool IsTextEditEmpty(const QTextEdit * myTextEdit)
 void MainWindow::on_btnStart_clicked()
 {
     if(!IsTextEditEmpty(reinterpret_cast<const QTextEdit *>(ui->plainTextGetHeight)) and !IsTextEditEmpty(reinterpret_cast<const QTextEdit *>(ui->plainTextEditGetWidth))) {
-        QString size;
-        size = ui->plainTextGetHeight->toPlainText();
-        this->canvasHeight = size.toInt();
-        size = ui->plainTextEditGetWidth->toPlainText();
-        this->canvasWidth = size.toInt();
-        HEXvec.resize(this->canvasHeight);
-        for (int i = 0; i < this->canvasHeight; ++i) {
-            HEXvec[i].resize(this->canvasWidth);
-            for (int j = 0; j < this->canvasWidth; ++j) {
-                HEXvec[i][j] = "#1188f0";
-            }
-        }
+        createCanvas();
     } else if(!IsTextEditEmpty(reinterpret_cast<const QTextEdit *>(ui->plainTextGetDir))){
-        QString ImageDir;
-        ImageDir = ui->plainTextGetDir->toPlainText();
-        QByteArray ba = ImageDir.toLocal8Bit();
-        const char *ImageDirectory = ba.data();
-        Image image(0,0);
-        image.Read(ImageDirectory);
-        HEXvec = image.BMPtoMatrix();
+        loadImage();
     }
     this->iniciarPaint = true;
     update();
@@ -377,8 +449,42 @@ void MainWindow::on_btnStart_clicked()
     ui->framePrincipal->show();
 }
 
+void MainWindow::on_Save_clicked()
+{
+    QString givenImageName;
+    givenImageName = ui->plainTextGetName->toPlainText();
+    QByteArray bb = givenImageName.toLocal8Bit();
+    const char *ImageName = bb.data();
+    Image image(0,0);
+    rotateToTheLeft();
+    image.matrixToBMP(HEXvec);
+    image.Export(ImageName);
+}
+
+void MainWindow::on_RotarDer_clicked()
+{
+    rotateToTheRight();
+    update();
+}
 
 
+void MainWindow::on_RotarIzq_clicked()
+{
+    rotateToTheLeft();
+    update();
+}
 
 
+void MainWindow::on_RotarVer_clicked()
+{
+    verticalRotation();
+    update();
+}
+
+
+void MainWindow::on_RotarHor_clicked()
+{
+    horizontalRotation();
+    update();
+}
 

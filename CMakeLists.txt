@@ -1,40 +1,59 @@
-# Created by and for Qt Creator This file was created for editing the project sources only.
-# You may attempt to use it for building too, by modifying this file here.
-
 cmake_minimum_required(VERSION 3.5)
-project(copiaUI)
+
+project(Proyecto02_Paint VERSION 0.1 LANGUAGES CXX)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
+
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
-set(CMAKE_CXX_STANDARD 11)
+
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-find_package(Qt5 COMPONENTS Core Gui Widgets REQUIRED)
 
-include_directories(
-    BMP
-    build-Interfaz-Desktop-Debug
-    Interfaz
+find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
+
+set(PROJECT_SOURCES
+        main.cpp
+        Interfaz/mainwindow.cpp
+        Interfaz/mainwindow.h
+        Interfaz/mainwindow.ui
 )
 
-set (SRCS
-    BMP/cmake-build-debug/CMakeFiles/3.22.3/CompilerIdC/CMakeCCompilerId.c
-    BMP/cmake-build-debug/CMakeFiles/3.22.3/CompilerIdCXX/CMakeCXXCompilerId.cpp
-    BMP/BmpTutorial.cpp
-    BMP/Image.cpp
-    BMP/Image.h
-    build-Interfaz-Desktop-Debug/moc_mainwindow.cpp
-    build-Interfaz-Desktop-Debug/moc_predefs.h
-    build-Interfaz-Desktop-Debug/ui_mainwindow.h
-    cmake-build-debug/CMakeFiles/3.22.3/CompilerIdC/CMakeCCompilerId.c
-    cmake-build-debug/CMakeFiles/3.22.3/CompilerIdCXX/CMakeCXXCompilerId.cpp
-    Interfaz/main.cpp
-    Interfaz/mainwindow.cpp
-    Interfaz/mainwindow.h
+if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
+    qt_add_executable(Proyecto02_Paint
+        MANUAL_FINALIZATION
+        ${PROJECT_SOURCES}
+    )
+# Define target properties for Android with Qt 6 as:
+#    set_property(TARGET Proyecto02_Paint APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
+#                 ${CMAKE_CURRENT_SOURCE_DIR}/android)
+# For more information, see https://doc.qt.io/qt-6/qt-add-executable.html#target-creation
+else()
+    if(ANDROID)
+        add_library(Proyecto02_Paint SHARED
+            ${PROJECT_SOURCES}
+        )
+# Define properties for Android with Qt 5 after find_package() calls as:
+#    set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
+    else()
+        add_executable(Proyecto02_Paint
+            ${PROJECT_SOURCES}
+        )
+    endif()
+endif()
+
+target_link_libraries(Proyecto02_Paint PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+
+set_target_properties(Proyecto02_Paint PROPERTIES
+    MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
+    MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
+    MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
+    MACOSX_BUNDLE TRUE
+    WIN32_EXECUTABLE TRUE
 )
 
-
-add_executable(${CMAKE_PROJECT_NAME} ${SRCS})
-
-target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE Qt5::Core Qt5::Gui Qt5::Widgets)
+if(QT_VERSION_MAJOR EQUAL 6)
+    qt_finalize_executable(Proyecto02_Paint)
+endif()

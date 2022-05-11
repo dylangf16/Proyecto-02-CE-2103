@@ -43,12 +43,14 @@ public:
     QPushButton *Triangulo;
     QPushButton *Circulo;
     QFrame *frameInicio;
-    QPlainTextEdit *plainTextHeight;
-    QPlainTextEdit *plainTextEditWidth;
+    QPlainTextEdit *plainTextGetHeight;
+    QPlainTextEdit *plainTextEditGetWidth;
     QLabel *label;
     QLabel *label_2;
     QLabel *label_3;
     QPushButton *btnStart;
+    QPlainTextEdit *plainTextGetDir;
+    QLabel *label_4;
     QMenuBar *menubar;
     QStatusBar *statusbar;
 
@@ -108,16 +110,16 @@ public:
         Circulo->setGeometry(QRect(410, 70, 89, 25));
         frameInicio = new QFrame(centralwidget);
         frameInicio->setObjectName(QString::fromUtf8("frameInicio"));
-        frameInicio->setGeometry(QRect(250, 10, 491, 211));
+        frameInicio->setGeometry(QRect(210, 10, 491, 301));
         frameInicio->setFrameShape(QFrame::StyledPanel);
         frameInicio->setFrameShadow(QFrame::Raised);
-        plainTextHeight = new QPlainTextEdit(frameInicio);
-        plainTextHeight->setObjectName(QString::fromUtf8("plainTextHeight"));
-        plainTextHeight->setGeometry(QRect(50, 100, 101, 31));
-        plainTextHeight->setOverwriteMode(false);
-        plainTextEditWidth = new QPlainTextEdit(frameInicio);
-        plainTextEditWidth->setObjectName(QString::fromUtf8("plainTextEditWidth"));
-        plainTextEditWidth->setGeometry(QRect(320, 100, 111, 31));
+        plainTextGetHeight = new QPlainTextEdit(frameInicio);
+        plainTextGetHeight->setObjectName(QString::fromUtf8("plainTextGetHeight"));
+        plainTextGetHeight->setGeometry(QRect(50, 100, 101, 31));
+        plainTextGetHeight->setOverwriteMode(false);
+        plainTextEditGetWidth = new QPlainTextEdit(frameInicio);
+        plainTextEditGetWidth->setObjectName(QString::fromUtf8("plainTextEditGetWidth"));
+        plainTextEditGetWidth->setGeometry(QRect(320, 100, 111, 31));
         label = new QLabel(frameInicio);
         label->setObjectName(QString::fromUtf8("label"));
         label->setGeometry(QRect(130, 30, 201, 17));
@@ -129,7 +131,14 @@ public:
         label_3->setGeometry(QRect(320, 80, 67, 17));
         btnStart = new QPushButton(frameInicio);
         btnStart->setObjectName(QString::fromUtf8("btnStart"));
-        btnStart->setGeometry(QRect(190, 150, 89, 25));
+        btnStart->setGeometry(QRect(190, 230, 89, 25));
+        plainTextGetDir = new QPlainTextEdit(frameInicio);
+        plainTextGetDir->setObjectName(QString::fromUtf8("plainTextGetDir"));
+        plainTextGetDir->setGeometry(QRect(140, 170, 181, 31));
+        plainTextGetDir->setOverwriteMode(false);
+        label_4 = new QLabel(frameInicio);
+        label_4->setObjectName(QString::fromUtf8("label_4"));
+        label_4->setGeometry(QRect(120, 140, 241, 17));
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName(QString::fromUtf8("menubar"));
@@ -163,6 +172,7 @@ public:
         label_2->setText(QApplication::translate("MainWindow", "Height:", nullptr));
         label_3->setText(QApplication::translate("MainWindow", "Width", nullptr));
         btnStart->setText(QApplication::translate("MainWindow", "Empezar", nullptr));
+        label_4->setText(QApplication::translate("MainWindow", "o escriba la direccion de la imagen", nullptr));
     } // retranslateUi
 
 };
