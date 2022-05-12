@@ -30,9 +30,12 @@ MainWindow::~MainWindow()
 }
 
 //#---------------------------- Conversiones de filtros ----------------------------
-void conversionHEXtoRGB(std::string HEXvalue){
+void MainWindow::conversionHEXtoRGB(std::string HEXvalue){
     char const *hexColor = HEXvalue.c_str();
     std::sscanf(hexColor, "#%02x%02x%02x", &rConversion, &gConversion, &bConversion);
+    RED = rConversion;
+    GREEN = gConversion;
+    BLUE = bConversion;
 }
 
 std::string conversionRGBtoHEX(int r, int g, int b){
@@ -59,6 +62,30 @@ void MainWindow::paintEvent(QPaintEvent *event)
                 //Arreglar reseteo de puntos
             }
         }
+        conversionHEXtoRGB(Color1);
+        ui->Color1->setStyleSheet("background-color: rgb("+ QString::number(RED)+","+ QString::number(GREEN)+","+ QString::number(BLUE)+")");
+        conversionHEXtoRGB(Color2);
+        ui->Color2->setStyleSheet("background-color: rgb("+ QString::number(RED)+","+ QString::number(GREEN)+","+ QString::number(BLUE)+")");
+        conversionHEXtoRGB(Color3);
+        ui->Color3->setStyleSheet("background-color: rgb("+ QString::number(RED)+","+ QString::number(GREEN)+","+ QString::number(BLUE)+")");
+        conversionHEXtoRGB(Color4);
+        ui->Color4->setStyleSheet("background-color: rgb("+ QString::number(RED)+","+ QString::number(GREEN)+","+ QString::number(BLUE)+")");
+        conversionHEXtoRGB(Color5);
+        ui->Color5->setStyleSheet("background-color: rgb("+ QString::number(RED)+","+ QString::number(GREEN)+","+ QString::number(BLUE)+")");
+        conversionHEXtoRGB(Color6);
+        ui->Color6->setStyleSheet("background-color: rgb("+ QString::number(RED)+","+ QString::number(GREEN)+","+ QString::number(BLUE)+")");
+        conversionHEXtoRGB(Color7);
+        ui->Color7->setStyleSheet("background-color: rgb("+ QString::number(RED)+","+ QString::number(GREEN)+","+ QString::number(BLUE)+")");
+        conversionHEXtoRGB(Color8);
+        ui->Color8->setStyleSheet("background-color: rgb("+ QString::number(RED)+","+ QString::number(GREEN)+","+ QString::number(BLUE)+")");
+        conversionHEXtoRGB(Color9);
+        ui->Color9->setStyleSheet("background-color: rgb("+ QString::number(RED)+","+ QString::number(GREEN)+","+ QString::number(BLUE)+")");
+        conversionHEXtoRGB(Color10);
+        ui->Color10->setStyleSheet("background-color: rgb("+ QString::number(RED)+","+ QString::number(GREEN)+","+ QString::number(BLUE)+")");
+        conversionHEXtoRGB(Color11);
+        ui->Color11->setStyleSheet("background-color: rgb("+ QString::number(RED)+","+ QString::number(GREEN)+","+ QString::number(BLUE)+")");
+        conversionHEXtoRGB(Color12);
+        ui->Color12->setStyleSheet("background-color: rgb("+ QString::number(RED)+","+ QString::number(GREEN)+","+ QString::number(BLUE)+")");
     }
 }
 
@@ -106,7 +133,6 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
                     yinc = (double)vy/step;
 
             while(step >= 0){
-                HEXColor = "#ff0000";
                 HEXvec[round(LapiceroX0)][round(LapiceroY0)] = HEXColor;
                 LapiceroX0 += xinc;
                 LapiceroY0 += yinc;
@@ -123,7 +149,59 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
     if(ColorPicker){
         PosX = event->pos().x();
         PosY = event->pos().y();
-        HEXColor = HEXvec[PosX][PosY];
+        if(Color1Pressed){
+            Color1 = HEXvec[PosX][PosY];
+            HEXColor = Color1;
+        }
+        if(Color1Pressed){
+            Color1 = HEXvec[PosX][PosY];
+            HEXColor = Color1;
+        }
+        if(Color2Pressed){
+            Color2 = HEXvec[PosX][PosY];
+            HEXColor = Color2;
+        }
+        if(Color3Pressed){
+            Color3 = HEXvec[PosX][PosY];
+            HEXColor = Color3;
+        }
+        if(Color4Pressed){
+            Color4 = HEXvec[PosX][PosY];
+            HEXColor = Color4;
+        }
+        if(Color5Pressed){
+            Color5 = HEXvec[PosX][PosY];
+            HEXColor = Color5;
+        }
+        if(Color6Pressed){
+            Color6 = HEXvec[PosX][PosY];
+            HEXColor = Color6;
+        }
+        if(Color7Pressed){
+            Color7 = HEXvec[PosX][PosY];
+            HEXColor = Color7;
+        }
+        if(Color8Pressed){
+            Color8 = HEXvec[PosX][PosY];
+            HEXColor = Color8;
+        }
+        if(Color9Pressed){
+            Color9 = HEXvec[PosX][PosY];
+            HEXColor = Color9;
+        }
+        if(Color10Pressed){
+            Color10 = HEXvec[PosX][PosY];
+            HEXColor = Color10;
+        }
+        if(Color11Pressed){
+            Color11 = HEXvec[PosX][PosY];
+            HEXColor = Color11;
+        }
+        if(Color12Pressed){
+            Color12 = HEXvec[PosX][PosY];
+            HEXColor = Color12;
+        }
+        update();
         ColorPicker = false;
     }
 
@@ -352,6 +430,223 @@ void MainWindow::on_SeleccionarGrosor_clicked()
 }
 
 
+void MainWindow::on_Color1_clicked()
+{
+    Color1Pressed = true;
+    Color2Pressed = false;
+    Color3Pressed = false;
+    Color4Pressed = false;
+    Color5Pressed = false;
+    Color6Pressed = false;
+    Color7Pressed = false;
+    Color8Pressed = false;
+    Color9Pressed = false;
+    Color10Pressed = false;
+    Color11Pressed = false;
+    Color12Pressed = false;
+
+    HEXColor = Color1;
+}
+
+void MainWindow::on_Color2_clicked()
+{
+    Color1Pressed = false;
+    Color2Pressed = true;
+    Color3Pressed = false;
+    Color4Pressed = false;
+    Color5Pressed = false;
+    Color6Pressed = false;
+    Color7Pressed = false;
+    Color8Pressed = false;
+    Color9Pressed = false;
+    Color10Pressed = false;
+    Color11Pressed = false;
+    Color12Pressed = false;
+
+    HEXColor = Color2;
+}
+
+void MainWindow::on_Color3_clicked()
+{
+    Color1Pressed = false;
+    Color2Pressed = false;
+    Color3Pressed = true;
+    Color4Pressed = false;
+    Color5Pressed = false;
+    Color6Pressed = false;
+    Color7Pressed = false;
+    Color8Pressed = false;
+    Color9Pressed = false;
+    Color10Pressed = false;
+    Color11Pressed = false;
+    Color12Pressed = false;
+
+    HEXColor = Color3;
+}
+
+void MainWindow::on_Color4_clicked()
+{
+    Color1Pressed = false;
+    Color2Pressed = false;
+    Color3Pressed = false;
+    Color4Pressed = true;
+    Color5Pressed = false;
+    Color6Pressed = false;
+    Color7Pressed = false;
+    Color8Pressed = false;
+    Color9Pressed = false;
+    Color10Pressed = false;
+    Color11Pressed = false;
+    Color12Pressed = false;
+
+    HEXColor = Color4;
+}
+
+void MainWindow::on_Color5_clicked()
+{
+    Color1Pressed = false;
+    Color2Pressed = false;
+    Color3Pressed = false;
+    Color4Pressed = false;
+    Color5Pressed = true;
+    Color6Pressed = false;
+    Color7Pressed = false;
+    Color8Pressed = false;
+    Color9Pressed = false;
+    Color10Pressed = false;
+    Color11Pressed = false;
+    Color12Pressed = false;
+
+    HEXColor = Color5;
+}
+
+void MainWindow::on_Color6_clicked()
+{
+    Color1Pressed = false;
+    Color2Pressed = false;
+    Color3Pressed = false;
+    Color4Pressed = false;
+    Color5Pressed = false;
+    Color6Pressed = true;
+    Color7Pressed = false;
+    Color8Pressed = false;
+    Color9Pressed = false;
+    Color10Pressed = false;
+    Color11Pressed = false;
+    Color12Pressed = false;
+
+    HEXColor = Color6;
+}
+
+void MainWindow::on_Color7_clicked()
+{
+    Color1Pressed = false;
+    Color2Pressed = false;
+    Color3Pressed = false;
+    Color4Pressed = false;
+    Color5Pressed = false;
+    Color6Pressed = false;
+    Color7Pressed = true;
+    Color8Pressed = false;
+    Color9Pressed = false;
+    Color10Pressed = false;
+    Color11Pressed = false;
+    Color12Pressed = false;
+
+    HEXColor = Color7;
+}
+
+void MainWindow::on_Color8_clicked()
+{
+    Color1Pressed = false;
+    Color2Pressed = false;
+    Color3Pressed = false;
+    Color4Pressed = false;
+    Color5Pressed = false;
+    Color6Pressed = false;
+    Color7Pressed = false;
+    Color8Pressed = true;
+    Color9Pressed = false;
+    Color10Pressed = false;
+    Color11Pressed = false;
+    Color12Pressed = false;
+
+    HEXColor = Color8;
+}
+
+void MainWindow::on_Color9_clicked()
+{
+    Color1Pressed = false;
+    Color2Pressed = false;
+    Color3Pressed = false;
+    Color4Pressed = false;
+    Color5Pressed = false;
+    Color6Pressed = false;
+    Color7Pressed = false;
+    Color8Pressed = false;
+    Color9Pressed = true;
+    Color10Pressed = false;
+    Color11Pressed = false;
+    Color12Pressed = false;
+
+    HEXColor = Color9;
+}
+
+void MainWindow::on_Color10_clicked()
+{
+    Color1Pressed = false;
+    Color2Pressed = false;
+    Color3Pressed = false;
+    Color4Pressed = false;
+    Color5Pressed = false;
+    Color6Pressed = false;
+    Color7Pressed = false;
+    Color8Pressed = false;
+    Color9Pressed = false;
+    Color10Pressed = true;
+    Color11Pressed = false;
+    Color12Pressed = false;
+
+    HEXColor = Color10;
+}
+
+void MainWindow::on_Color11_clicked()
+{
+    Color1Pressed = false;
+    Color2Pressed = false;
+    Color3Pressed = false;
+    Color4Pressed = false;
+    Color5Pressed = false;
+    Color6Pressed = false;
+    Color7Pressed = false;
+    Color8Pressed = false;
+    Color9Pressed = false;
+    Color10Pressed = false;
+    Color11Pressed = true;
+    Color12Pressed = false;
+
+    HEXColor = Color11;
+}
+
+void MainWindow::on_Color12_clicked()
+{
+    Color1Pressed = false;
+    Color2Pressed = false;
+    Color3Pressed = false;
+    Color4Pressed = false;
+    Color5Pressed = false;
+    Color6Pressed = false;
+    Color7Pressed = false;
+    Color8Pressed = false;
+    Color9Pressed = false;
+    Color10Pressed = false;
+    Color11Pressed = false;
+    Color12Pressed = true;
+
+    HEXColor = Color12;
+}
+
+
 //#---------------------- Apartado de filtros -----------------------------------------------
 
 //Aplicar filtro negativo al canvas
@@ -514,7 +809,3 @@ void MainWindow::on_Save_clicked()
     image.matrixToBMP(HEXvec);
     image.Export(ImageName);
 }
-
-
-
-

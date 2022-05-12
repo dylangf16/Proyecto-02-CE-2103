@@ -27,6 +27,7 @@ protected:
     void rotateToTheLeft();
     void verticalRotation();
     void horizontalRotation();
+    void conversionHEXtoRGB(std::string HEXvalue);
 
 
 private slots:
@@ -62,6 +63,30 @@ private slots:
 
     void on_SeleccionarGrosor_clicked();
 
+    void on_Color1_clicked();
+
+    void on_Color2_clicked();
+
+    void on_Color3_clicked();
+
+    void on_Color4_clicked();
+
+    void on_Color5_clicked();
+
+    void on_Color6_clicked();
+
+    void on_Color7_clicked();
+
+    void on_Color8_clicked();
+
+    void on_Color9_clicked();
+
+    void on_Color10_clicked();
+
+    void on_Color11_clicked();
+
+    void on_Color12_clicked();
+
 private:
     Ui::MainWindow *ui;
     QColor color;
@@ -69,9 +94,10 @@ private:
     bool cuadrado = false, triangulo = false, circulo = false;
     int PosX,PosY, LapiceroX0 = 0, LapiceroY0 = 0, LapiceroX1 = 0, LapiceroY1 = 0, grosor = 5;
     int canvasHeight, canvasWidth;
-    bool iniciarPaint;
+    int RED, GREEN, BLUE;
+    bool iniciarPaint, Color1Pressed = false, Color2Pressed = false, Color3Pressed = false, Color4Pressed = false, Color5Pressed = false, Color6Pressed = false, Color7Pressed = false, Color8Pressed = false, Color9Pressed = false, Color10Pressed = false, Color11Pressed = false, Color12Pressed = false;
+    std:: string Color1 = "#ff0000", Color2 = "#ff7300", Color3 = "#ffff00", Color4 = "#55ff00", Color5 = "#00ffe5", Color6 = "#0037ff", Color7 = "#7300ff", Color8 = "#d900ff", Color9 = "#2bff00", Color10 = "#000000", Color11 = "#ffffff", Color12 = "#424242";
     std::vector<QPoint> puntos;
-
 
 
 };
