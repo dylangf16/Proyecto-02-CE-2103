@@ -133,7 +133,11 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
                     yinc = (double)vy/step;
 
             while(step >= 0){
-                HEXvec[round(LapiceroX0)][round(LapiceroY0)] = HEXColor;
+                for (int i = 0; i < grosor; i++) {
+                    for (int j = 0; j < grosor; j++) {
+                        HEXvec[round(LapiceroX0) + j][round(LapiceroY0) + i] = HEXColor;
+                    }
+                }
                 LapiceroX0 += xinc;
                 LapiceroY0 += yinc;
                 step--;
