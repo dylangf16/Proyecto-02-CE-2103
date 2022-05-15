@@ -3,6 +3,7 @@
 #include "qpainter.h"
 #include "BMP/Image.h"
 #include "BMP/Image.cpp"
+#include "Stack.h"
 #include <QMouseEvent>
 #include <iostream>
 #include <math.h>
@@ -12,6 +13,9 @@ using namespace std;
 std::string HEXColor = "#000000";
 int rConversion, gConversion, bConversion;
 vector<vector<std::string>> HEXvec;
+Stack undoStack;
+Stack redoStack;
+bool lastCanvasWasSaved;
 
 //#-------------------- Ventana Inicio -------------------------
 MainWindow::MainWindow(QWidget *parent)
@@ -22,6 +26,30 @@ MainWindow::MainWindow(QWidget *parent)
     this->iniciarPaint = false;
     ui->framePrincipal->hide();
     color = Qt::black;
+    conversionHEXtoRGB(Color1);
+    ui->Color1->setStyleSheet("background-color: rgb("+ QString::number(RED)+","+ QString::number(GREEN)+","+ QString::number(BLUE)+")");
+    conversionHEXtoRGB(Color2);
+    ui->Color2->setStyleSheet("background-color: rgb("+ QString::number(RED)+","+ QString::number(GREEN)+","+ QString::number(BLUE)+")");
+    conversionHEXtoRGB(Color3);
+    ui->Color3->setStyleSheet("background-color: rgb("+ QString::number(RED)+","+ QString::number(GREEN)+","+ QString::number(BLUE)+")");
+    conversionHEXtoRGB(Color4);
+    ui->Color4->setStyleSheet("background-color: rgb("+ QString::number(RED)+","+ QString::number(GREEN)+","+ QString::number(BLUE)+")");
+    conversionHEXtoRGB(Color5);
+    ui->Color5->setStyleSheet("background-color: rgb("+ QString::number(RED)+","+ QString::number(GREEN)+","+ QString::number(BLUE)+")");
+    conversionHEXtoRGB(Color6);
+    ui->Color6->setStyleSheet("background-color: rgb("+ QString::number(RED)+","+ QString::number(GREEN)+","+ QString::number(BLUE)+")");
+    conversionHEXtoRGB(Color7);
+    ui->Color7->setStyleSheet("background-color: rgb("+ QString::number(RED)+","+ QString::number(GREEN)+","+ QString::number(BLUE)+")");
+    conversionHEXtoRGB(Color8);
+    ui->Color8->setStyleSheet("background-color: rgb("+ QString::number(RED)+","+ QString::number(GREEN)+","+ QString::number(BLUE)+")");
+    conversionHEXtoRGB(Color9);
+    ui->Color9->setStyleSheet("background-color: rgb("+ QString::number(RED)+","+ QString::number(GREEN)+","+ QString::number(BLUE)+")");
+    conversionHEXtoRGB(Color10);
+    ui->Color10->setStyleSheet("background-color: rgb("+ QString::number(RED)+","+ QString::number(GREEN)+","+ QString::number(BLUE)+")");
+    conversionHEXtoRGB(Color11);
+    ui->Color11->setStyleSheet("background-color: rgb("+ QString::number(RED)+","+ QString::number(GREEN)+","+ QString::number(BLUE)+")");
+    conversionHEXtoRGB(Color12);
+    ui->Color12->setStyleSheet("background-color: rgb("+ QString::number(RED)+","+ QString::number(GREEN)+","+ QString::number(BLUE)+")");
 }
 
 MainWindow::~MainWindow()
@@ -62,30 +90,175 @@ void MainWindow::paintEvent(QPaintEvent *event)
                 //Arreglar reseteo de puntos
             }
         }
-        conversionHEXtoRGB(Color1);
-        ui->Color1->setStyleSheet("background-color: rgb("+ QString::number(RED)+","+ QString::number(GREEN)+","+ QString::number(BLUE)+")");
-        conversionHEXtoRGB(Color2);
-        ui->Color2->setStyleSheet("background-color: rgb("+ QString::number(RED)+","+ QString::number(GREEN)+","+ QString::number(BLUE)+")");
-        conversionHEXtoRGB(Color3);
-        ui->Color3->setStyleSheet("background-color: rgb("+ QString::number(RED)+","+ QString::number(GREEN)+","+ QString::number(BLUE)+")");
-        conversionHEXtoRGB(Color4);
-        ui->Color4->setStyleSheet("background-color: rgb("+ QString::number(RED)+","+ QString::number(GREEN)+","+ QString::number(BLUE)+")");
-        conversionHEXtoRGB(Color5);
-        ui->Color5->setStyleSheet("background-color: rgb("+ QString::number(RED)+","+ QString::number(GREEN)+","+ QString::number(BLUE)+")");
-        conversionHEXtoRGB(Color6);
-        ui->Color6->setStyleSheet("background-color: rgb("+ QString::number(RED)+","+ QString::number(GREEN)+","+ QString::number(BLUE)+")");
-        conversionHEXtoRGB(Color7);
-        ui->Color7->setStyleSheet("background-color: rgb("+ QString::number(RED)+","+ QString::number(GREEN)+","+ QString::number(BLUE)+")");
-        conversionHEXtoRGB(Color8);
-        ui->Color8->setStyleSheet("background-color: rgb("+ QString::number(RED)+","+ QString::number(GREEN)+","+ QString::number(BLUE)+")");
-        conversionHEXtoRGB(Color9);
-        ui->Color9->setStyleSheet("background-color: rgb("+ QString::number(RED)+","+ QString::number(GREEN)+","+ QString::number(BLUE)+")");
-        conversionHEXtoRGB(Color10);
-        ui->Color10->setStyleSheet("background-color: rgb("+ QString::number(RED)+","+ QString::number(GREEN)+","+ QString::number(BLUE)+")");
-        conversionHEXtoRGB(Color11);
-        ui->Color11->setStyleSheet("background-color: rgb("+ QString::number(RED)+","+ QString::number(GREEN)+","+ QString::number(BLUE)+")");
-        conversionHEXtoRGB(Color12);
-        ui->Color12->setStyleSheet("background-color: rgb("+ QString::number(RED)+","+ QString::number(GREEN)+","+ QString::number(BLUE)+")");
+    }
+}
+
+void MainWindow::borrar(QMouseEvent *event){
+    PosX = event->pos().x();
+    PosY = event->pos().y();
+    for (int i = 0; i < grosor; i++) {
+        for (int j = 0; j < grosor; j++) {
+            HEXvec[PosX + j][PosY + i] = "#ffffff";
+        }
+    }
+
+}
+
+void MainWindow::pintarConLapiz(QMouseEvent *event){
+    PosX = event->pos().x();
+    PosY = event->pos().y();
+    for (int i = 0; i < grosor; i++) {
+        for (int j = 0; j < grosor; j++) {
+            HEXvec[PosX + j][PosY + i] = HEXColor;
+        }
+    }
+}
+
+void MainWindow::pintarConLapicero(QMouseEvent *event){
+    if(LapiceroX0 == 0 && LapiceroY0 == 0){
+        LapiceroX0 = event->pos().x();
+        LapiceroY0 = event->pos().y();
+    }
+    else if(LapiceroX1 == 0 && LapiceroY1 == 0){
+        LapiceroX1 = event->pos().x();
+        LapiceroY1 = event->pos().y();
+        int vx = LapiceroX1 - LapiceroX0;
+        int vy = LapiceroY1 - LapiceroY0;
+        int step = abs(vx);
+
+        if(step < abs(vy)) step = abs(vy);
+        double xinc = (double)vx/step,
+                yinc = (double)vy/step;
+
+        while(step >= 0){
+            for (int i = 0; i < grosor; i++) {
+                for (int j = 0; j < grosor; j++) {
+                    HEXvec[round(LapiceroX0) + j][round(LapiceroY0) + i] = HEXColor;
+                }
+            }
+            LapiceroX0 += xinc;
+            LapiceroY0 += yinc;
+            step--;
+
+        }
+        LapiceroX0 = 0;
+        LapiceroX1 = 0;
+        LapiceroY0 = 0;
+        LapiceroY1 = 0;
+    }
+}
+
+void MainWindow::pickColor(QMouseEvent *event){
+    PosX = event->pos().x();
+    PosY = event->pos().y();
+    if(Color1Pressed){
+        Color1 = HEXvec[PosX][PosY];
+        HEXColor = Color1;
+    }
+    else if(Color2Pressed){
+        Color2 = HEXvec[PosX][PosY];
+        HEXColor = Color2;
+    }
+    else if(Color3Pressed){
+        Color3 = HEXvec[PosX][PosY];
+        HEXColor = Color3;
+    }
+    else if(Color4Pressed){
+        Color4 = HEXvec[PosX][PosY];
+        HEXColor = Color4;
+    }
+    else if(Color5Pressed){
+        Color5 = HEXvec[PosX][PosY];
+        HEXColor = Color5;
+    }
+    else if(Color6Pressed){
+        Color6 = HEXvec[PosX][PosY];
+        HEXColor = Color6;
+    }
+    else if(Color7Pressed){
+        Color7 = HEXvec[PosX][PosY];
+        HEXColor = Color7;
+    }
+    else if(Color8Pressed){
+        Color8 = HEXvec[PosX][PosY];
+        HEXColor = Color8;
+    }
+    else if(Color9Pressed){
+        Color9 = HEXvec[PosX][PosY];
+        HEXColor = Color9;
+    }
+    else if(Color10Pressed){
+        Color10 = HEXvec[PosX][PosY];
+        HEXColor = Color10;
+    }
+    else if(Color11Pressed){
+        Color11 = HEXvec[PosX][PosY];
+        HEXColor = Color11;
+    }
+    else if(Color12Pressed){
+        Color12 = HEXvec[PosX][PosY];
+        HEXColor = Color12;
+    }
+    ColorPicker = false;
+}
+
+void MainWindow::dibujarCuadrado(QMouseEvent *event){
+    PosX = event->pos().x();
+    PosY = event->pos().y();
+
+    for (int j = 0; j < 50; j++) {
+        HEXvec[PosX][PosY + j] = HEXColor;
+    }
+
+    for(int j = 0; j < 50; j++){
+        HEXvec[PosX+j][PosY+50] = HEXColor;
+    }
+
+    for(int j = 0; j < 50; j++){
+        HEXvec[PosX+50][PosY+j] = HEXColor;
+    }
+    for(int j = 0; j < 50; j++){
+        HEXvec[PosX+j][PosY] = HEXColor;
+    }
+}
+
+void MainWindow::dibujarTriangulo(QMouseEvent *event){
+    PosX = event->pos().x();
+    PosY = event->pos().y();
+    for(int j = 0; j < 50; j++){
+        HEXvec[PosX-j][PosY+j] = HEXColor;
+        HEXvec[PosX+j][PosY+j] = HEXColor;
+    }
+    for(int j=0;j<50;j++){
+        HEXvec[PosX+j][PosY+50] = HEXColor;
+    }
+    for(int j=0;j<50;j++){
+        HEXvec[PosX-j][PosY+50] = HEXColor;
+    }
+}
+
+void MainWindow::dibujarCirculo(QMouseEvent *event){
+    PosX = event->pos().x();
+    PosY = event->pos().y();
+    for(int j = 0; j < 10; j++){
+        HEXvec[PosX+j][PosY] = HEXColor;//Izquierda Arriba // Naranja
+        HEXvec[PosX-j][PosY] = HEXColor;//Derecha Arriba // Rojo
+    }
+    for(int j = 0; j < 7; j++){ //Lados diagonales
+        HEXvec[PosX+10+j][PosY+j] = HEXColor;
+        HEXvec[PosX-10-j][PosY+j] = HEXColor;
+    }
+    for(int j = 0; j < 15; j++){ //Lados rectos
+        HEXvec[PosX+17][PosY+7+j] = HEXColor;
+        HEXvec[PosX-17][PosY+7+j] = HEXColor;
+    }
+    for(int j = 0; j < 7; j++){ //Lados
+        HEXvec[PosX+17-j][PosY+22+j] = HEXColor;
+        HEXvec[PosX-17+j][PosY+22+j] = HEXColor;
+    }
+    for(int j = 0; j < 10; j++){
+        HEXvec[PosX-10+j][PosY+29] = HEXColor;//Izquierda Arriba // Naranja
+        HEXvec[PosX+10-j][PosY+29] = HEXColor;//Derecha Arriba // Rojo
     }
 }
 
@@ -97,180 +270,29 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
         pressed = 1;
     }
     if(borrador){
-        PosX = event->pos().x();
-        PosY = event->pos().y();
-        for (int i = 0; i < grosor; i++) {
-            for (int j = 0; j < grosor; j++) {
-                HEXvec[PosX + j][PosY + i] = "#ffffff";
-            }
-        }
-        update();
+        borrar(event);
     }
-    if (lapiz){
-        PosX = event->pos().x();
-        PosY = event->pos().y();
-        for (int i = 0; i < grosor; i++) {
-            for (int j = 0; j < grosor; j++) {
-                HEXvec[PosX + j][PosY + i] = HEXColor;
-            }
-        }
-
+    else if (lapiz){
+        pintarConLapiz(event);
     }
-    if(lapicero){
-        if(LapiceroX0 == 0 && LapiceroY0 == 0){
-            LapiceroX0 = event->pos().x();
-            LapiceroY0 = event->pos().y();
-        }
-        else if(LapiceroX1 == 0 && LapiceroY1 == 0){
-            LapiceroX1 = event->pos().x();
-            LapiceroY1 = event->pos().y();
-            int vx = LapiceroX1 - LapiceroX0;
-            int vy = LapiceroY1 - LapiceroY0;
-            int step = abs(vx);
-
-            if(step < abs(vy)) step = abs(vy);
-            double xinc = (double)vx/step,
-                    yinc = (double)vy/step;
-
-            while(step >= 0){
-                for (int i = 0; i < grosor; i++) {
-                    for (int j = 0; j < grosor; j++) {
-                        HEXvec[round(LapiceroX0) + j][round(LapiceroY0) + i] = HEXColor;
-                    }
-                }
-                LapiceroX0 += xinc;
-                LapiceroY0 += yinc;
-                step--;
-
-                update();
-            }
-            LapiceroX0 = 0;
-            LapiceroX1 = 0;
-            LapiceroY0 = 0;
-            LapiceroY1 = 0;
-        }
+    else if(lapicero){
+        pintarConLapicero(event);
     }
-    if(ColorPicker){
-        PosX = event->pos().x();
-        PosY = event->pos().y();
-        if(Color1Pressed){
-            Color1 = HEXvec[PosX][PosY];
-            HEXColor = Color1;
-        }
-        if(Color1Pressed){
-            Color1 = HEXvec[PosX][PosY];
-            HEXColor = Color1;
-        }
-        if(Color2Pressed){
-            Color2 = HEXvec[PosX][PosY];
-            HEXColor = Color2;
-        }
-        if(Color3Pressed){
-            Color3 = HEXvec[PosX][PosY];
-            HEXColor = Color3;
-        }
-        if(Color4Pressed){
-            Color4 = HEXvec[PosX][PosY];
-            HEXColor = Color4;
-        }
-        if(Color5Pressed){
-            Color5 = HEXvec[PosX][PosY];
-            HEXColor = Color5;
-        }
-        if(Color6Pressed){
-            Color6 = HEXvec[PosX][PosY];
-            HEXColor = Color6;
-        }
-        if(Color7Pressed){
-            Color7 = HEXvec[PosX][PosY];
-            HEXColor = Color7;
-        }
-        if(Color8Pressed){
-            Color8 = HEXvec[PosX][PosY];
-            HEXColor = Color8;
-        }
-        if(Color9Pressed){
-            Color9 = HEXvec[PosX][PosY];
-            HEXColor = Color9;
-        }
-        if(Color10Pressed){
-            Color10 = HEXvec[PosX][PosY];
-            HEXColor = Color10;
-        }
-        if(Color11Pressed){
-            Color11 = HEXvec[PosX][PosY];
-            HEXColor = Color11;
-        }
-        if(Color12Pressed){
-            Color12 = HEXvec[PosX][PosY];
-            HEXColor = Color12;
-        }
-        update();
-        ColorPicker = false;
+    else if(ColorPicker){
+        pickColor(event);
     }
-
-    if(cuadrado) {
-        PosX = event->pos().x();
-        PosY = event->pos().y();
-
-        for (int j = 0; j < 50; j++) {
-            HEXvec[PosX][PosY + j] = HEXColor;
-        }
-
-        for(int j = 0; j < 50; j++){
-            HEXvec[PosX+j][PosY+50] = HEXColor;
-        }
-
-        for(int j = 0; j < 50; j++){
-            HEXvec[PosX+50][PosY+j] = HEXColor;
-        }
-        for(int j = 0; j < 50; j++){
-            HEXvec[PosX+j][PosY] = HEXColor;
-        }
-        update();
+    else if(cuadrado) {
+        dibujarCuadrado(event);
     }
-
-    if(triangulo){
-        PosX = event->pos().x();
-        PosY = event->pos().y();
-        for(int j = 0; j < 50; j++){
-            HEXvec[PosX-j][PosY+j] = HEXColor;
-            HEXvec[PosX+j][PosY+j] = HEXColor;
-        }
-        for(int j=0;j<50;j++){
-            HEXvec[PosX+j][PosY+50] = HEXColor;
-        }
-        for(int j=0;j<50;j++){
-            HEXvec[PosX-j][PosY+50] = HEXColor;
-        }
-        update();
+    else if(triangulo){
+        dibujarTriangulo(event);
     }
-    if(circulo){
-        PosX = event->pos().x();
-        PosY = event->pos().y();
-        for(int j = 0; j < 10; j++){
-            HEXvec[PosX+j][PosY] = HEXColor;//Izquierda Arriba // Naranja
-            HEXvec[PosX-j][PosY] = HEXColor;//Derecha Arriba // Rojo
-        }
-        for(int j = 0; j < 7; j++){ //Lados diagonales
-            HEXvec[PosX+10+j][PosY+j] = HEXColor;
-            HEXvec[PosX-10-j][PosY+j] = HEXColor;
-        }
-        for(int j = 0; j < 15; j++){ //Lados rectos
-            HEXvec[PosX+17][PosY+7+j] = HEXColor;
-            HEXvec[PosX-17][PosY+7+j] = HEXColor;
-        }
-        for(int j = 0; j < 7; j++){ //Lados
-            HEXvec[PosX+17-j][PosY+22+j] = HEXColor;
-            HEXvec[PosX-17+j][PosY+22+j] = HEXColor;
-        }
-        for(int j = 0; j < 10; j++){
-            HEXvec[PosX-10+j][PosY+29] = HEXColor;//Izquierda Arriba // Naranja
-            HEXvec[PosX+10-j][PosY+29] = HEXColor;//Derecha Arriba // Rojo
-        }
-
-        update();
+    else if(circulo){
+        dibujarCirculo(event);
     }
+    undoStack.push(HEXvec);
+    update();
+    lastCanvasWasSaved = true;
 }
 
 void MainWindow::mouseReleaseEvent(QMouseEvent *event)
@@ -297,22 +319,15 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event)
     }
     if(borrador){
         if(pressed) {
-            PosX = event->pos().x();
-            PosY = event->pos().y();
-            for (int i = 0; i < grosor; i++) {
-                for (int j = 0; j < grosor; j++) {
-                    HEXvec[PosX + j][PosY + i] = "#ffffff";
-                }
-            }
+            borrar(event);
             update();
         }
     }
 }
 
 //# ----------------------------------------- Apartado de Botones ---------------------------
-void MainWindow::on_Lapiz_clicked()
-{
-    lapiz = true;
+void MainWindow::deactivateAllButtons(){
+    lapiz = false;
     lapicero = false;
     borrador = false;
     ColorPicker = false;
@@ -320,85 +335,54 @@ void MainWindow::on_Lapiz_clicked()
     cuadrado = false;
     triangulo = false;
     circulo = false;
+}
+
+void MainWindow::on_Lapiz_clicked()
+{
+    deactivateAllButtons();
+    lapiz = true;
 }
 
 void MainWindow::on_Borrador_clicked()
 {
-    lapiz = false;
-    lapicero = false;
+    deactivateAllButtons();
     borrador = true;
-    ColorPicker = false;
-
-    cuadrado = false;
-    triangulo = false;
-    circulo = false;
 }
 
 void MainWindow::on_Lapicero_clicked()
 {
-    lapiz = false;
+    deactivateAllButtons();
     lapicero = true;
-    borrador = false;
-    ColorPicker = false;
     LapiceroX0 = 0;
     LapiceroX1 = 0;
     LapiceroY0 = 0;
     LapiceroY1 = 0;
 
-    cuadrado = false;
-    triangulo = false;
-    circulo = false;
 }
 
 void MainWindow::on_ColorPicker_clicked()
 {
-    lapiz = false;
-    lapicero = false;
-    borrador = false;
+    deactivateAllButtons();
     ColorPicker = true;
-
-    cuadrado = false;
-    triangulo = false;
-    circulo = false;
 }
 
 void MainWindow::on_Cuadrado_clicked()
 {
-    lapiz = false;
-    lapicero = false;
-    borrador = false;
-    ColorPicker = false;
-
+    deactivateAllButtons();
     cuadrado = true;
-    triangulo = false;
-    circulo = false;
 }
 
 void MainWindow::on_Triangulo_clicked()
 {
-    lapiz = false;
-    lapicero = false;
-    borrador = false;
-    ColorPicker = false;
-
-    cuadrado = false;
+    deactivateAllButtons();
     triangulo = true;
-    circulo = false;
 }
 
 void MainWindow::on_Circulo_clicked()
 {
-    lapiz = false;
-    lapicero = false;
-    borrador = false;
-    ColorPicker = false;
-
-    cuadrado = false;
-    triangulo = false;
+    deactivateAllButtons();
     circulo = true;
-
 }
-
 
 void MainWindow::on_RotarDer_clicked()
 {
@@ -420,7 +404,6 @@ void MainWindow::on_RotarVer_clicked()
     update();
 }
 
-
 void MainWindow::on_RotarHor_clicked()
 {
     horizontalRotation();
@@ -433,10 +416,8 @@ void MainWindow::on_SeleccionarGrosor_clicked()
     grosor = grosorDado.toInt();
 }
 
-
-void MainWindow::on_Color1_clicked()
-{
-    Color1Pressed = true;
+void MainWindow::deactivateAllColors(){
+    Color1Pressed = false;
     Color2Pressed = false;
     Color3Pressed = false;
     Color4Pressed = false;
@@ -448,205 +429,90 @@ void MainWindow::on_Color1_clicked()
     Color10Pressed = false;
     Color11Pressed = false;
     Color12Pressed = false;
+    lastCanvasWasSaved = false;
+}
 
+void MainWindow::on_Color1_clicked()
+{
+    deactivateAllColors();
+    Color1Pressed = true;
     HEXColor = Color1;
 }
 
 void MainWindow::on_Color2_clicked()
 {
-    Color1Pressed = false;
+    deactivateAllColors();
     Color2Pressed = true;
-    Color3Pressed = false;
-    Color4Pressed = false;
-    Color5Pressed = false;
-    Color6Pressed = false;
-    Color7Pressed = false;
-    Color8Pressed = false;
-    Color9Pressed = false;
-    Color10Pressed = false;
-    Color11Pressed = false;
-    Color12Pressed = false;
-
     HEXColor = Color2;
 }
 
 void MainWindow::on_Color3_clicked()
 {
-    Color1Pressed = false;
-    Color2Pressed = false;
+    deactivateAllColors();
     Color3Pressed = true;
-    Color4Pressed = false;
-    Color5Pressed = false;
-    Color6Pressed = false;
-    Color7Pressed = false;
-    Color8Pressed = false;
-    Color9Pressed = false;
-    Color10Pressed = false;
-    Color11Pressed = false;
-    Color12Pressed = false;
-
     HEXColor = Color3;
 }
 
 void MainWindow::on_Color4_clicked()
 {
-    Color1Pressed = false;
-    Color2Pressed = false;
-    Color3Pressed = false;
+    deactivateAllColors();
     Color4Pressed = true;
-    Color5Pressed = false;
-    Color6Pressed = false;
-    Color7Pressed = false;
-    Color8Pressed = false;
-    Color9Pressed = false;
-    Color10Pressed = false;
-    Color11Pressed = false;
-    Color12Pressed = false;
-
     HEXColor = Color4;
 }
 
 void MainWindow::on_Color5_clicked()
 {
-    Color1Pressed = false;
-    Color2Pressed = false;
-    Color3Pressed = false;
-    Color4Pressed = false;
+    deactivateAllColors();
     Color5Pressed = true;
-    Color6Pressed = false;
-    Color7Pressed = false;
-    Color8Pressed = false;
-    Color9Pressed = false;
-    Color10Pressed = false;
-    Color11Pressed = false;
-    Color12Pressed = false;
-
     HEXColor = Color5;
 }
 
 void MainWindow::on_Color6_clicked()
 {
-    Color1Pressed = false;
-    Color2Pressed = false;
-    Color3Pressed = false;
-    Color4Pressed = false;
-    Color5Pressed = false;
+    deactivateAllColors();
     Color6Pressed = true;
-    Color7Pressed = false;
-    Color8Pressed = false;
-    Color9Pressed = false;
-    Color10Pressed = false;
-    Color11Pressed = false;
-    Color12Pressed = false;
-
     HEXColor = Color6;
 }
 
 void MainWindow::on_Color7_clicked()
 {
-    Color1Pressed = false;
-    Color2Pressed = false;
-    Color3Pressed = false;
-    Color4Pressed = false;
-    Color5Pressed = false;
-    Color6Pressed = false;
+    deactivateAllColors();
     Color7Pressed = true;
-    Color8Pressed = false;
-    Color9Pressed = false;
-    Color10Pressed = false;
-    Color11Pressed = false;
-    Color12Pressed = false;
-
     HEXColor = Color7;
 }
 
 void MainWindow::on_Color8_clicked()
 {
-    Color1Pressed = false;
-    Color2Pressed = false;
-    Color3Pressed = false;
-    Color4Pressed = false;
-    Color5Pressed = false;
-    Color6Pressed = false;
-    Color7Pressed = false;
+    deactivateAllColors();
     Color8Pressed = true;
-    Color9Pressed = false;
-    Color10Pressed = false;
-    Color11Pressed = false;
-    Color12Pressed = false;
-
     HEXColor = Color8;
 }
 
 void MainWindow::on_Color9_clicked()
 {
-    Color1Pressed = false;
-    Color2Pressed = false;
-    Color3Pressed = false;
-    Color4Pressed = false;
-    Color5Pressed = false;
-    Color6Pressed = false;
-    Color7Pressed = false;
-    Color8Pressed = false;
+    deactivateAllColors();
     Color9Pressed = true;
-    Color10Pressed = false;
-    Color11Pressed = false;
-    Color12Pressed = false;
-
     HEXColor = Color9;
 }
 
 void MainWindow::on_Color10_clicked()
 {
-    Color1Pressed = false;
-    Color2Pressed = false;
-    Color3Pressed = false;
-    Color4Pressed = false;
-    Color5Pressed = false;
-    Color6Pressed = false;
-    Color7Pressed = false;
-    Color8Pressed = false;
-    Color9Pressed = false;
+    deactivateAllColors();
     Color10Pressed = true;
-    Color11Pressed = false;
-    Color12Pressed = false;
-
     HEXColor = Color10;
 }
 
 void MainWindow::on_Color11_clicked()
 {
-    Color1Pressed = false;
-    Color2Pressed = false;
-    Color3Pressed = false;
-    Color4Pressed = false;
-    Color5Pressed = false;
-    Color6Pressed = false;
-    Color7Pressed = false;
-    Color8Pressed = false;
-    Color9Pressed = false;
-    Color10Pressed = false;
+    deactivateAllColors();
     Color11Pressed = true;
-    Color12Pressed = false;
-
     HEXColor = Color11;
 }
 
 void MainWindow::on_Color12_clicked()
 {
-    Color1Pressed = false;
-    Color2Pressed = false;
-    Color3Pressed = false;
-    Color4Pressed = false;
-    Color5Pressed = false;
-    Color6Pressed = false;
-    Color7Pressed = false;
-    Color8Pressed = false;
-    Color9Pressed = false;
-    Color10Pressed = false;
-    Color11Pressed = false;
+    deactivateAllColors();
     Color12Pressed = true;
-
     HEXColor = Color12;
 }
 
@@ -694,6 +560,7 @@ void MainWindow::on_Grises_clicked()
     update();
 }
 //#--------------------- Metodos --------------------------------------------------------
+
 void MainWindow::rotateToTheRight(){
     int newWidth =HEXvec.size();
     int newHeight = HEXvec[0].size();
@@ -754,7 +621,6 @@ void MainWindow::horizontalRotation(){
     HEXvec = output;
 }
 
-
 void MainWindow::createCanvas(){
     QString size;
     size = ui->plainTextGetHeight->toPlainText();
@@ -765,7 +631,7 @@ void MainWindow::createCanvas(){
     for (int i = 0; i < this->canvasHeight; ++i) {
         HEXvec[i].resize(this->canvasWidth);
         for (int j = 0; j < this->canvasWidth; ++j) {
-            HEXvec[i][j] = "#1188f0";
+            HEXvec[i][j] = "#87ceeb";
         }
     }
 }
@@ -778,7 +644,6 @@ void MainWindow::loadImage(){
     Image image(0,0);
     image.Read(ImageDirectory);
     HEXvec = image.BMPtoMatrix();
-    rotateToTheRight();
 }
 
 
@@ -797,6 +662,8 @@ void MainWindow::on_btnStart_clicked()
         loadImage();
     }
     this->iniciarPaint = true;
+    rotateToTheRight();
+    undoStack.push(HEXvec);
     update();
     ui->frameInicio->hide();
     ui->framePrincipal->show();
@@ -812,4 +679,25 @@ void MainWindow::on_Save_clicked()
     rotateToTheLeft();
     image.matrixToBMP(HEXvec);
     image.Export(ImageName);
+    rotateToTheRight();
 }
+
+void MainWindow::on_Undo_clicked()
+{
+    if(lastCanvasWasSaved) {
+        undoStack.pop();
+    }
+    redoStack.push(HEXvec);
+    HEXvec = undoStack.pop();
+    update();
+    lastCanvasWasSaved = false;
+}
+
+
+void MainWindow::on_Redo_clicked()
+{
+    undoStack.push(HEXvec);
+    HEXvec = redoStack.pop();
+    update();
+}
+

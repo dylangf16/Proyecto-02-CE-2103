@@ -28,6 +28,15 @@ protected:
     void verticalRotation();
     void horizontalRotation();
     void conversionHEXtoRGB(std::string HEXvalue);
+    void borrar(QMouseEvent *event);
+    void pintarConLapiz(QMouseEvent *event);
+    void pintarConLapicero(QMouseEvent *event);
+    void pickColor(QMouseEvent *event);
+    void dibujarCuadrado(QMouseEvent *event);
+    void dibujarTriangulo(QMouseEvent *event);
+    void dibujarCirculo(QMouseEvent *event);
+    void deactivateAllButtons();
+    void deactivateAllColors();
 
 
 private slots:
@@ -86,6 +95,10 @@ private slots:
     void on_Color11_clicked();
 
     void on_Color12_clicked();
+
+    void on_Undo_clicked();
+
+    void on_Redo_clicked();
 
 private:
     Ui::MainWindow *ui;
