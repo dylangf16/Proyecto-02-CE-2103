@@ -98,3 +98,11 @@
 2	9	0	/home/dylan16/Documents/Datos2/Proyecto02/Proyecto-02-CE-2103/cmake-build-debug/Proyecto02_Paint_autogen/include/Interfaz/ui_mainwindow.h	f313d765a8332ad4
 9	4137	1652649835807245894	CMakeFiles/Proyecto02_Paint.dir/Interfaz/mainwindow.cpp.o	3731bd03cfb056bb
 4137	4773	1652649836443257298	Proyecto02_Paint	f6e015967dc6d7d9
+2	6	0	CMakeFiles/Proyecto02_Paint_autogen	f313d765a8332ad4
+2	6	0	Proyecto02_Paint_autogen/mocs_compilation.cpp	f313d765a8332ad4
+2	6	0	Proyecto02_Paint_autogen/include/Interfaz/ui_mainwindow.h	f313d765a8332ad4
+2	6	0	/home/dylan16/Documents/Datos2/Proyecto02/Proyecto-02-CE-2103/cmake-build-debug/CMakeFiles/Proyecto02_Paint_autogen	f313d765a8332ad4
+2	6	0	/home/dylan16/Documents/Datos2/Proyecto02/Proyecto-02-CE-2103/cmake-build-debug/Proyecto02_Paint_autogen/mocs_compilation.cpp	f313d765a8332ad4
+2	6	0	/home/dylan16/Documents/Datos2/Proyecto02/Proyecto-02-CE-2103/cmake-build-debug/Proyecto02_Paint_autogen/include/Interfaz/ui_mainwindow.h	f313d765a8332ad4
+6	3873	1652650066047024659	CMakeFiles/Proyecto02_Paint.dir/Interfaz/mainwindow.cpp.o	3731bd03cfb056bb
+3873	4272	1652650066447030696	Proyecto02_Paint	f6e015967dc6d7d9
