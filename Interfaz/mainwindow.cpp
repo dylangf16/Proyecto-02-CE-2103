@@ -110,42 +110,60 @@ void MainWindow::pintarConLapiz(QMouseEvent *event){
     for (int i = 0; i < grosor; i++) {
         for (int j = 0; j < grosor; j++) {
             HEXvec[PosX + j][PosY + i] = HEXColor;
+            update();
         }
     }
 }
 
-void MainWindow::pintarConLapicero(QMouseEvent *event){
-    if(LapiceroX0 == 0 && LapiceroY0 == 0){
-        LapiceroX0 = event->pos().x();
-        LapiceroY0 = event->pos().y();
-    }
-    else if(LapiceroX1 == 0 && LapiceroY1 == 0){
-        LapiceroX1 = event->pos().x();
-        LapiceroY1 = event->pos().y();
-        int vx = LapiceroX1 - LapiceroX0;
-        int vy = LapiceroY1 - LapiceroY0;
-        int step = abs(vx);
-
-        if(step < abs(vy)) step = abs(vy);
-        double xinc = (double)vx/step,
-                yinc = (double)vy/step;
-
-        while(step >= 0){
-            for (int i = 0; i < grosor; i++) {
-                for (int j = 0; j < grosor; j++) {
-                    HEXvec[round(LapiceroX0) + j][round(LapiceroY0) + i] = HEXColor;
-                }
+void MainWindow::pintarConLapicero(QMouseEvent *event, int x1, int y1, int x2, int y2, int dx, int dy, int decide){
+    //pk is initial decision making parameter
+    //Note:x1&y1,x2&y2, dx&dy values are interchanged
+    //and passed in plotPixel function so
+    //it can handle both cases when m>1 & m<1
+    int pk = 2 * dy - dx;
+    for (int i = 0; i <= dx; i++)
+    {
+        cout << x1 << "," << y1 << endl;
+        //checking either to decrement or increment the value
+        //if we have to plot from (0,100) to (100,0)
+        x1 < x2 ? x1++ : x1--;
+        if (pk < 0)
+        {
+            //decision value will decide to plot
+            //either  x1 or y1 in x's position
+            if (decide == 0)
+            {
+                // putpixel(x1, y1, RED);
+                HEXvec[x1][y1] = HEXColor;
+                pk = pk + 2 * dy;
             }
-            LapiceroX0 += xinc;
-            LapiceroY0 += yinc;
-            step--;
-
+            else
+            {
+                //(y1,x1) is passed in xt
+                // putpixel(y1, x1, YELLOW);
+                HEXvec[y1][x1] = HEXColor;
+                pk = pk + 2 * dy;
+            }
         }
-        LapiceroX0 = 0;
-        LapiceroX1 = 0;
-        LapiceroY0 = 0;
-        LapiceroY1 = 0;
+        else
+        {
+            y1 < y2 ? y1++ : y1--;
+            if (decide == 0)
+            {
+                HEXvec[x1][y1] = HEXColor;
+                //putpixel(x1, y1, RED);
+            }
+            else
+            {
+                HEXvec[y1][x1] = HEXColor;
+                //  putpixel(y1, x1, YELLOW);
+            }
+            pk = pk + 2 * dy - 2 * dx;
+        }
     }
+    cout << "---------------RESET------------------" << endl;
+    cout << x1 << " , " << y1 << endl;
+    cout << x2 << " , " << y2 << endl;
 }
 
 void MainWindow::pickColor(QMouseEvent *event){
@@ -276,7 +294,26 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
         pintarConLapiz(event);
     }
     else if(lapicero){
-        pintarConLapicero(event);
+        if(!LapiceroClicked1){
+            LapiceroX1 = event->pos().x();
+            LapiceroY1 = event->pos().y();
+            LapiceroClicked1 = true;
+        }
+        else if(!LapiceroClicked2) {
+            int x2 = event->pos().x();
+            int y2 = event->pos().y();
+            LapiceroClicked2 = true;
+            int dx = abs(x2 - LapiceroX1);
+            int dy = abs(y2 - LapiceroY1);
+
+            if(dx > dy){
+                pintarConLapicero(event, LapiceroX1, LapiceroY1, x2, y2, dx, dy,0);
+            }else{
+                pintarConLapicero(event, LapiceroY1, LapiceroX1, y2, x2, dy, dx,1);
+            }
+            LapiceroClicked1 = false;
+            LapiceroClicked2 = false;
+        }
     }
     else if(ColorPicker){
         pickColor(event);
@@ -353,11 +390,6 @@ void MainWindow::on_Lapicero_clicked()
 {
     deactivateAllButtons();
     lapicero = true;
-    LapiceroX0 = 0;
-    LapiceroX1 = 0;
-    LapiceroY0 = 0;
-    LapiceroY1 = 0;
-
 }
 
 void MainWindow::on_ColorPicker_clicked()

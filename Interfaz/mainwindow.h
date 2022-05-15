@@ -30,7 +30,7 @@ protected:
     void conversionHEXtoRGB(std::string HEXvalue);
     void borrar(QMouseEvent *event);
     void pintarConLapiz(QMouseEvent *event);
-    void pintarConLapicero(QMouseEvent *event);
+    void pintarConLapicero(QMouseEvent *event, int, int, int, int, int, int, int);
     void pickColor(QMouseEvent *event);
     void dibujarCuadrado(QMouseEvent *event);
     void dibujarTriangulo(QMouseEvent *event);
@@ -105,10 +105,11 @@ private:
     QColor color;
     bool pressed = false, lapiz = false, lapicero = false, borrador = false, ColorPicker = false;
     bool cuadrado = false, triangulo = false, circulo = false;
-    int PosX,PosY, LapiceroX0 = 0, LapiceroY0 = 0, LapiceroX1 = 0, LapiceroY1 = 0, grosor = 5;
+    int PosX,PosY, LapiceroX1 = 0, LapiceroY1 = 0, grosor = 5;
     int canvasHeight, canvasWidth;
     int RED, GREEN, BLUE;
     bool iniciarPaint, Color1Pressed = false, Color2Pressed = false, Color3Pressed = false, Color4Pressed = false, Color5Pressed = false, Color6Pressed = false, Color7Pressed = false, Color8Pressed = false, Color9Pressed = false, Color10Pressed = false, Color11Pressed = false, Color12Pressed = false;
+    bool LapiceroClicked1 = false, LapiceroClicked2 = false;
     std:: string Color1 = "#ff0000", Color2 = "#ff7300", Color3 = "#ffff00", Color4 = "#55ff00", Color5 = "#00ffe5", Color6 = "#0037ff", Color7 = "#7300ff", Color8 = "#d900ff", Color9 = "#2bff00", Color10 = "#000000", Color11 = "#ffffff", Color12 = "#424242";
     std::vector<QPoint> puntos;
 
