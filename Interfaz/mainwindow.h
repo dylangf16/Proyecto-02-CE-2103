@@ -100,6 +100,10 @@ private slots:
 
     void on_Redo_clicked();
 
+    void on_FiltroAzules_clicked();
+
+    void on_FiltroRaro_clicked();
+
 private:
     Ui::MainWindow *ui;
     QColor color;

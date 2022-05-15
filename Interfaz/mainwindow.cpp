@@ -164,9 +164,6 @@ void MainWindow::pintarConLapicero(QMouseEvent *event, int x1, int y1, int x2, i
             pk = pk + 2 * dy - 2 * dx;
         }
     }
-    cout << "---------------RESET------------------" << endl;
-    cout << x1 << " , " << y1 << endl;
-    cout << x2 << " , " << y2 << endl;
 }
 
 void MainWindow::pickColor(QMouseEvent *event){
@@ -594,6 +591,47 @@ void MainWindow::on_Grises_clicked()
     }
     update();
 }
+
+void MainWindow::on_FiltroAzules_clicked()
+{
+    for (int i = 0; i < HEXvec.size(); ++i) {
+        for (int j = 0; j < HEXvec[0].size(); ++j) {
+            std::string HexVALUE = HEXvec[i][j];
+            conversionHEXtoRGB(HexVALUE);
+            int r2 = 127 - rConversion;
+            int g2 = 127 - gConversion;
+            int b2 = 127 - bConversion;
+            char hexNEGATIVO[8];
+            std::snprintf(hexNEGATIVO, sizeof hexNEGATIVO, "#%02x%02x%02x", r2,g2,b2);
+            std::string conversion;
+            conversion += hexNEGATIVO;
+            HEXvec[i][j] = conversion;
+        }
+    }
+    update();
+}
+
+
+void MainWindow::on_FiltroRaro_clicked()
+{
+    for (int i = 0; i < HEXvec.size(); ++i) {
+        for (int j = 0; j < HEXvec[0].size(); ++j) {
+            std::string HexVALUE = HEXvec[i][j];
+            conversionHEXtoRGB(HexVALUE);
+            int r2 = rConversion;
+            int g2 = 255 - gConversion;
+            int b2 = 255 - bConversion;
+            char hexNEGATIVO[8];
+            std::snprintf(hexNEGATIVO, sizeof hexNEGATIVO, "#%02x%02x%02x", r2,g2,b2);
+            std::string conversion;
+            conversion += hexNEGATIVO;
+            HEXvec[i][j] = conversion;
+        }
+    }
+    update();
+}
+
+
 //#--------------------- Metodos --------------------------------------------------------
 
 void MainWindow::rotateToTheRight(){
@@ -735,4 +773,3 @@ void MainWindow::on_Redo_clicked()
     HEXvec = redoStack.pop();
     update();
 }
-
