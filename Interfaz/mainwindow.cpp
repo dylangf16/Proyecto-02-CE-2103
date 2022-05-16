@@ -8,6 +8,8 @@
 #include <iostream>
 #include <math.h>
 #include <vector>
+#include <queue>
+#include <iomanip>
 using namespace std;
 
 std::string HEXColor = "#000000";
@@ -114,6 +116,14 @@ void MainWindow::pintarConLapiz(QMouseEvent *event){
         }
     }
 }
+
+void MainWindow::PaintFill(QMouseEvent *event) {
+    PosX = event->pos().x();
+    PosY = event->pos().y();
+    BFS(HEXvec, PosX, PosY, HEXColor);
+    update();
+}
+
 
 void MainWindow::pintarConLapicero(QMouseEvent *event, int x1, int y1, int x2, int y2, int dx, int dy, int decide){
     int pk = 2 * dy - dx;
@@ -327,6 +337,9 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
     else if(circulo){
         dibujarCirculo(event);
     }
+    else if(Fill){
+        PaintFill(event);
+    }
     undoStack.push(HEXvec);
     update();
     lastCanvasWasSaved = true;
@@ -372,6 +385,8 @@ void MainWindow::deactivateAllButtons(){
     cuadrado = false;
     triangulo = false;
     circulo = false;
+
+    Fill = false;
 }
 
 void MainWindow::on_Lapiz_clicked()
@@ -447,6 +462,13 @@ void MainWindow::on_SeleccionarGrosor_clicked()
     QString grosorDado = ui->Grosor->toPlainText();
     grosor = grosorDado.toInt();
 }
+
+void MainWindow::on_PaintFill_clicked()
+{
+    deactivateAllButtons();
+    Fill = true;
+}
+
 
 void MainWindow::deactivateAllColors(){
     Color1Pressed = false;
@@ -549,8 +571,9 @@ void MainWindow::on_Color12_clicked()
 }
 
 
-//#---------------------- Apartado de filtros -----------------------------------------------
 
+
+//#---------------------- Apartado de filtros -----------------------------------------------
 //Aplicar filtro negativo al canvas
 void MainWindow::on_Negativo_clicked()
 {
@@ -719,6 +742,36 @@ void MainWindow::loadImage(){
     HEXvec = image.BMPtoMatrix();
 }
 
+void MainWindow::BFS(vector<vector<std::string>> &mat, int r, int c, std::string target) {
+    int rows = mat.size();
+    if (0 == rows){
+        return;
+    }
+    int cols = mat[0].size();
+    if (0 == cols) {
+        return ;
+    }
+    unordered_set<string> vis;
+    queue<vector<int>> Q;
+    Q.push({r, c});
+    vector<int> d{1, 0, -1, 0, 1};
+    auto cur = mat[r][c];
+    while (!Q.empty()) {
+        auto p = Q.front();
+        Q.pop();
+        auto key = std::to_string(p[0]) + "," + std::to_string(p[1]);
+        if (vis.count(key)) continue;
+        vis.insert(key);
+        mat[p[0]][p[1]] = target;
+        for (int i = 0; i < 4; ++ i) {
+            int nx = p[0] + d[i];
+            int ny = p[1] + d[i + 1];
+            if ((nx >= 0) && (ny >= 0) && (nx < rows) && (ny < cols) && (mat[nx][ny] == cur)) {
+                Q.push({nx, ny});
+            }
+        }
+    }
+}
 
 //#--------------------- Cambio de frames -----------------------------------------------
 
@@ -773,3 +826,5 @@ void MainWindow::on_Redo_clicked()
     HEXvec = redoStack.pop();
     update();
 }
+
+

@@ -1,4 +1,6 @@
 #include "mainwindow.h"
+#include <iostream>
+using namespace std;
 
 #include <QApplication>
 
