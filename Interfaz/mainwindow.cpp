@@ -343,6 +343,9 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
     else if(Fill){
         PaintFill(event);
     }
+    else if(SelecCuadrado){
+        CuadradoSeleccion(event);
+    }
     undoStack.push(HEXvec);
     update();
     lastCanvasWasSaved = true;
@@ -378,6 +381,34 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event)
     }
 }
 
+void MainWindow::CuadradoSeleccion(QMouseEvent *event) {
+    if(!SelecCuadrado1){
+        SelecPosX1 = event->pos().x();
+        SelecPosY1 = event->pos().y();
+        SelecCuadrado1 = true;
+    }
+    else if(!SelecCuadrado2) {
+        SelecPosX2 = event->pos().x();
+        SelecPosY2 = event->pos().y();
+        SelecCuadrado2 = true;
+        vector<vector<std::string>> SelecCuadradoPuntos;
+
+        SelecCuadradoPuntos.resize(SelecPosX2);
+        for(int i = SelecPosX1; i < SelecPosX2; i++){
+            SelecCuadradoPuntos[i].resize(SelecPosY2);
+            for (int j = SelecPosY1; j < SelecPosY2; j++) {
+                HEXvec[i][j] = "#bfbfbf";
+                SelecCuadradoPuntos[i][j] = to_string(i) + "," + to_string(j) + " -";
+                cout << SelecCuadradoPuntos[i][j];
+                cout << " ";
+            }
+            cout << "\n";
+        }
+        SelecCuadrado1 = false;
+        SelecCuadrado2 = false;
+    } update();
+}
+
 //# ----------------------------------------- Apartado de Botones ---------------------------
 void MainWindow::deactivateAllButtons(){
     lapiz = false;
@@ -390,6 +421,10 @@ void MainWindow::deactivateAllButtons(){
     circulo = false;
 
     Fill = false;
+
+    SelecCuadrado = false;
+    SelecLapiz = false;
+    SelecMagic = false;
 }
 
 void MainWindow::on_Lapiz_clicked()
@@ -470,6 +505,24 @@ void MainWindow::on_PaintFill_clicked()
 {
     deactivateAllButtons();
     Fill = true;
+}
+
+void MainWindow::on_SeleccionarLapiz_clicked()
+{
+    deactivateAllButtons();
+    SelecLapiz = true;
+}
+
+void MainWindow::on_SeleccionarCuadrado_clicked()
+{
+    deactivateAllButtons();
+    SelecCuadrado = true;
+}
+
+void MainWindow::on_SeleccionarMagico_clicked()
+{
+    deactivateAllButtons();
+    SelecMagic = true;
 }
 
 
@@ -644,9 +697,9 @@ void MainWindow::on_FiltroRaro_clicked()
         for (int j = 0; j < HEXvec[0].size(); ++j) {
             std::string HexVALUE = HEXvec[i][j];
             conversionHEXtoRGB(HexVALUE);
-            int r2 = rConversion;
-            int g2 = 255 - gConversion;
-            int b2 = 255 - bConversion;
+            int r2 = 50 - rConversion;
+            int g2 = 50 - gConversion;
+            int b2 = 50 - bConversion;
             char hexNEGATIVO[8];
             std::snprintf(hexNEGATIVO, sizeof hexNEGATIVO, "#%02x%02x%02x", r2,g2,b2);
             std::string conversion;
@@ -658,7 +711,7 @@ void MainWindow::on_FiltroRaro_clicked()
 }
 
 
-//#--------------------- Metodos --------------------------------------------------------
+//#------------------------------------------- Metodos --------------------------------------------------------
 
 void MainWindow::rotateToTheRight(){
     int newWidth =HEXvec.size();
@@ -830,5 +883,8 @@ void MainWindow::on_Redo_clicked()
     HEXvec = redoStack.pop();
     update();
 }
+
+
+
 
 
