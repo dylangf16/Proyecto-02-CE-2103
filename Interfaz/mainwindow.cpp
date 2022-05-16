@@ -9,7 +9,6 @@
 #include <math.h>
 #include <vector>
 #include <queue>
-#include <iomanip>
 using namespace std;
 
 std::string HEXColor = "#000000";
@@ -269,14 +268,14 @@ void MainWindow::dibujarCirculo(QMouseEvent *event){
     PosX = event->pos().x();
     PosY = event->pos().y();
     for(int j = 0; j < 10; j++){
-        HEXvec[PosX+j][PosY] = HEXColor;//Izquierda Arriba // Naranja
-        HEXvec[PosX-j][PosY] = HEXColor;//Derecha Arriba // Rojo
+        HEXvec[PosX+j][PosY] = HEXColor;
+        HEXvec[PosX-j][PosY] = HEXColor;
     }
-    for(int j = 0; j < 7; j++){ //Lados diagonales
+    for(int j = 0; j < 7; j++){
         HEXvec[PosX+10+j][PosY+j] = HEXColor;
         HEXvec[PosX-10-j][PosY+j] = HEXColor;
     }
-    for(int j = 0; j < 15; j++){ //Lados rectos
+    for(int j = 0; j < 15; j++){
         HEXvec[PosX+17][PosY+7+j] = HEXColor;
         HEXvec[PosX-17][PosY+7+j] = HEXColor;
     }
@@ -285,9 +284,13 @@ void MainWindow::dibujarCirculo(QMouseEvent *event){
         HEXvec[PosX-17+j][PosY+22+j] = HEXColor;
     }
     for(int j = 0; j < 10; j++){
-        HEXvec[PosX-10+j][PosY+29] = HEXColor;//Izquierda Arriba // Naranja
-        HEXvec[PosX+10-j][PosY+29] = HEXColor;//Derecha Arriba // Rojo
+        HEXvec[PosX-10+j][PosY+29] = HEXColor;
+        HEXvec[PosX+10-j][PosY+29] = HEXColor;
     }
+    for(int j = 0; j < 3; j++){
+        HEXvec[PosX+j][PosY+29] = HEXColor;
+    }
+
 }
 
 void MainWindow::mousePressEvent(QMouseEvent *event)
@@ -742,6 +745,7 @@ void MainWindow::loadImage(){
     HEXvec = image.BMPtoMatrix();
 }
 
+//Leer a ver como funciona JAJAJAJJAJA
 void MainWindow::BFS(vector<vector<std::string>> &mat, int r, int c, std::string target) {
     int rows = mat.size();
     if (0 == rows){
