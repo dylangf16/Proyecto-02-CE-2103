@@ -44,6 +44,7 @@ protected:
     void PaintFill(QMouseEvent *event);
     void BFS(vector<vector<std::string>> &mat, int x, int y, std::string replacement);
     void CuadradoSeleccion(QMouseEvent *event);
+    void MagicSeleccion(QMouseEvent *event);
 
 
 private slots:
@@ -131,6 +132,7 @@ private:
     bool LapiceroClicked1 = false, LapiceroClicked2 = false, Fill = false, SelecCuadrado1 = false, SelecCuadrado2 = false, SelecCuadrado = false, SelecLapiz = false, SelecMagic = false;
     std:: string Color1 = "#ff0000", Color2 = "#ff7300", Color3 = "#ffff00", Color4 = "#55ff00", Color5 = "#00ffe5", Color6 = "#0037ff", Color7 = "#7300ff", Color8 = "#d900ff", Color9 = "#2bff00", Color10 = "#000000", Color11 = "#ffffff", Color12 = "#424242";
     std::vector<QPoint> puntos;
+    vector<vector<std::string>> SelecPuntos;
     int row[8] = { -1, -1, -1, 0, 0, 1, 1, 1 };
     int col[8] = { -1, 0, 1, -1, 1, -1, 0, 1 };
 

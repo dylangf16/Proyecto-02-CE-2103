@@ -114,6 +114,7 @@ void MainWindow::pintarConLapiz(QMouseEvent *event){
             update();
         }
     }
+    cout << PosX << " " << PosY << endl;
 }
 
 void MainWindow::PaintFill(QMouseEvent *event) {
@@ -346,6 +347,9 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
     else if(SelecCuadrado){
         CuadradoSeleccion(event);
     }
+    else if(SelecMagic){
+        MagicSeleccion(event);
+    }
     undoStack.push(HEXvec);
     update();
     lastCanvasWasSaved = true;
@@ -391,15 +395,14 @@ void MainWindow::CuadradoSeleccion(QMouseEvent *event) {
         SelecPosX2 = event->pos().x();
         SelecPosY2 = event->pos().y();
         SelecCuadrado2 = true;
-        vector<vector<std::string>> SelecCuadradoPuntos;
 
-        SelecCuadradoPuntos.resize(SelecPosX2);
+        SelecPuntos.resize(SelecPosX2);
         for(int i = SelecPosX1; i < SelecPosX2; i++){
-            SelecCuadradoPuntos[i].resize(SelecPosY2);
+            SelecPuntos[i].resize(SelecPosY2);
             for (int j = SelecPosY1; j < SelecPosY2; j++) {
                 HEXvec[i][j] = "#bfbfbf";
-                SelecCuadradoPuntos[i][j] = to_string(i) + "," + to_string(j) + " -";
-                cout << SelecCuadradoPuntos[i][j];
+                SelecPuntos[i][j] = to_string(i) + "," + to_string(j) + " -";
+                cout << SelecPuntos[i][j];
                 cout << " ";
             }
             cout << "\n";
@@ -408,6 +411,13 @@ void MainWindow::CuadradoSeleccion(QMouseEvent *event) {
         SelecCuadrado2 = false;
     } update();
 }
+
+void MainWindow::MagicSeleccion(QMouseEvent *event) {
+    PosX = event->pos().x();
+    PosY = event->pos().y();
+    BFS(HEXvec, PosX, PosY, "#bfbfbf");
+}
+
 
 //# ----------------------------------------- Apartado de Botones ---------------------------
 void MainWindow::deactivateAllButtons(){
@@ -697,9 +707,9 @@ void MainWindow::on_FiltroRaro_clicked()
         for (int j = 0; j < HEXvec[0].size(); ++j) {
             std::string HexVALUE = HEXvec[i][j];
             conversionHEXtoRGB(HexVALUE);
-            int r2 = 50 - rConversion;
-            int g2 = 50 - gConversion;
-            int b2 = 50 - bConversion;
+            int r2 = 200 - rConversion;
+            int g2 = 150 - gConversion;
+            int b2 = 100 - bConversion;
             char hexNEGATIVO[8];
             std::snprintf(hexNEGATIVO, sizeof hexNEGATIVO, "#%02x%02x%02x", r2,g2,b2);
             std::string conversion;
@@ -813,6 +823,9 @@ void MainWindow::BFS(vector<vector<std::string>> &mat, int r, int c, std::string
     Q.push({r, c});
     vector<int> d{1, 0, -1, 0, 1};
     auto cur = mat[r][c];
+    int num1 = 0;
+    int num2 = 0;
+
     while (!Q.empty()) {
         auto p = Q.front();
         Q.pop();
@@ -825,6 +838,27 @@ void MainWindow::BFS(vector<vector<std::string>> &mat, int r, int c, std::string
             int ny = p[1] + d[i + 1];
             if ((nx >= 0) && (ny >= 0) && (nx < rows) && (ny < cols) && (mat[nx][ny] == cur)) {
                 Q.push({nx, ny});
+
+                if(SelecMagic){
+                    SelecPuntos.resize(mat.size());
+                    for(int i = 0; i < mat[0].size(); i++){
+                        SelecPuntos[i].resize(mat[0].size());
+                    }
+                    HEXvec[nx][ny] = "#bfbfbf";
+                    if(num1 < mat.size()){
+                        if(num2 < 10){
+                            SelecPuntos[num1][num2] = to_string(nx) + "," + to_string(ny) + " -";
+                            cout << SelecPuntos[num1][num2];
+                            cout << " ";
+                            num2++;
+                        }else{
+                            num1++;
+                            num2 = 0;
+                        }
+                    }else{
+                        num1 = 0;
+                    }
+                }
             }
         }
     }
@@ -883,7 +917,6 @@ void MainWindow::on_Redo_clicked()
     HEXvec = redoStack.pop();
     update();
 }
-
 
 
 
