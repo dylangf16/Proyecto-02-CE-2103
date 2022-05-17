@@ -43,8 +43,10 @@ protected:
     void deactivateAllColors();
     void PaintFill(QMouseEvent *event);
     void BFS(vector<vector<std::string>> &mat, int x, int y, std::string replacement);
+    void BFSSeleccionLapiz(vector<vector<std::string>> &mat, int r, int c, std::string replacement);
     void CuadradoSeleccion(QMouseEvent *event);
     void MagicSeleccion(QMouseEvent *event);
+    void LapizSeleccion(QMouseEvent *event);
 
 
 private slots:
@@ -125,7 +127,7 @@ private:
     QColor color;
     bool pressed = false, lapiz = false, lapicero = false, borrador = false, ColorPicker = false;
     bool cuadrado = false, triangulo = false, circulo = false;
-    int PosX,PosY, LapiceroX1 = 0, LapiceroY1 = 0, grosor = 5, SelecPosX1, SelecPosY1, SelecPosX2, SelecPosY2;
+    int PosX,PosY, LapiceroX1 = 0, LapiceroY1 = 0, grosor = 15, SelecPosX1, SelecPosY1, SelecPosX2, SelecPosY2;
     int canvasHeight, canvasWidth;
     int RED, GREEN, BLUE;
     bool iniciarPaint, Color1Pressed = false, Color2Pressed = false, Color3Pressed = false, Color4Pressed = false, Color5Pressed = false, Color6Pressed = false, Color7Pressed = false, Color8Pressed = false, Color9Pressed = false, Color10Pressed = false, Color11Pressed = false, Color12Pressed = false;

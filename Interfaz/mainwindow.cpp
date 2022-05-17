@@ -114,7 +114,6 @@ void MainWindow::pintarConLapiz(QMouseEvent *event){
             update();
         }
     }
-    cout << PosX << " " << PosY << endl;
 }
 
 void MainWindow::PaintFill(QMouseEvent *event) {
@@ -129,7 +128,6 @@ void MainWindow::pintarConLapicero(QMouseEvent *event, int x1, int y1, int x2, i
     int pk = 2 * dy - dx;
     for (int i = 0; i <= dx; i++)
     {
-        cout << x1 << "," << y1 << endl;
         x1 < x2 ? x1++ : x1--;
         if (pk < 0)
         {
@@ -350,6 +348,9 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
     else if(SelecMagic){
         MagicSeleccion(event);
     }
+    else if(SelecLapiz){
+        LapizSeleccion(event);
+    }
     undoStack.push(HEXvec);
     update();
     lastCanvasWasSaved = true;
@@ -359,6 +360,13 @@ void MainWindow::mouseReleaseEvent(QMouseEvent *event)
 {
     if(this->iniciarPaint){
         pressed = 0;
+    }
+    if(SelecLapiz){
+        PosX = event->pos().x();
+        PosY = event->pos().y();
+        PosY = PosY + grosor + 50;
+        cout << HEXvec[PosX][PosY] << endl;
+        BFSSeleccionLapiz(HEXvec,PosX, PosY, "#bfbfbf");
     }
 }
 
@@ -382,6 +390,23 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event)
             borrar(event);
             update();
         }
+    }
+    if(SelecLapiz){
+        PosX = event->pos().x();
+        PosY = event->pos().y();
+        PosY += 1;
+
+        SelecPuntos.resize(1000);
+        for(int i = 0; i < HEXvec.size(); i++){
+            SelecPuntos[i].resize(1000);
+        }
+
+        for (int i = 0; i < grosor; i++) {
+            for (int j = 0; j < grosor; j++) {
+                HEXvec[PosX + j][PosY + i] = "#bfbfbf";
+            }
+        }
+        update();
     }
 }
 
@@ -418,6 +443,10 @@ void MainWindow::MagicSeleccion(QMouseEvent *event) {
     BFS(HEXvec, PosX, PosY, "#bfbfbf");
 }
 
+void MainWindow::LapizSeleccion(QMouseEvent *event)
+{
+
+}
 
 //# ----------------------------------------- Apartado de Botones ---------------------------
 void MainWindow::deactivateAllButtons(){
@@ -863,6 +892,61 @@ void MainWindow::BFS(vector<vector<std::string>> &mat, int r, int c, std::string
             }
         }
     }
+    update();
+}
+
+void MainWindow::BFSSeleccionLapiz(vector<vector<std::string>> &mat, int r, int c, std::string target) {
+    int rows = mat.size();
+    if (0 == rows){
+        return;
+    }
+    int cols = mat[0].size();
+    if (0 == cols) {
+        return ;
+    }
+    unordered_set<string> vis;
+    queue<vector<int>> Q;
+    Q.push({r, c});
+    vector<int> d{1, 0, -1, 0, 1};
+    auto cur = "#bfbfbf";
+
+    SelecPuntos.resize(1000);
+    for(int i = 0; i < mat[0].size(); i++){
+        SelecPuntos[i].resize(1000);
+    }
+    int num1 = 0;
+    int num2 = 0;
+
+    while (!Q.empty()) {
+        auto p = Q.front();
+        Q.pop();
+        auto key = std::to_string(p[0]) + "," + std::to_string(p[1]);
+        if (vis.count(key)) continue;
+        vis.insert(key);
+        mat[p[0]][p[1]] = target;
+        for (int i = 0; i < 4; ++ i) {
+            int nx = p[0] + d[i];
+            int ny = p[1] + d[i + 1];
+            if ((nx >= 0) && (ny >= 0) && (nx < rows) && (ny < cols) && (mat[nx][ny] != cur)) {
+                Q.push({nx, ny});
+                if(num1 < mat.size()){
+                    if(num2 < 10){
+                        SelecPuntos[num1][num2] = to_string(nx) + "," + to_string(ny) + " - ";
+                        cout << SelecPuntos[num1][num2];
+                        cout << " ";
+                        num2++;
+                    }else{
+                        num1++;
+                        num2 = 0;
+                        cout << "\n";
+                    }
+                }else{
+                    num1 = 0;
+                }
+            }
+        }
+    }
+    update();
 }
 
 //#--------------------- Cambio de frames -----------------------------------------------
@@ -918,6 +1002,8 @@ void MainWindow::on_Redo_clicked()
     HEXvec = redoStack.pop();
     update();
 }
+
+
 
 
 
