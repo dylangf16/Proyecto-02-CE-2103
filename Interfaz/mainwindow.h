@@ -122,6 +122,8 @@ private slots:
 
     void on_SeleccionarMagico_clicked();
 
+    void on_zoom_clicked();
+
 private:
     Ui::MainWindow *ui;
     QColor color;

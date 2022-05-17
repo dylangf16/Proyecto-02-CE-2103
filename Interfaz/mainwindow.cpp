@@ -26,6 +26,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     this->iniciarPaint = false;
     ui->framePrincipal->hide();
+    ui->frameSecundario->hide();
     color = Qt::black;
     conversionHEXtoRGB(Color1);
     ui->Color1->setStyleSheet("background-color: rgb("+ QString::number(RED)+","+ QString::number(GREEN)+","+ QString::number(BLUE)+")");
@@ -969,7 +970,38 @@ void MainWindow::on_btnStart_clicked()
     update();
     ui->frameInicio->hide();
     ui->framePrincipal->show();
+    ui->frameSecundario->show();
 }
+
+void zoom(){
+    vector<vector<std::string>> output;
+    int numRows,numCols, zoom;
+    zoom = 4;
+    numRows = HEXvec.size();
+    numCols = HEXvec[0].size();
+
+    output.resize(numRows);
+    for(int i =0; i< numRows; i++){
+        output[i].resize(numCols);
+    }
+    for(int srcRow =0 ; srcRow < numRows; srcRow += zoom) {
+        for (int srcCol = 0; srcCol < numCols; srcCol += zoom) {
+            string srcPixel = HEXvec[srcRow/zoom][srcCol/zoom];
+            for(int k = 1; k < 4; k++){
+                for(int m = 0; m < 4; m++) {
+                    if (srcRow + k < numRows and srcCol + k < numCols) {
+                        output[srcRow][srcCol] = srcPixel;
+                        output[srcRow][srcCol + k] = srcPixel;
+                        output[srcRow + k][srcCol] = srcPixel;
+                        output[srcRow + k][srcCol + m] = srcPixel;
+                    }
+                }
+            }
+        }
+    }
+    HEXvec = output;
+}
+
 
 void MainWindow::on_Save_clicked()
 {
@@ -1004,7 +1036,11 @@ void MainWindow::on_Redo_clicked()
 }
 
 
-
+void MainWindow::on_zoom_clicked()
+{
+    zoom();
+    update();
+}
 
 
 

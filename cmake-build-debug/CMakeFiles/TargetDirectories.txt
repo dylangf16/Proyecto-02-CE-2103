@@ -1,4 +1,4 @@
-/home/dylan16/Documents/Datos2/Proyecto02/Proyecto-02-CE-2103/cmake-build-debug/CMakeFiles/Proyecto02_Paint.dir
-/home/dylan16/Documents/Datos2/Proyecto02/Proyecto-02-CE-2103/cmake-build-debug/CMakeFiles/edit_cache.dir
-/home/dylan16/Documents/Datos2/Proyecto02/Proyecto-02-CE-2103/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/home/dylan16/Documents/Datos2/Proyecto02/Proyecto-02-CE-2103/cmake-build-debug/CMakeFiles/Proyecto02_Paint_autogen.dir
+/home/alejandra/CLionProjects/Proyecto-02-CE-2103/cmake-build-debug/CMakeFiles/Proyecto02_Paint.dir
+/home/alejandra/CLionProjects/Proyecto-02-CE-2103/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/alejandra/CLionProjects/Proyecto-02-CE-2103/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/alejandra/CLionProjects/Proyecto-02-CE-2103/cmake-build-debug/CMakeFiles/Proyecto02_Paint_autogen.dir

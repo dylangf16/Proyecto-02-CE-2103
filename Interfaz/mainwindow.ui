@@ -136,7 +136,7 @@
      <rect>
       <x>0</x>
       <y>570</y>
-      <width>871</width>
+      <width>711</width>
       <height>171</height>
      </rect>
     </property>
@@ -151,7 +151,7 @@
       <rect>
        <x>10</x>
        <y>0</y>
-       <width>851</width>
+       <width>691</width>
        <height>181</height>
       </rect>
      </property>
@@ -298,32 +298,6 @@
        <string>&quot;Circulo&quot;</string>
       </property>
      </widget>
-     <widget class="QPlainTextEdit" name="plainTextGetName">
-      <property name="geometry">
-       <rect>
-        <x>680</x>
-        <y>90</y>
-        <width>151</width>
-        <height>31</height>
-       </rect>
-      </property>
-      <property name="overwriteMode">
-       <bool>false</bool>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="Save">
-      <property name="geometry">
-       <rect>
-        <x>710</x>
-        <y>130</y>
-        <width>89</width>
-        <height>25</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Guardar</string>
-      </property>
-     </widget>
      <widget class="QPushButton" name="RotarIzq">
       <property name="geometry">
        <rect>
@@ -334,7 +308,7 @@
        </rect>
       </property>
       <property name="text">
-       <string>Rotar Izquirda</string>
+       <string>Rotar Izquierda</string>
       </property>
      </widget>
      <widget class="QPushButton" name="RotarVer">
@@ -568,32 +542,6 @@
        <string/>
       </property>
      </widget>
-     <widget class="QPushButton" name="Undo">
-      <property name="geometry">
-       <rect>
-        <x>110</x>
-        <y>130</y>
-        <width>89</width>
-        <height>25</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Undo</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="Redo">
-      <property name="geometry">
-       <rect>
-        <x>230</x>
-        <y>130</y>
-        <width>91</width>
-        <height>25</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Redo</string>
-      </property>
-     </widget>
      <widget class="QPushButton" name="FiltroAzules">
       <property name="geometry">
        <rect>
@@ -709,6 +657,97 @@
       </property>
       <property name="text">
        <string>Herramientas</string>
+      </property>
+     </widget>
+    </widget>
+   </widget>
+   <widget class="QFrame" name="frameSecundario">
+    <property name="geometry">
+     <rect>
+      <x>920</x>
+      <y>10</y>
+      <width>201</width>
+      <height>451</height>
+     </rect>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
+    </property>
+    <widget class="QWidget" name="widget_2" native="true">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>181</width>
+       <height>431</height>
+      </rect>
+     </property>
+     <widget class="QPushButton" name="zoom">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>200</y>
+        <width>111</width>
+        <height>25</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Zoom</string>
+      </property>
+     </widget>
+     <widget class="QPlainTextEdit" name="plainTextGetName">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>350</y>
+        <width>151</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="overwriteMode">
+       <bool>false</bool>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="Save">
+      <property name="geometry">
+       <rect>
+        <x>40</x>
+        <y>390</y>
+        <width>89</width>
+        <height>25</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Guardar</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="Redo">
+      <property name="geometry">
+       <rect>
+        <x>40</x>
+        <y>50</y>
+        <width>91</width>
+        <height>25</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Redo</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="Undo">
+      <property name="geometry">
+       <rect>
+        <x>40</x>
+        <y>10</y>
+        <width>89</width>
+        <height>25</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Undo</string>
       </property>
      </widget>
     </widget>
