@@ -826,6 +826,10 @@ void MainWindow::BFS(vector<vector<std::string>> &mat, int r, int c, std::string
     int num1 = 0;
     int num2 = 0;
 
+    SelecPuntos.resize(1000);
+    for(int i = 0; i < mat[0].size(); i++){
+        SelecPuntos[i].resize(1000);
+    }
     while (!Q.empty()) {
         auto p = Q.front();
         Q.pop();
@@ -840,20 +844,17 @@ void MainWindow::BFS(vector<vector<std::string>> &mat, int r, int c, std::string
                 Q.push({nx, ny});
 
                 if(SelecMagic){
-                    SelecPuntos.resize(mat.size());
-                    for(int i = 0; i < mat[0].size(); i++){
-                        SelecPuntos[i].resize(mat[0].size());
-                    }
                     HEXvec[nx][ny] = "#bfbfbf";
                     if(num1 < mat.size()){
                         if(num2 < 10){
-                            SelecPuntos[num1][num2] = to_string(nx) + "," + to_string(ny) + " -";
+                            SelecPuntos[num1][num2] = to_string(nx) + "," + to_string(ny) + " - ";
                             cout << SelecPuntos[num1][num2];
                             cout << " ";
                             num2++;
                         }else{
                             num1++;
                             num2 = 0;
+                            cout << "\n";
                         }
                     }else{
                         num1 = 0;
