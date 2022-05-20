@@ -124,6 +124,8 @@ private slots:
 
     void on_zoom_clicked();
 
+    void on_Cargar_clicked();
+
 private:
     Ui::MainWindow *ui;
     QColor color;

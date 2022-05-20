@@ -17,6 +17,7 @@ vector<vector<std::string>> HEXvec;
 Stack undoStack;
 Stack redoStack;
 bool lastCanvasWasSaved;
+bool lapiceroWasJustUsed = false;
 
 //#-------------------- Ventana Inicio -------------------------
 MainWindow::MainWindow(QWidget *parent)
@@ -68,14 +69,6 @@ void MainWindow::conversionHEXtoRGB(std::string HEXvalue){
     BLUE = bConversion;
 }
 
-std::string conversionRGBtoHEX(int r, int g, int b){
-    char hexColor[8];
-    std::snprintf(hexColor, sizeof hexColor, "#%02x%02x%02x", r, g, b);
-    std::string HEXvalue;
-    HEXvalue += hexColor;
-    return HEXvalue;
-}
-
 //#-------------------------- Apartado de Events --------------------------------------------------------
 void MainWindow::paintEvent(QPaintEvent *event)
 {
@@ -103,7 +96,6 @@ void MainWindow::borrar(QMouseEvent *event){
             HEXvec[PosX + j][PosY + i] = "#ffffff";
         }
     }
-
 }
 
 void MainWindow::pintarConLapiz(QMouseEvent *event){
@@ -324,6 +316,7 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
             }else{
                 pintarConLapicero(event, LapiceroY1, LapiceroX1, y2, x2, dy, dx,1);
             }
+            lapiceroWasJustUsed = true;
             LapiceroClicked1 = false;
             LapiceroClicked2 = false;
         }
@@ -373,8 +366,8 @@ void MainWindow::mouseReleaseEvent(QMouseEvent *event)
 
 void MainWindow::mouseMoveEvent(QMouseEvent *event)
 {
-    if(lapiz){
-        if(pressed){
+    if(pressed) {
+        if (lapiz) {
             PosX = event->pos().x();
             PosY = event->pos().y();
             PosY += 1;
@@ -383,32 +376,18 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event)
                     HEXvec[PosX + j][PosY + i] = HEXColor;
                 }
             }
-            update();
+
         }
-    }
-    if(borrador){
-        if(pressed) {
+        if (borrador) {
             borrar(event);
-            update();
+
         }
     }
     if(SelecLapiz){
-        PosX = event->pos().x();
-        PosY = event->pos().y();
-        PosY += 1;
-
-        SelecPuntos.resize(1000);
-        for(int i = 0; i < HEXvec.size(); i++){
-            SelecPuntos[i].resize(1000);
-        }
-
-        for (int i = 0; i < grosor; i++) {
-            for (int j = 0; j < grosor; j++) {
-                HEXvec[PosX + j][PosY + i] = "#bfbfbf";
-            }
-        }
-        update();
+        LapizSeleccion(event);
     }
+    //undoStack.push(HEXvec);
+    update();
 }
 
 void MainWindow::CuadradoSeleccion(QMouseEvent *event) {
@@ -435,7 +414,8 @@ void MainWindow::CuadradoSeleccion(QMouseEvent *event) {
         }
         SelecCuadrado1 = false;
         SelecCuadrado2 = false;
-    } update();
+    }
+    update();
 }
 
 void MainWindow::MagicSeleccion(QMouseEvent *event) {
@@ -446,7 +426,142 @@ void MainWindow::MagicSeleccion(QMouseEvent *event) {
 
 void MainWindow::LapizSeleccion(QMouseEvent *event)
 {
+    PosX = event->pos().x();
+    PosY = event->pos().y();
+    PosY += 1;
 
+    SelecPuntos.resize(1000);
+    for(int i = 0; i < HEXvec.size(); i++){
+        SelecPuntos[i].resize(1000);
+    }
+
+    for (int i = 0; i < grosor; i++) {
+        for (int j = 0; j < grosor; j++) {
+            HEXvec[PosX + j][PosY + i] = "#bfbfbf";
+        }
+    }
+}
+
+//#------------------------------------------- Metodos --------------------------------------------------------
+
+void MainWindow::rotateToTheRight(){
+    int newWidth =HEXvec.size();
+    int newHeight = HEXvec[0].size();
+    vector<vector<std::string>> output;
+    output.resize(newHeight);
+    for(int i=0; i<newHeight; i++) {
+        output[i].resize(newWidth);
+    }
+    for (int i=0; i<newWidth; i++) {
+        for (int j = 0; j < newHeight; j++) {
+            output[j][newWidth - 1 - i] = HEXvec[i][j];
+        }
+    }
+    HEXvec = output;
+}
+
+void MainWindow::rotateToTheLeft(){
+    int newWidth =HEXvec.size();
+    int newHeight = HEXvec[0].size();
+    vector<vector<std::string>> output;
+    output.resize(newHeight);
+    for(int i=0; i<newHeight; i++) {
+        output[i].resize(newWidth);
+    }
+    for (int i=0; i<newWidth; i++) {
+        int k = newHeight-1;
+        for (int j = 0; j < newHeight; j++) {
+            output[k][i] = HEXvec[i][j];
+            k--;
+        }
+    }
+    HEXvec = output;
+}
+
+void MainWindow::verticalRotation(){
+    vector<vector<std::string>> output;
+    output = HEXvec;
+    for (int i=0; i<HEXvec.size(); i++) {
+        int k = HEXvec[0].size() - 1;
+        for (int j = 0; j < HEXvec[0].size(); j++) {
+            output[i][j] = HEXvec[i][k];
+            k--;
+        }
+    }
+    HEXvec = output;
+}
+
+void MainWindow::horizontalRotation(){
+    vector<vector<std::string>> output;
+    output = HEXvec;
+    int k = HEXvec.size();
+    for (int i=0; i<HEXvec.size(); i++) {
+        k--;
+        for (int j = 0; j < HEXvec[0].size(); j++) {
+            output[i][j] = HEXvec[k][j];
+        }
+    }
+    HEXvec = output;
+}
+
+void MainWindow::createCanvas(){
+    QString size;
+    size = ui->plainTextGetHeight->toPlainText();
+    this->canvasHeight = size.toInt();
+    size = ui->plainTextEditGetWidth->toPlainText();
+    this->canvasWidth = size.toInt();
+    HEXvec.resize(this->canvasHeight);
+    for (int i = 0; i < this->canvasHeight; ++i) {
+        HEXvec[i].resize(this->canvasWidth);
+        for (int j = 0; j < this->canvasWidth; ++j) {
+            HEXvec[i][j] = "#87ceeb";
+        }
+    }
+}
+
+void MainWindow::loadImage(){
+    QString ImageDir;
+    ImageDir = ui->plainTextGetDir->toPlainText();
+    QByteArray ba = ImageDir.toLocal8Bit();
+    const char *ImageDirectory = ba.data();
+    Image image(0,0);
+    image.Read(ImageDirectory);
+    HEXvec = image.BMPtoMatrix();
+    rotateToTheRight();
+}
+
+void zoom(){
+    vector<vector<std::string>> output;
+    int numRows,numCols, zoom;
+    zoom = 4;
+    numRows = HEXvec.size();
+    numCols = HEXvec[0].size();
+
+    output.resize(numRows);
+    for(int i =0; i< numRows; i++){
+        output[i].resize(numCols);
+    }
+    for(int srcRow =0 ; srcRow < numRows; srcRow += zoom) {
+        for (int srcCol = 0; srcCol < numCols; srcCol += zoom) {
+            string srcPixel = HEXvec[srcRow/zoom][srcCol/zoom];
+            for(int k = 1; k < 4; k++){
+                for(int m = 0; m < 4; m++) {
+                    if (srcRow + k < numRows and srcCol + k < numCols) {
+                        output[srcRow][srcCol] = srcPixel;
+                        output[srcRow][srcCol + k] = srcPixel;
+                        output[srcRow + k][srcCol] = srcPixel;
+                        output[srcRow + k][srcCol + m] = srcPixel;
+                    }
+                }
+            }
+        }
+    }
+    HEXvec = output;
+}
+
+bool IsTextEditEmpty(const QTextEdit * myTextEdit)
+{
+    return myTextEdit->document()->isEmpty();
 }
 
 //# ----------------------------------------- Apartado de Botones ---------------------------
@@ -512,6 +627,7 @@ void MainWindow::on_Circulo_clicked()
 void MainWindow::on_RotarDer_clicked()
 {
     rotateToTheRight();
+    undoStack.push(HEXvec);
     update();
 }
 
@@ -519,6 +635,7 @@ void MainWindow::on_RotarDer_clicked()
 void MainWindow::on_RotarIzq_clicked()
 {
     rotateToTheLeft();
+    undoStack.push(HEXvec);
     update();
 }
 
@@ -526,12 +643,14 @@ void MainWindow::on_RotarIzq_clicked()
 void MainWindow::on_RotarVer_clicked()
 {
     verticalRotation();
+    undoStack.push(HEXvec);
     update();
 }
 
 void MainWindow::on_RotarHor_clicked()
 {
     horizontalRotation();
+    undoStack.push(HEXvec);
     update();
 }
 
@@ -666,8 +785,68 @@ void MainWindow::on_Color12_clicked()
     HEXColor = Color12;
 }
 
+void MainWindow::on_btnStart_clicked()
+{
+    if(!IsTextEditEmpty(reinterpret_cast<const QTextEdit *>(ui->plainTextGetHeight)) and !IsTextEditEmpty(reinterpret_cast<const QTextEdit *>(ui->plainTextEditGetWidth))) {
+        createCanvas();
+    }
+    this->iniciarPaint = true;
+    rotateToTheRight();
+    undoStack.push(HEXvec);
+    update();
+    ui->frameInicio->hide();
+    ui->framePrincipal->show();
+    ui->frameSecundario->show();
+}
 
+void MainWindow::on_Save_clicked()
+{
+    QString givenImageName;
+    givenImageName = ui->plainTextGetName->toPlainText();
+    QByteArray bb = givenImageName.toLocal8Bit();
+    const char *ImageName = bb.data();
+    Image image(0,0);
+    rotateToTheLeft();
+    image.matrixToBMP(HEXvec);
+    image.Export(ImageName);
+    rotateToTheRight();
+}
 
+void MainWindow::on_Undo_clicked()
+{
+    if(lastCanvasWasSaved) {
+        undoStack.pop();
+    }
+    if(lapiceroWasJustUsed){
+        undoStack.pop();
+    }
+    redoStack.push(HEXvec);
+    HEXvec = undoStack.pop();
+    update();
+    lastCanvasWasSaved = false;
+    lapiceroWasJustUsed = false;
+}
+
+void MainWindow::on_Redo_clicked()
+{
+    undoStack.push(HEXvec);
+    HEXvec = redoStack.pop();
+    update();
+}
+
+void MainWindow::on_zoom_clicked()
+{
+    zoom();
+    undoStack.push(HEXvec);
+    update();
+}
+
+void MainWindow::on_Cargar_clicked()
+{
+    loadImage();
+    undoStack.push(HEXvec);
+    update();
+}
 
 //#---------------------- Apartado de filtros -----------------------------------------------
 //Aplicar filtro negativo al canvas
@@ -687,6 +866,7 @@ void MainWindow::on_Negativo_clicked()
             HEXvec[i][j] = conversion;
         }
     }
+    undoStack.push(HEXvec);
     update();
 }
 
@@ -708,6 +888,7 @@ void MainWindow::on_Grises_clicked()
             HEXvec[i][j] = conversion;
         }
     }
+    undoStack.push(HEXvec);
     update();
 }
 
@@ -727,9 +908,9 @@ void MainWindow::on_FiltroAzules_clicked()
             HEXvec[i][j] = conversion;
         }
     }
+    undoStack.push(HEXvec);
     update();
 }
-
 
 void MainWindow::on_FiltroRaro_clicked()
 {
@@ -747,98 +928,12 @@ void MainWindow::on_FiltroRaro_clicked()
             HEXvec[i][j] = conversion;
         }
     }
+    undoStack.push(HEXvec);
     update();
 }
 
+//--------------------------------BFS--------------------------------------------------------------
 
-//#------------------------------------------- Metodos --------------------------------------------------------
-
-void MainWindow::rotateToTheRight(){
-    int newWidth =HEXvec.size();
-    int newHeight = HEXvec[0].size();
-    vector<vector<std::string>> output;
-    output.resize(newHeight);
-    for(int i=0; i<newHeight; i++) {
-        output[i].resize(newWidth);
-    }
-    for (int i=0; i<newWidth; i++) {
-        for (int j = 0; j < newHeight; j++) {
-            output[j][newWidth - 1 - i] = HEXvec[i][j];
-        }
-    }
-    HEXvec = output;
-}
-
-void MainWindow::rotateToTheLeft(){
-    int newWidth =HEXvec.size();
-    int newHeight = HEXvec[0].size();
-    vector<vector<std::string>> output;
-    output.resize(newHeight);
-    for(int i=0; i<newHeight; i++) {
-        output[i].resize(newWidth);
-    }
-    for (int i=0; i<newWidth; i++) {
-        int k = newHeight-1;
-        for (int j = 0; j < newHeight; j++) {
-            output[k][i] = HEXvec[i][j];
-            k--;
-        }
-    }
-    HEXvec = output;
-}
-
-void MainWindow::verticalRotation(){
-    vector<vector<std::string>> output;
-    output = HEXvec;
-    for (int i=0; i<HEXvec.size(); i++) {
-        int k = HEXvec[0].size() - 1;
-        for (int j = 0; j < HEXvec[0].size(); j++) {
-            output[i][j] = HEXvec[i][k];
-            k--;
-        }
-    }
-    HEXvec = output;
-}
-
-void MainWindow::horizontalRotation(){
-    vector<vector<std::string>> output;
-    output = HEXvec;
-    int k = HEXvec.size();
-    for (int i=0; i<HEXvec.size(); i++) {
-        k--;
-        for (int j = 0; j < HEXvec[0].size(); j++) {
-            output[i][j] = HEXvec[k][j];
-        }
-    }
-    HEXvec = output;
-}
-
-void MainWindow::createCanvas(){
-    QString size;
-    size = ui->plainTextGetHeight->toPlainText();
-    this->canvasHeight = size.toInt();
-    size = ui->plainTextEditGetWidth->toPlainText();
-    this->canvasWidth = size.toInt();
-    HEXvec.resize(this->canvasHeight);
-    for (int i = 0; i < this->canvasHeight; ++i) {
-        HEXvec[i].resize(this->canvasWidth);
-        for (int j = 0; j < this->canvasWidth; ++j) {
-            HEXvec[i][j] = "#87ceeb";
-        }
-    }
-}
-
-void MainWindow::loadImage(){
-    QString ImageDir;
-    ImageDir = ui->plainTextGetDir->toPlainText();
-    QByteArray ba = ImageDir.toLocal8Bit();
-    const char *ImageDirectory = ba.data();
-    Image image(0,0);
-    image.Read(ImageDirectory);
-    HEXvec = image.BMPtoMatrix();
-}
-
-//Leer a ver como funciona JAJAJAJJAJA
 void MainWindow::BFS(vector<vector<std::string>> &mat, int r, int c, std::string target) {
     int rows = mat.size();
     if (0 == rows){
@@ -949,98 +1044,5 @@ void MainWindow::BFSSeleccionLapiz(vector<vector<std::string>> &mat, int r, int 
     }
     update();
 }
-
-//#--------------------- Cambio de frames -----------------------------------------------
-
-bool IsTextEditEmpty(const QTextEdit * myTextEdit)
-{
-    return myTextEdit->document()->isEmpty();
-}
-
-void MainWindow::on_btnStart_clicked()
-{
-    if(!IsTextEditEmpty(reinterpret_cast<const QTextEdit *>(ui->plainTextGetHeight)) and !IsTextEditEmpty(reinterpret_cast<const QTextEdit *>(ui->plainTextEditGetWidth))) {
-        createCanvas();
-    } else if(!IsTextEditEmpty(reinterpret_cast<const QTextEdit *>(ui->plainTextGetDir))){
-        loadImage();
-    }
-    this->iniciarPaint = true;
-    rotateToTheRight();
-    undoStack.push(HEXvec);
-    update();
-    ui->frameInicio->hide();
-    ui->framePrincipal->show();
-    ui->frameSecundario->show();
-}
-
-void zoom(){
-    vector<vector<std::string>> output;
-    int numRows,numCols, zoom;
-    zoom = 4;
-    numRows = HEXvec.size();
-    numCols = HEXvec[0].size();
-
-    output.resize(numRows);
-    for(int i =0; i< numRows; i++){
-        output[i].resize(numCols);
-    }
-    for(int srcRow =0 ; srcRow < numRows; srcRow += zoom) {
-        for (int srcCol = 0; srcCol < numCols; srcCol += zoom) {
-            string srcPixel = HEXvec[srcRow/zoom][srcCol/zoom];
-            for(int k = 1; k < 4; k++){
-                for(int m = 0; m < 4; m++) {
-                    if (srcRow + k < numRows and srcCol + k < numCols) {
-                        output[srcRow][srcCol] = srcPixel;
-                        output[srcRow][srcCol + k] = srcPixel;
-                        output[srcRow + k][srcCol] = srcPixel;
-                        output[srcRow + k][srcCol + m] = srcPixel;
-                    }
-                }
-            }
-        }
-    }
-    HEXvec = output;
-}
-
-
-void MainWindow::on_Save_clicked()
-{
-    QString givenImageName;
-    givenImageName = ui->plainTextGetName->toPlainText();
-    QByteArray bb = givenImageName.toLocal8Bit();
-    const char *ImageName = bb.data();
-    Image image(0,0);
-    rotateToTheLeft();
-    image.matrixToBMP(HEXvec);
-    image.Export(ImageName);
-    rotateToTheRight();
-}
-
-void MainWindow::on_Undo_clicked()
-{
-    if(lastCanvasWasSaved) {
-        undoStack.pop();
-    }
-    redoStack.push(HEXvec);
-    HEXvec = undoStack.pop();
-    update();
-    lastCanvasWasSaved = false;
-}
-
-
-void MainWindow::on_Redo_clicked()
-{
-    undoStack.push(HEXvec);
-    HEXvec = redoStack.pop();
-    update();
-}
-
-
-void MainWindow::on_zoom_clicked()
-{
-    zoom();
-    update();
-}
-
 
 

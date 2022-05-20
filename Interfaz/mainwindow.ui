@@ -17,7 +17,7 @@
    <widget class="QFrame" name="frameInicio">
     <property name="geometry">
      <rect>
-      <x>140</x>
+      <x>250</x>
       <y>10</y>
       <width>491</width>
       <height>301</height>
@@ -94,40 +94,14 @@
     <widget class="QPushButton" name="btnStart">
      <property name="geometry">
       <rect>
-       <x>190</x>
-       <y>230</y>
+       <x>180</x>
+       <y>170</y>
        <width>89</width>
        <height>25</height>
       </rect>
      </property>
      <property name="text">
       <string>Empezar</string>
-     </property>
-    </widget>
-    <widget class="QPlainTextEdit" name="plainTextGetDir">
-     <property name="geometry">
-      <rect>
-       <x>140</x>
-       <y>170</y>
-       <width>181</width>
-       <height>31</height>
-      </rect>
-     </property>
-     <property name="overwriteMode">
-      <bool>false</bool>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_4">
-     <property name="geometry">
-      <rect>
-       <x>120</x>
-       <y>140</y>
-       <width>241</width>
-       <height>17</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>o escriba la direccion de la imagen</string>
      </property>
     </widget>
    </widget>
@@ -689,7 +663,7 @@
       <property name="geometry">
        <rect>
         <x>30</x>
-        <y>200</y>
+        <y>150</y>
         <width>111</width>
         <height>25</height>
        </rect>
@@ -748,6 +722,32 @@
       </property>
       <property name="text">
        <string>Undo</string>
+      </property>
+     </widget>
+     <widget class="QPlainTextEdit" name="plainTextGetDir">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>260</y>
+        <width>151</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="overwriteMode">
+       <bool>false</bool>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="Cargar">
+      <property name="geometry">
+       <rect>
+        <x>40</x>
+        <y>300</y>
+        <width>89</width>
+        <height>25</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Cargar</string>
       </property>
      </widget>
     </widget>
