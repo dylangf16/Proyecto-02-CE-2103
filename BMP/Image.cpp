@@ -18,6 +18,11 @@ Color::~Color()
 {
 }
 
+/**
+ * Clase imagen, para crear objetos imagen tipo bmp
+ * @param width ancho de la imagen
+ * @param height altura de la imagen
+ */
 Image::Image(int width, int height)
         : m_width(width), m_height(height), m_colors(std::vector<Color>(width*height))
 {
@@ -29,17 +34,36 @@ Image::~Image()
 
 }
 
+/**
+ * Obtener el color de una coordenada de la imagen
+ * @param x coordena en eje x
+ * @param y coordenada en eje y
+ * @return valor rgb del pixel seleccionado
+ */
 Color Image::GetColor(int x, int y) const
 {
     return m_colors[y * m_width + x];
 }
 
+/**
+ * Fija el color de un pixel de la imagen
+ * @param color color que se desea fijar
+ * @param x coordena en el eje x del pixel que se desea cambiar
+ * @param y coordenada en el eje y del pixel que se desea cambiar
+ */
 void Image::setColor(const Color &color, int x, int y) {
     m_colors[y * m_width + x].r = color.r;
     m_colors[y * m_width + x].g = color.g;
     m_colors[y * m_width + x].b = color.b;
 }
 
+/**
+ * Convierte valores RGB a HEX
+ * @param r valor red del color
+ * @param g valor green del color
+ * @param b valor blue del color
+ * @return valor HEX del color RGB recibido
+ */
 std::string conversionRGBtoHEX_2(int r, int g, int b){
     char hexColor[8];
     std::snprintf(hexColor, sizeof hexColor, "#%02x%02x%02x", r, g, b);
@@ -48,6 +72,12 @@ std::string conversionRGBtoHEX_2(int r, int g, int b){
     return HEXvalue;
 }
 
+/**
+ * Convierte valores de HEX a RGB
+ * @param HEXvalue Valor HEX que se desea convertir
+ * @param value Indicador de que color RGB se desea obtener
+ * @return Valor R, G o B del color HEX
+ */
 int conversionHEXtoRGB_2(std::string HEXvalue, char value){
     char const *hexColor = HEXvalue.c_str();
     int rConversion, gConversion, bConversion, response;
@@ -67,6 +97,10 @@ int conversionHEXtoRGB_2(std::string HEXvalue, char value){
     return response;
 }
 
+/**
+ * Convierte una clase imagen BMP a una matriz de vectores
+ * @return matriz de vectores
+ */
 std::vector<std::vector<std::string>> Image::BMPtoMatrix() {
     const int width = m_width;
     const int height = m_height;
@@ -82,6 +116,10 @@ std::vector<std::vector<std::string>> Image::BMPtoMatrix() {
     return HEXvector;
 }
 
+/**
+ * Convierte una matriz en una clase imagen BMP
+ * @param HEXvector matriz que se desea convertir
+ */
 void Image::matrixToBMP(std::vector<std::vector<std::string>> HEXvector) {
     m_height = HEXvector.size();
     m_width = HEXvector[0].size();
@@ -97,6 +135,10 @@ void Image::matrixToBMP(std::vector<std::vector<std::string>> HEXvector) {
     }
 }
 
+/**
+ * Crea un objeto imagen de una imagen BMP leida
+ * @param path direccion de la imagen BMP
+ */
 void Image::Read(const char* path) {
     std::ifstream f;
     f.open(path, std::ios::in | std::ios::binary);
@@ -143,7 +185,10 @@ void Image::Read(const char* path) {
     std::cout << "File read" << std::endl;
 }
 
-
+/**
+ * Guarda un objeto de imagen como una imagen BMP
+ * @param path direccion donde se desea guardar la imagen
+ */
 void Image::Export(const char *path) const {
     std::ofstream f;
     f.open(path, std::ios::out | std::ios::binary);
@@ -255,17 +300,4 @@ void Image::Export(const char *path) const {
     f.close();
 
     std::cout << "File created" << endl;
-}
-
-void Image::createWhiteCanvas(){
-    const int width = m_width;
-    const int height = m_height;
-
-    for(int y = 0; y < height; y++){
-        for (int x = 0; x < width; x++)
-        {
-            this->setColor(Color(258, 258, 258),x,y);
-        }
-    }
-    this->Export("canvas.bmp");
 }

@@ -20,6 +20,10 @@ bool lastCanvasWasSaved;
 bool lapiceroWasJustUsed = false;
 
 //#-------------------- Ventana Inicio -------------------------
+/**
+ * Inicializacion de la ventana de inicio
+ * @param parent
+ */
 MainWindow::MainWindow(QWidget *parent)
         : QMainWindow(parent)
         , ui(new Ui::MainWindow)
@@ -61,6 +65,10 @@ MainWindow::~MainWindow()
 }
 
 //#---------------------------- Conversiones de filtros ----------------------------
+/**
+ * Convierte valores HEX a RGB
+ * @param HEXvalue valor HEX que se desea convertir a RGB
+ */
 void MainWindow::conversionHEXtoRGB(std::string HEXvalue){
     char const *hexColor = HEXvalue.c_str();
     std::sscanf(hexColor, "#%02x%02x%02x", &rConversion, &gConversion, &bConversion);
@@ -70,6 +78,9 @@ void MainWindow::conversionHEXtoRGB(std::string HEXvalue){
 }
 
 //#-------------------------- Apartado de Events --------------------------------------------------------
+/**
+ * Pinta la matriz en la ventana de inicio
+ */
 void MainWindow::paintEvent(QPaintEvent *event)
 {
     if(this->iniciarPaint){
@@ -88,6 +99,10 @@ void MainWindow::paintEvent(QPaintEvent *event)
     }
 }
 
+/**
+ * Pinta de blanco los pixeles seleccionados por el usuario
+ * @param event
+ */
 void MainWindow::borrar(QMouseEvent *event){
     PosX = event->pos().x();
     PosY = event->pos().y();
@@ -98,6 +113,10 @@ void MainWindow::borrar(QMouseEvent *event){
     }
 }
 
+/**
+ * Pinta del color actualmente en uso los pixeles seleccionados por el usuario
+ * @param event
+ */
 void MainWindow::pintarConLapiz(QMouseEvent *event){
     PosX = event->pos().x();
     PosY = event->pos().y();
@@ -109,6 +128,10 @@ void MainWindow::pintarConLapiz(QMouseEvent *event){
     }
 }
 
+/**
+ * Llama la funcion, con los paramentros adecuados, que realizar el pintado de relleno
+ * @param event
+ */
 void MainWindow::PaintFill(QMouseEvent *event) {
     PosX = event->pos().x();
     PosY = event->pos().y();
@@ -116,7 +139,17 @@ void MainWindow::PaintFill(QMouseEvent *event) {
     update();
 }
 
-
+/**
+ * Pinta una linea recta en el canvas
+ * @param event
+ * @param x1 ubicacion en el eje x del primer punto de la linea
+ * @param y1 ubicacion en el eje y del primer punto de la linea
+ * @param x2 ubicacion en el eje x del segundo punto de la linea
+ * @param y2 ubicacion en el eje y del segundo punto de la linea
+ * @param dx valor absoluto de (x2-x1)
+ * @param dy valor absoluto de (y2-y1)
+ * @param decide
+ */
 void MainWindow::pintarConLapicero(QMouseEvent *event, int x1, int y1, int x2, int y2, int dx, int dy, int decide){
     int pk = 2 * dy - dx;
     for (int i = 0; i <= dx; i++)
@@ -167,6 +200,10 @@ void MainWindow::pintarConLapicero(QMouseEvent *event, int x1, int y1, int x2, i
     }
 }
 
+/**
+ * Guarda el color seleccionado en los botones de color
+ * @param event
+ */
 void MainWindow::pickColor(QMouseEvent *event){
     PosX = event->pos().x();
     PosY = event->pos().y();
@@ -221,6 +258,10 @@ void MainWindow::pickColor(QMouseEvent *event){
     ColorPicker = false;
 }
 
+/**
+ * Dibuja un cuadrado en la matriz
+ * @param event
+ */
 void MainWindow::dibujarCuadrado(QMouseEvent *event){
     PosX = event->pos().x();
     PosY = event->pos().y();
@@ -241,6 +282,10 @@ void MainWindow::dibujarCuadrado(QMouseEvent *event){
     }
 }
 
+/**
+ * Dibuja un triangulo en la matriz
+ * @param event
+ */
 void MainWindow::dibujarTriangulo(QMouseEvent *event){
     PosX = event->pos().x();
     PosY = event->pos().y();
@@ -256,6 +301,10 @@ void MainWindow::dibujarTriangulo(QMouseEvent *event){
     }
 }
 
+/**
+ * Dibuja un circulo en la matriz
+ * @param event
+ */
 void MainWindow::dibujarCirculo(QMouseEvent *event){
     PosX = event->pos().x();
     PosY = event->pos().y();
@@ -285,6 +334,10 @@ void MainWindow::dibujarCirculo(QMouseEvent *event){
 
 }
 
+/**
+ * Evento para detectar el click de mouse y realizar las acciones necesarias
+ * @param event
+ */
 void MainWindow::mousePressEvent(QMouseEvent *event)
 {
     if (event->button() == Qt::RightButton)
@@ -350,6 +403,10 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
     lastCanvasWasSaved = true;
 }
 
+/**
+ * Evento para detectar cuando se libera el click del mouse
+ * @param event
+ */
 void MainWindow::mouseReleaseEvent(QMouseEvent *event)
 {
     if(this->iniciarPaint){
@@ -364,6 +421,10 @@ void MainWindow::mouseReleaseEvent(QMouseEvent *event)
     }
 }
 
+/**
+ * Evento para seguir el movimiento del mouse
+ * @param event
+ */
 void MainWindow::mouseMoveEvent(QMouseEvent *event)
 {
     if(pressed) {
@@ -390,6 +451,10 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event)
     update();
 }
 
+/**
+ * Imprime los puntos a la hora seleccionar una zona cuadrada
+ * @param event
+ */
 void MainWindow::CuadradoSeleccion(QMouseEvent *event) {
     if(!SelecCuadrado1){
         SelecPosX1 = event->pos().x();
@@ -418,12 +483,19 @@ void MainWindow::CuadradoSeleccion(QMouseEvent *event) {
     update();
 }
 
+/**
+ * pinta los puntos cuando se realiza la seleccion magica
+ */
 void MainWindow::MagicSeleccion(QMouseEvent *event) {
     PosX = event->pos().x();
     PosY = event->pos().y();
     BFS(HEXvec, PosX, PosY, "#bfbfbf");
 }
 
+/**
+ * Pinta las zonas seleccionadas con lapiz
+ * @param event
+ */
 void MainWindow::LapizSeleccion(QMouseEvent *event)
 {
     PosX = event->pos().x();
@@ -444,6 +516,9 @@ void MainWindow::LapizSeleccion(QMouseEvent *event)
 
 //#------------------------------------------- Metodos --------------------------------------------------------
 
+/**
+ * Rota la matriz a la derecha
+ */
 void MainWindow::rotateToTheRight(){
     int newWidth =HEXvec.size();
     int newHeight = HEXvec[0].size();
@@ -460,6 +535,9 @@ void MainWindow::rotateToTheRight(){
     HEXvec = output;
 }
 
+/**
+ * Rota la matriz a la izquierda
+ */
 void MainWindow::rotateToTheLeft(){
     int newWidth =HEXvec.size();
     int newHeight = HEXvec[0].size();
@@ -478,6 +556,9 @@ void MainWindow::rotateToTheLeft(){
     HEXvec = output;
 }
 
+/**
+ * Rota la matriz de forma vertical
+ */
 void MainWindow::verticalRotation(){
     vector<vector<std::string>> output;
     output = HEXvec;
@@ -491,6 +572,9 @@ void MainWindow::verticalRotation(){
     HEXvec = output;
 }
 
+/**
+ * Rota la matriz de forma horizontal
+ */
 void MainWindow::horizontalRotation(){
     vector<vector<std::string>> output;
     output = HEXvec;
@@ -504,6 +588,9 @@ void MainWindow::horizontalRotation(){
     HEXvec = output;
 }
 
+/**
+ * Crea una matriz del tamano dado por el usuario
+ */
 void MainWindow::createCanvas(){
     QString size;
     size = ui->plainTextGetHeight->toPlainText();
@@ -519,6 +606,9 @@ void MainWindow::createCanvas(){
     }
 }
 
+/**
+ * Carga en la matriz una imagen dada por el usuario
+ */
 void MainWindow::loadImage(){
     QString ImageDir;
     ImageDir = ui->plainTextGetDir->toPlainText();
@@ -530,6 +620,9 @@ void MainWindow::loadImage(){
     rotateToTheRight();
 }
 
+/**
+ * Realiza zoom en la esquina superior izquierda
+ */
 void zoom(){
     vector<vector<std::string>> output;
     int numRows,numCols, zoom;
@@ -559,12 +652,20 @@ void zoom(){
     HEXvec = output;
 }
 
+/**
+ * Para verificar si un TextEdit se encuentra vacio
+ * @param myTextEdit el TextEEdit que se desea verificar
+ * @return
+ */
 bool IsTextEditEmpty(const QTextEdit * myTextEdit)
 {
     return myTextEdit->document()->isEmpty();
 }
 
 //# ----------------------------------------- Apartado de Botones ---------------------------
+/**
+ * Desactiva todos los botones
+ */
 void MainWindow::deactivateAllButtons(){
     lapiz = false;
     lapicero = false;
@@ -684,7 +785,9 @@ void MainWindow::on_SeleccionarMagico_clicked()
     SelecMagic = true;
 }
 
-
+/**
+ * Vuelve falso que los botones de colores ayan sido seleccionados
+ */
 void MainWindow::deactivateAllColors(){
     Color1Pressed = false;
     Color2Pressed = false;
@@ -785,6 +888,9 @@ void MainWindow::on_Color12_clicked()
     HEXColor = Color12;
 }
 
+/**
+ * Llama la funcion para crear el canvas
+ */
 void MainWindow::on_btnStart_clicked()
 {
     if(!IsTextEditEmpty(reinterpret_cast<const QTextEdit *>(ui->plainTextGetHeight)) and !IsTextEditEmpty(reinterpret_cast<const QTextEdit *>(ui->plainTextEditGetWidth))) {
@@ -799,6 +905,9 @@ void MainWindow::on_btnStart_clicked()
     ui->frameSecundario->show();
 }
 
+/**
+ * Llama la funcion para guardar el cavas en una imagen bmp
+ */
 void MainWindow::on_Save_clicked()
 {
     QString givenImageName;
@@ -812,6 +921,9 @@ void MainWindow::on_Save_clicked()
     rotateToTheRight();
 }
 
+/**
+ * Actualiza el canvas a su version anterior
+ */
 void MainWindow::on_Undo_clicked()
 {
     if(lastCanvasWasSaved) {
@@ -827,6 +939,9 @@ void MainWindow::on_Undo_clicked()
     lapiceroWasJustUsed = false;
 }
 
+/**
+ * Actualiza el canvas a un cambio del undo
+ */
 void MainWindow::on_Redo_clicked()
 {
     undoStack.push(HEXvec);
@@ -834,6 +949,9 @@ void MainWindow::on_Redo_clicked()
     update();
 }
 
+/**
+ * Llama la funcion de zoom
+ */
 void MainWindow::on_zoom_clicked()
 {
     zoom();
@@ -841,6 +959,9 @@ void MainWindow::on_zoom_clicked()
     update();
 }
 
+/**
+ * Llama la funcion para cargar una imagen
+ */
 void MainWindow::on_Cargar_clicked()
 {
     loadImage();
@@ -849,7 +970,10 @@ void MainWindow::on_Cargar_clicked()
 }
 
 //#---------------------- Apartado de filtros -----------------------------------------------
-//Aplicar filtro negativo al canvas
+
+/*
+ * Coloca un filtro oscuro en el canvas
+ */
 void MainWindow::on_Negativo_clicked()
 {
     for (int i = 0; i < HEXvec.size(); ++i) {
@@ -870,7 +994,9 @@ void MainWindow::on_Negativo_clicked()
     update();
 }
 
-//Aplicar filtro de escala de grises al canvas
+/*
+ * Coloca un filtro de grises en el canvas
+ */
 void MainWindow::on_Grises_clicked()
 {
     for (int i = 0; i < HEXvec.size(); ++i) {
@@ -892,6 +1018,9 @@ void MainWindow::on_Grises_clicked()
     update();
 }
 
+/*
+ *Coloca un filtro de azules en el canvas
+ */
 void MainWindow::on_FiltroAzules_clicked()
 {
     for (int i = 0; i < HEXvec.size(); ++i) {
@@ -912,6 +1041,9 @@ void MainWindow::on_FiltroAzules_clicked()
     update();
 }
 
+/**
+ * Coloca un filtro raro en el canvas
+ */
 void MainWindow::on_FiltroRaro_clicked()
 {
     for (int i = 0; i < HEXvec.size(); ++i) {
@@ -934,6 +1066,13 @@ void MainWindow::on_FiltroRaro_clicked()
 
 //--------------------------------BFS--------------------------------------------------------------
 
+/**
+ * Cambia el color de la zona y color seleccionado
+ * @param mat matriz en la que se realiza la busqueda
+ * @param r posicion en x donde inicia la busqueda
+ * @param c posicion en y donde inicia la busqueda
+ * @param target Cambio de color que se desea hacer en la zona
+ */
 void MainWindow::BFS(vector<vector<std::string>> &mat, int r, int c, std::string target) {
     int rows = mat.size();
     if (0 == rows){
@@ -991,6 +1130,13 @@ void MainWindow::BFS(vector<vector<std::string>> &mat, int r, int c, std::string
     update();
 }
 
+/**
+ * Cambia el color de la zona seleccionada
+ * @param mat matriz en la que se realiza la busqueda
+ * @param r posicion en x donde inicia la busqueda
+ * @param c posicion en y donde inicia la busqueda
+ * @param target Cambio de color que se desea hacer en la zona
+ */
 void MainWindow::BFSSeleccionLapiz(vector<vector<std::string>> &mat, int r, int c, std::string target) {
     int rows = mat.size();
     if (0 == rows){
