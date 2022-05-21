@@ -340,67 +340,60 @@ void MainWindow::dibujarCirculo(QMouseEvent *event){
  */
 void MainWindow::mousePressEvent(QMouseEvent *event)
 {
-    if (event->button() == Qt::RightButton)
-        color = color == Qt::black ? Qt::white : Qt::black;
-    else{
-        pressed = 1;
-    }
-    if(borrador){
-        borrar(event);
-    }
-    else if (lapiz){
-        pintarConLapiz(event);
-    }
-    else if(lapicero){
-        if(!LapiceroClicked1){
-            LapiceroX1 = event->pos().x();
-            LapiceroY1 = event->pos().y();
-            LapiceroClicked1 = true;
+    if(event->pos().y() <= HEXvec.size() and event->pos().x() <= HEXvec[0].size()) {
+        if (event->button() == Qt::RightButton)
+            color = color == Qt::black ? Qt::white : Qt::black;
+        else {
+            pressed = 1;
         }
-        else if(!LapiceroClicked2) {
-            int x2 = event->pos().x();
-            int y2 = event->pos().y();
-            LapiceroClicked2 = true;
-            int dx = abs(x2 - LapiceroX1);
-            int dy = abs(y2 - LapiceroY1);
+        if (borrador) {
+            borrar(event);
+        } else if (lapiz) {
+            pintarConLapiz(event);
+        } else if (lapicero) {
+            if (!LapiceroClicked1) {
+                LapiceroX1 = event->pos().x();
+                LapiceroY1 = event->pos().y();
+                LapiceroClicked1 = true;
+            } else if (!LapiceroClicked2) {
+                int x2 = event->pos().x();
+                int y2 = event->pos().y();
+                LapiceroClicked2 = true;
+                int dx = abs(x2 - LapiceroX1);
+                int dy = abs(y2 - LapiceroY1);
 
-            if(dx > dy){
-                pintarConLapicero(event, LapiceroX1, LapiceroY1, x2, y2, dx, dy,0);
-            }else{
-                pintarConLapicero(event, LapiceroY1, LapiceroX1, y2, x2, dy, dx,1);
+                if (dx > dy) {
+                    pintarConLapicero(event, LapiceroX1, LapiceroY1, x2, y2, dx, dy, 0);
+                } else {
+                    pintarConLapicero(event, LapiceroY1, LapiceroX1, y2, x2, dy, dx, 1);
+                }
+                lapiceroWasJustUsed = true;
+                LapiceroClicked1 = false;
+                LapiceroClicked2 = false;
             }
-            lapiceroWasJustUsed = true;
-            LapiceroClicked1 = false;
-            LapiceroClicked2 = false;
+        } else if (ColorPicker) {
+            pickColor(event);
+        } else if (cuadrado) {
+            dibujarCuadrado(event);
+        } else if (triangulo) {
+            dibujarTriangulo(event);
+        } else if (circulo) {
+            dibujarCirculo(event);
+        } else if (Fill) {
+            PaintFill(event);
+        } else if (SelecCuadrado) {
+            CuadradoSeleccion(event);
+        } else if (SelecMagic) {
+            MagicSeleccion(event);
+        } else if (SelecLapiz) {
+            LapizSeleccion(event);
+        } else if (zoomPressed) {
+            zoom(event);
         }
+        undoStack.push(HEXvec);
+        update();
+        lastCanvasWasSaved = true;
     }
-    else if(ColorPicker){
-        pickColor(event);
-    }
-    else if(cuadrado) {
-        dibujarCuadrado(event);
-    }
-    else if(triangulo){
-        dibujarTriangulo(event);
-    }
-    else if(circulo){
-        dibujarCirculo(event);
-    }
-    else if(Fill){
-        PaintFill(event);
-    }
-    else if(SelecCuadrado){
-        CuadradoSeleccion(event);
-    }
-    else if(SelecMagic){
-        MagicSeleccion(event);
-    }
-    else if(SelecLapiz){
-        LapizSeleccion(event);
-    }
-    undoStack.push(HEXvec);
-    update();
-    lastCanvasWasSaved = true;
 }
 
 /**
@@ -447,7 +440,6 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event)
     if(SelecLapiz){
         LapizSeleccion(event);
     }
-    //undoStack.push(HEXvec);
     update();
 }
 
@@ -621,24 +613,26 @@ void MainWindow::loadImage(){
 }
 
 /**
- * Realiza zoom en la esquina superior izquierda
+ * Realiza zoomPressed en la esquina superior izquierda
  */
-void zoom(){
+void MainWindow::zoom(QMouseEvent *event){
+    PosX = event->pos().x();
+    PosY = event->pos().y();
     vector<vector<std::string>> output;
     int numRows,numCols, zoom;
-    zoom = 4;
     numRows = HEXvec.size();
     numCols = HEXvec[0].size();
+    int cantidadZoom = 4;
 
     output.resize(numRows);
     for(int i =0; i< numRows; i++){
         output[i].resize(numCols);
     }
-    for(int srcRow =0 ; srcRow < numRows; srcRow += zoom) {
-        for (int srcCol = 0; srcCol < numCols; srcCol += zoom) {
-            string srcPixel = HEXvec[srcRow/zoom][srcCol/zoom];
-            for(int k = 1; k < 4; k++){
-                for(int m = 0; m < 4; m++) {
+    for(int srcRow =0 ; srcRow < numRows; srcRow += cantidadZoom) {
+        for (int srcCol = 0; srcCol < numCols; srcCol += cantidadZoom) {
+            string srcPixel = HEXvec[(srcRow/cantidadZoom) + PosX][(srcCol/cantidadZoom) + PosY];
+            for(int k = 1; k < cantidadZoom; k++){
+                for(int m = 0; m < cantidadZoom; m++) {
                     if (srcRow + k < numRows and srcCol + k < numCols) {
                         output[srcRow][srcCol] = srcPixel;
                         output[srcRow][srcCol + k] = srcPixel;
@@ -671,6 +665,7 @@ void MainWindow::deactivateAllButtons(){
     lapicero = false;
     borrador = false;
     ColorPicker = false;
+    zoomPressed  =false;
 
     cuadrado = false;
     triangulo = false;
@@ -783,6 +778,12 @@ void MainWindow::on_SeleccionarMagico_clicked()
 {
     deactivateAllButtons();
     SelecMagic = true;
+}
+
+void MainWindow::on_zoom_clicked()
+{
+    deactivateAllButtons();
+    zoomPressed = true;
 }
 
 /**
@@ -947,16 +948,8 @@ void MainWindow::on_Redo_clicked()
     undoStack.push(HEXvec);
     HEXvec = redoStack.pop();
     update();
-}
-
-/**
- * Llama la funcion de zoom
- */
-void MainWindow::on_zoom_clicked()
-{
-    zoom();
-    undoStack.push(HEXvec);
-    update();
+    lastCanvasWasSaved = false;
+    lapiceroWasJustUsed = false;
 }
 
 /**
@@ -971,7 +964,7 @@ void MainWindow::on_Cargar_clicked()
 
 //#---------------------- Apartado de filtros -----------------------------------------------
 
-/*
+/**
  * Coloca un filtro oscuro en el canvas
  */
 void MainWindow::on_Negativo_clicked()
@@ -994,7 +987,7 @@ void MainWindow::on_Negativo_clicked()
     update();
 }
 
-/*
+/**
  * Coloca un filtro de grises en el canvas
  */
 void MainWindow::on_Grises_clicked()
@@ -1018,7 +1011,7 @@ void MainWindow::on_Grises_clicked()
     update();
 }
 
-/*
+/**
  *Coloca un filtro de azules en el canvas
  */
 void MainWindow::on_FiltroAzules_clicked()

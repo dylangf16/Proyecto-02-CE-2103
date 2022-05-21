@@ -47,6 +47,7 @@ protected:
     void CuadradoSeleccion(QMouseEvent *event);
     void MagicSeleccion(QMouseEvent *event);
     void LapizSeleccion(QMouseEvent *event);
+    void zoom(QMouseEvent *event);
 
 
 private slots:
@@ -130,7 +131,7 @@ private:
     Ui::MainWindow *ui;
     QColor color;
     bool pressed = false, lapiz = false, lapicero = false, borrador = false, ColorPicker = false;
-    bool cuadrado = false, triangulo = false, circulo = false;
+    bool cuadrado = false, triangulo = false, circulo = false, zoomPressed = false;
     int PosX,PosY, LapiceroX1 = 0, LapiceroY1 = 0, grosor = 15, SelecPosX1, SelecPosY1, SelecPosX2, SelecPosY2;
     int canvasHeight, canvasWidth;
     int RED, GREEN, BLUE;
